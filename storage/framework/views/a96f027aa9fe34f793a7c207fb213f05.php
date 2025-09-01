@@ -98,9 +98,10 @@
             <i class="bi bi-telephone-fill"></i>
           </div>
           <h3 class="font-semibold text-lg mb-2">การติดต่อ</h3>
-          <a href="tel:+6624727341" class="hover:underline block">02-4727341-48 ต่อ 166 (แอม)</a>
-          <a href="tel:+66633235272" class="hover:underline block">063-323-5272</a>
-          <span class="italic text-amber-200 block mt-2">บริการฉุกเฉิน 24 ชม.</span>
+          <a href="tel:+6621172995" class="hover:underline block">02-117-2995 (คุณ อาร์ท)</a>
+        <a href="tel:+66990802197" class="hover:underline block">099-080-2197</a>
+
+            <span class="italic text-amber-200 block mt-2">บริการ 9.00-18.00</span>
         </div>
 
         <!-- Website & Email -->

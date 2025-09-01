@@ -126,7 +126,7 @@
   <header class="sticky top-0 z-50 transition-all bg-white shadow" role="banner">
     <div class="max-w-7xl mx-auto flex items-center justify-between py-3.5 px-4 md:px-6">
       <!-- Logo -->
-      <a href="Hikari" class="flex items-center gap-2">
+      <a href="/" class="flex items-center gap-2">
         <img src="{{ asset('storage/logo/Gemini_Generated_Image_44k6m544k6m544k6.png') }}"
              alt="PowerCare logo"
              class="w-8 h-8 object-contain"
@@ -137,7 +137,7 @@
 
       <!-- ========== Desktop Navigation ========== -->
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium ml-auto mr-6">
-        <a href="Hikari" class="hover:text-blue-700">HOME</a>
+        <a href="/" class="hover:text-blue-700">HOME</a>
         <a href="Product" class="hover:text-blue-700">PRODUCT</a>
       </nav>
 
@@ -164,7 +164,7 @@
 
     <!-- ========== Mobile Menu (horizontal bar) ========== -->
     <nav id="mobileMenu" class="hidden md:hidden bg-blue-50 border-t text-sm font-medium flex justify-center gap-6 py-3">
-      <a href="Hikari" class="hover:text-blue-700">HOME</a>
+      <a href="/" class="hover:text-blue-700">HOME</a>
       <a href="Product" class="hover:text-blue-700">PRODUCT</a>
       <a href="#contact" class="btn btn-primary text-xs px-3 py-1">
         <i class="bi bi-chat-dots"></i> Contact
@@ -174,7 +174,8 @@
     <!-- ========== Compact contact (Mobile bottom bar) ========== -->
     <div class="md:hidden bg-blue-100 text-blue-900 text-xs px-4 py-2 flex items-center justify-center gap-4">
       <a href="tel:+6620000000" class="flex items-center gap-1">
-        <i class="bi bi-telephone-fill"></i> 063-323-5272
+        <i class="bi bi-telephone-fill"></i> 099-080-2197
+        </a>
       </a>
       <a href="mailto:powercarebyhikari@gmail.com" class="flex items-center gap-1">
         <i class="bi bi-envelope-fill"></i> powercarebyhikari@gmail.com

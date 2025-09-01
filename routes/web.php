@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('Hikari', function () {
+Route::get('/', function () {
     return view('Hikari');
 });
 Route::get('Product', function () {
