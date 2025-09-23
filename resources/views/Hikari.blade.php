@@ -138,7 +138,8 @@
       <!-- ========== Desktop Navigation ========== -->
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium ml-auto mr-6">
         <a href="/" class="hover:text-blue-700">HOME</a>
-        <a href="Product" class="hover:text-blue-700">PRODUCT</a>
+        <a href="Product" class="hover:text-blue-700">OUR CATALOG</a>
+        <a href="showproduct" class="hover:text-blue-700">ALL PRODUCT</a>
       </nav>
 
       <!-- CTA (desktop) -->
@@ -165,7 +166,8 @@
     <!-- ========== Mobile Menu (horizontal bar) ========== -->
     <nav id="mobileMenu" class="hidden md:hidden bg-blue-50 border-t text-sm font-medium flex justify-center gap-6 py-3">
       <a href="/" class="hover:text-blue-700">HOME</a>
-      <a href="Product" class="hover:text-blue-700">PRODUCT</a>
+      <a href="Product" class="hover:text-blue-700">OUR CATALOG</a>
+       <a href="showproduct" class="hover:text-blue-700">ALL PRODUCT</a>
       <a href="#contact" class="btn btn-primary text-xs px-3 py-1">
         <i class="bi bi-chat-dots"></i> Contact
       </a>
