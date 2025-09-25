@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PowerCare by Hikari</title>
+  <title>hikaridenki by Hikari</title>
 
-  <meta name="description" content="PowerCare by Hikari — ผู้เชี่ยวชาญระบบไฟสำรอง แบตเตอรี่ และไฟฉุกเฉิน ครบวงจร ติดตั้ง บำรุงรักษา และที่ปรึกษา โดยทีมงานมืออาชีพมากกว่า 15 ปี">
+  <meta name="description" content="hikaridenki by Hikari — ผู้เชี่ยวชาญระบบไฟสำรอง แบตเตอรี่ และไฟฉุกเฉิน ครบวงจร ติดตั้ง บำรุงรักษา และที่ปรึกษา โดยทีมงานมืออาชีพมากกว่า 15 ปี">
   <meta name="theme-color" content="#0b2a6b">
-  <meta property="og:title" content="PowerCare by Hikari">
+  <meta property="og:title" content="hikaridenki by Hikari">
   <meta property="og:description" content="โซลูชันระบบไฟสำรองและไฟฉุกเฉินแบบครบวงจร โดยทีมงานมืออาชีพ">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="th_TH">
-  <link rel="icon" type="image/png" href="{{ asset('storage/logo/Gemini_Generated_Image_44k6m544k6m544k6.png') }}">
-  <link rel="canonical" href="https://www.powercare.co.th/">
+  <link rel="icon" type="image/png" href="{{ asset('storage/logo/PNG.png') }}">
+  <link rel="canonical" href="https://www.hikaridenki.co.th/">
 
   <!-- Preload key image -->
   <link rel="preload" as="image" href="{{ asset('storage/logo/20.png') }}">
@@ -114,7 +114,7 @@
     <div class="max-w-7xl mx-auto flex items-center justify-between py-3.5 px-4 md:px-6">
       <!-- Logo -->
       <a href="/" class="flex items-center gap-2">
-        <img src="{{ asset('storage/logo/Gemini_Generated_Image_44k6m544k6m544k6.png') }}" alt="PowerCare logo"
+        <img src="{{ asset('storage/logo/PNG.png') }}" alt="PowerCare logo"
              class="w-8 h-8 object-contain" loading="eager" decoding="async" fetchpriority="high">
         <span class="font-bold text-xl" style="color:var(--brand)">PowerCare</span>
         <span class="text-sm text-slate-500">by Hikari</span>
@@ -123,7 +123,7 @@
       <!-- Desktop Navigation -->
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium ml-auto mr-6">
         <a href="/" class="hover:text-blue-700">HOME</a>
-        <a href="Product" class="hover:text-blue-700">OUR CATALOG</a>
+        <a href="Product" class="hover:text-blue-700">SERVICE</a>
         <a href="showproduct" class="hover:text-blue-700">ALL PRODUCT</a>
       </nav>
 
@@ -132,8 +132,10 @@
         <a href="tel:+66990802197" class="flex items-center gap-2 hover:text-blue-700">
           <i class="bi bi-telephone"></i> 099-080-2197
         </a>
-        <a href="mailto:powercarebyhikari@gmail.com" class="flex items-center gap-2 hover:text-blue-700">
-          <i class="bi bi-envelope"></i> powercarebyhikari@gmail.com
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th" 
+          target="_blank" 
+          class="flex items-center gap-2 hover:text-blue-700">
+          <i class="bi bi-envelope"></i> Info@hikaridenki.co.th
         </a>
         <a href="#contact" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-white" style="background:linear-gradient(135deg,#0b2a6b,#1552a7)">
           <i class="bi bi-send"></i> Contact
@@ -153,9 +155,11 @@
       <a href="tel:+66990802197" class="flex items-center gap-1">
         <i class="bi bi-telephone-fill"></i> 099-080-2197
       </a>
-      <a href="mailto:powercarebyhikari@gmail.com" class="flex items-center gap-1">
-        <i class="bi bi-envelope-fill"></i> powercarebyhikari@gmail.com
-      </a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th" 
+          target="_blank" 
+          class="flex items-center gap-2 hover:text-blue-700">
+          <i class="bi bi-envelope"></i> Info@hikaridenki.co.th
+        </a>
     </div>
   </header>
 
@@ -166,7 +170,7 @@
     <!-- Header ของแผง -->
     <div class="flex items-center justify-between px-4 py-3 border-b">
       <div class="flex items-center gap-2">
-        <img src="{{ asset('storage/logo/Gemini_Generated_Image_44k6m544k6m544k6.png') }}" alt="PowerCare" class="w-7 h-7 object-contain">
+        <img src="{{ asset('storage/logo/PNG.png') }}" alt="PowerCare" class="w-7 h-7 object-contain">
         <span class="font-semibold text-lg" style="color:#0b2a6b">เมนู</span>
       </div>
       <button id="drawerClose" class="p-2 rounded-lg hover:bg-slate-100" aria-label="ปิดเมนู">
@@ -316,7 +320,11 @@
     <!-- ลิงก์ด่วน -->
     <div class="border-t px-4 py-3 text-sm">
       <a href="tel:+66990802197" class="flex items-center gap-2 py-2"><i class="bi bi-telephone"></i> 099-080-2197</a>
-      <a href="mailto:powercarebyhikari@gmail.com" class="flex items-center gap-2 py-2"><i class="bi bi-envelope"></i> powercarebyhikari@gmail.com</a>
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th" 
+          target="_blank" 
+          class="flex items-center gap-2 hover:text-blue-700">
+          <i class="bi bi-envelope"></i> Info@hikaridenki.co.th
+        </a>
     </div>
   </aside>
 
@@ -337,38 +345,6 @@
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300
               active:translate-y-px';
 @endphp
-
-<!-- CONNECTOR ▸ NANABOSHI -->
-<div class="rounded-2xl border border-slate-200 bg-white/70 p-4">
-  <div class="text-[11px] font-semibold tracking-widest text-slate-500 mb-2">CONNECTOR</div>
-
-  <details class="border border-slate-200 rounded-xl p-3 group" open>
-    <summary class="cursor-pointer font-semibold text-base flex justify-between items-center select-none">
-      <span>CONNECTOR</span>
-      <i class="bi bi-chevron-down transition-transform duration-200 group-open:rotate-180"></i>
-    </summary>
-
-    @php
-      // เหลือแค่ brand อย่างเดียว
-      $brand = 'NANABOSHI';
-      $chipBase   = $chipBox ?? 'flex items-center justify-between gap-2 px-3 py-2 border rounded-lg hover:bg-amber-50 transition text-sm w-full';
-      $chipActive = '';
-      $chipNormal = 'bg-white text-slate-700 border-slate-200';
-      $urlBrand   = route('showproduct.bybrand', ['brand' => $brand]);
-    @endphp
-
-    <!-- ไม่มีซีรีส์แล้ว เหลือปุ่มเดียว -->
-    <ul class="mt-3 grid grid-cols-1 gap-3 text-sm">
-      <li class="min-w-0">
-        <a href="{{ $urlBrand }}"
-           class="{{ $chipBase }} {{ $chipActive }}"
-           title="{{ $brand }}">
-          <span >{{ $brand }}</span>
-        </a>
-      </li>
-    </ul>
-  </details>
-</div>
 
 
 <!-- UPS -->
@@ -536,12 +512,13 @@
 
   </main>
 
-  <!-- Footer -->
+ <!-- Footer -->
   <footer id="contact" class="mt-auto bg-gradient-to-r from-blue-800 via-blue-700 to-teal-600 text-white relative">
     <div class="relative max-w-6xl mx-auto px-6 lg:px-8 py-12">
 
-      <!-- Mobile: Accordion ใน footer -->
+      <!-- 📱 Mobile: Accordion -->
       <div class="md:hidden space-y-4">
+        
         <details class="bg-white/10 rounded-lg p-4">
           <summary class="flex items-center justify-between cursor-pointer text-lg font-semibold">
             <span class="flex items-center gap-2">
@@ -550,11 +527,12 @@
             <i class="bi bi-chevron-down"></i>
           </summary>
           <div class="mt-2 text-sm opacity-90 pl-8">
-            <a href="https://www.google.com/maps?q=Triple+E+Trading,39/7+วุฒากาศ+1+แขวงตลาดพลู+ธนบุรี+กรุงเทพมหานคร+10600"
-               target="_blank" rel="noopener" class="hover:underline block">
-              Triple E Trading<br>
-              39/7 วุฒากาศ 1 แขวงตลาดพลู<br>
-              เขตธนบุรี กรุงเทพมหานคร 10600
+            <a href="https://www.google.com/maps/place/Hikari+Thailand.co.Ltd.+%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%A9%E0%B8%B1%E0%B8%97+%E0%B8%AE%E0%B8%B4%E0%B8%84%E0%B8%B2%E0%B8%A3%E0%B8%B4+(%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8%E0%B9%84%E0%B8%97%E0%B8%A2)+%E0%B8%88%E0%B8%B3%E0%B8%81%E0%B8%B1%E0%B8%94/@13.5511999,100.6676464,21z/data=!4m10!1m2!2m1!1zaGlrYXJpIGRlbmtpIOC4l-C4teC5iOC4reC4ouC4ueC5iA!3m6!1s0x311d58dd5128c8ed:0x1b3fc8268126b0d3!8m2!3d13.551206!4d100.6678593!15sCiJoaWthcmkgZGVua2kg4LiX4Li14LmI4Lit4Lii4Li54LmIIgJIAVoOIgxoaWthcmkgZGVua2mSAQ5tZXRhbF93b3Jrc2hvcJoBI0NoWkRTVWhOTUc5blMwVkpRMEZuU1VSV2MzVkxVa3BuRUFFqgFHEAEqECIMaGlrYXJpIGRlbmtpKDUyHxABIhtS9pmK1l0-goJGUIY45Qgc6IonW2MgYruelXQyEBACIgxoaWthcmkgZGVua2ngAQD6AQQIABAe!16s%2Fg%2F11b6d01qrs?entry=ttu&g_ep=EgoyMDI1MDkyMS4wIKXMDSoASAFQAw%3D%3D"
+               target="_blank" rel="noopener"
+               class="hover:underline block">
+              บริษัท ฮิคาริ เดงกิ จำกัด<br>
+                39/7, ชั้น 4, วุฒากาส, ตลาดพลู<br>
+                เขตธนบุรี , กรุงเทพมหานคร 10600
             </a>
           </div>
         </details>
@@ -567,8 +545,9 @@
             <i class="bi bi-chevron-down"></i>
           </summary>
           <div class="mt-2 text-sm pl-8">
-            <a href="tel:+6621172995" class="hover:underline block">02-117-2995 (คุณ อาร์ท)</a>
-            <a href="tel:+66990802197" class="hover:underline block">099-080-2197</a>
+       <a href="tel:+6621172995" class="hover:underline block">02-117-2995 (คุณ อาร์ท)</a>
+        <a href="tel:+66990802197" class="hover:underline block">099-080-2197</a>
+
             <span class="italic text-amber-200 block mt-2">บริการ 9.00-18.00</span>
           </div>
         </details>
@@ -580,63 +559,77 @@
             </span>
             <i class="bi bi-chevron-down"></i>
           </summary>
-          <div class="mt-2 text-sm pl-8">
-            <a href="https://www.powercare.co.th" target="_blank" rel="noopener"
-               class="font-bold hover:underline block">www.powercare.co.th</a>
-            <a href="mailto:powercarebyhikari@gmail.com" class="hover:underline block mt-2">powercarebyhikari@gmail.com</a>
-          </div>
+        <div class="mt-2 text-sm pl-8">
+          <a href="https://www.hikaridenki.co.th" target="_blank" rel="noopener"
+            class="font-bold hover:underline block">www.hikaridenki.co.th</a>
+
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th"
+            target="_blank" rel="noopener"
+            class="hover:underline block mt-2">Info@hikaridenki.co.th</a>
+        </div>
+
         </details>
+
       </div>
 
-      <!-- PC: Grid 3 Columns -->
+      <!-- 🖥 PC: Grid 3 Columns -->
       <div class="hidden md:grid grid-cols-3 gap-8 mb-10">
+        
+        <!-- Address -->
         <div class="text-center hover:scale-105 transition">
           <div class="flex justify-center mb-4 text-4xl text-white">
             <i class="bi bi-geo-alt-fill"></i>
           </div>
           <h3 class="font-semibold text-lg mb-2">ที่อยู่</h3>
-          <a href="https://www.google.com/maps?q=Triple+E+Trading,39/7+วุฒากาศ+1+แขวงตลาดพลู+ธนบุรี+กรุงเทพมหานคร+10600"
+          <a href="https://www.google.com/maps/place/Hikari+Thailand.co.Ltd.+%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%A9%E0%B8%B1%E0%B8%97+%E0%B8%AE%E0%B8%B4%E0%B8%84%E0%B8%B2%E0%B8%A3%E0%B8%B4+(%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8%E0%B9%84%E0%B8%97%E0%B8%A2)+%E0%B8%88%E0%B8%B3%E0%B8%81%E0%B8%B1%E0%B8%94/@13.5511999,100.6676464,21z/data=!4m10!1m2!2m1!1zaGlrYXJpIGRlbmtpIOC4l-C4teC5iOC4reC4ouC4ueC5iA!3m6!1s0x311d58dd5128c8ed:0x1b3fc8268126b0d3!8m2!3d13.551206!4d100.6678593!15sCiJoaWthcmkgZGVua2kg4LiX4Li14LmI4Lit4Lii4Li54LmIIgJIAVoOIgxoaWthcmkgZGVua2mSAQ5tZXRhbF93b3Jrc2hvcJoBI0NoWkRTVWhOTUc5blMwVkpRMEZuU1VSV2MzVkxVa3BuRUFFqgFHEAEqECIMaGlrYXJpIGRlbmtpKDUyHxABIhtS9pmK1l0-goJGUIY45Qgc6IonW2MgYruelXQyEBACIgxoaWthcmkgZGVua2ngAQD6AQQIABAe!16s%2Fg%2F11b6d01qrs?entry=ttu&g_ep=EgoyMDI1MDkyMS4wIKXMDSoASAFQAw%3D%3D"
              target="_blank" rel="noopener"
              class="hover:underline block text-sm opacity-90">
-            Triple E Trading<br>
-            39/7 วุฒากาศ 1 แขวงตลาดพลู<br>
-            เขตธนบุรี กรุงเทพมหานคร 10600
+            บริษัท ฮิคาริ เดงกิ จำกัด<br>
+            39/7, ชั้น 4, วุฒากาส, ตลาดพลู<br>
+            เขตธนบุรี , กรุงเทพมหานคร 10600
           </a>
         </div>
 
+        <!-- Phone -->
         <div class="text-center hover:scale-105 transition">
           <div class="flex justify-center mb-4 text-4xl text-white">
             <i class="bi bi-telephone-fill"></i>
           </div>
           <h3 class="font-semibold text-lg mb-2">การติดต่อ</h3>
           <a href="tel:+6621172995" class="hover:underline block">02-117-2995 (คุณ อาร์ท)</a>
-          <a href="tel:+66990802197" class="hover:underline block">099-080-2197</a>
-          <span class="italic text-amber-200 block mt-2">บริการ 9.00-18.00</span>
+        <a href="tel:+66990802197" class="hover:underline block">099-080-2197</a>
+
+            <span class="italic text-amber-200 block mt-2">บริการ 9.00-18.00</span>
         </div>
 
+        <!-- Website & Email -->
         <div class="text-center hover:scale-105 transition">
           <div class="flex justify-center mb-4 text-4xl text-white">
             <i class="bi bi-envelope-fill"></i>
           </div>
-          <h3 class="font-semibold text-lg mb-2">เว็บไซต์และอีเมล</h3>
-          <a href="https://www.powercare.co.th" target="_blank" rel="noopener"
-             class="font-bold hover:underline block">www.powercare.co.th</a>
-          <a href="mailto:powercarebyhikari@gmail.com" class="hover:underline block mt-2">powercarebyhikari@gmail.com</a>
+        <h3 class="font-semibold text-lg mb-2">เว็บไซต์และอีเมล</h3>
+        <a href="https://www.hikaridenki.co.th" target="_blank" rel="noopener"
+          class="font-bold hover:underline block">www.hikaridenki.co.th</a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th"
+          target="_blank" rel="noopener"
+          class="hover:underline block mt-2">Info@hikaridenki.co.th</a>
+
         </div>
       </div>
 
+      <!-- Divider -->
       <div class="border-t border-white/20 mb-6"></div>
 
+      <!-- Bottom -->
       <div class="text-center text-xs md:text-sm opacity-90">
-        <p>© 2025 PowerCare by Hikari. All rights reserved.</p>
-        <p class="italic mt-2">"PowerCare by Hikari - We Care Your Power System"</p>
+        <p>© 2025 hikaridenki by Hikari. All rights reserved.</p>
+        <p class="italic mt-2">"hikaridenki by Hikari - We Care Your Power System"</p>
       </div>
     </div>
   </footer>
-
   <!-- ========== Floating Buttons (LINE + Back to top) ========== -->
   <div id="floating-buttons" aria-label="Quick actions">
-    <a class="fb-circle fb-line" aria-label="LINE" href="line://ti/p/@Hikaridenki" title="Chat on LINE">
+    <a class="fb-circle fb-line" aria-label="LINE" href="line://ti/p/@543ubjtx" title="Chat on LINE">
       <img src="{{ asset('storage/line.avif') }}" alt="LINE">
     </a>
     <button id="toTop" class="fb-circle" aria-label="กลับขึ้นด้านบน" title="กลับขึ้นด้านบน">

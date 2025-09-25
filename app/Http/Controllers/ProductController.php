@@ -7,6 +7,7 @@ use App\Models\Hikaridenki;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+
 class ProductController extends Controller
 {
 
@@ -54,8 +55,15 @@ public function searchByName(Request $request)
         return response()->json([]);
     }
 
+    // เตรียม token (ตัดช่องว่างซ้ำ, lowercase)
     $tokens = preg_split('/\s+/u', $q, -1, PREG_SPLIT_NO_EMPTY);
-    $t0 = microtime(true);
+    $tokens = array_values(array_filter(array_map(function($t){
+        return mb_strtolower($t, 'UTF-8');
+    }, $tokens)));
+
+    $qNorm   = mb_strtolower(preg_replace('/\s+/u', ' ', $q), 'UTF-8');  // “fluke 1507” แบบ normalize
+    $t0      = microtime(true);
+
     try {
         DB::connection()->select('select 1');
     } catch (\Throwable $e) {
@@ -68,14 +76,55 @@ public function searchByName(Request $request)
     try {
         DB::enableQueryLog();
 
-        // ✅ ค้นหาเฉพาะ name โดย OR ทุก token (ตามที่สั่ง)
+        // ===== สร้างสูตรคะแนนความเกี่ยวข้อง =====
+        // 1) exact match ทั้งสตริง
+        // 2) prefix match ทั้งสตริง (ขึ้นต้นด้วยคำค้น)
+        // 3) คำเต็มด้วย REGEXP (ขอบเขตคำ)
+        // 4) คะแนนย่อยต่อ token: LIKE และ REGEXP ของคำเต็ม
+        $scoreSql   = [];
+        $scoreBind  = [];
+
+        // exact ทั้งสตริง
+        $scoreSql[] = "(CASE WHEN LOWER(name) = ? THEN 100 ELSE 0 END)";
+        $scoreBind[] = $qNorm;
+
+        // prefix ทั้งสตริง
+        $scoreSql[] = "(CASE WHEN LOWER(name) LIKE ? THEN 60 ELSE 0 END)";
+        $scoreBind[] = $qNorm.'%';
+
+        // คำเต็มของทั้งสตริง (เผื่อกรณีชื่อสินค้าคำเดียว)
+        $scoreSql[] = "(CASE WHEN LOWER(name) REGEXP ? THEN 50 ELSE 0 END)";
+        // \b ใช้ผ่าน POSIX class ใน MySQL: [[:<:]] = เริ่มคำ, [[:>:]] = จบคำ
+        $scoreBind[] = '[[:<:]]'.preg_quote($qNorm, '/').'[[:>:]]';
+
+        // ต่อ token
+        foreach ($tokens as $t) {
+            // พบ token แบบ LIKE
+            $scoreSql[] = "(CASE WHEN LOWER(name) LIKE ? THEN 12 ELSE 0 END)";
+            $scoreBind[] = '%'.$t.'%';
+
+            // พบ token แบบ "คำเต็ม" ด้วย REGEXP
+            $scoreSql[] = "(CASE WHEN LOWER(name) REGEXP ? THEN 18 ELSE 0 END)";
+            $scoreBind[] = '[[:<:]]'.preg_quote($t, '/').'[[:>:]]';
+        }
+
+        $scoreExpr = implode(' + ', $scoreSql).' AS score';
+
+        // ===== เงื่อนไข: ต้องพบทุก token (AND) เพื่อกันผลลัพธ์ไม่เกี่ยว =====
         $rows = hikaridenki::query()
-            ->select(['iditem','pic','model','name','webpriceTHB','stock','lead_time_web','brand'])
-            ->where(function ($outer) use ($tokens) {
+            ->select([
+                'iditem','pic','model','name','webpriceTHB','stock','lead_time_web','brand',
+            ])
+            ->selectRaw($scoreExpr, $scoreBind)
+            ->where(function ($must) use ($tokens) {
                 foreach ($tokens as $t) {
-                    $outer->orWhereRaw('LOWER(name) LIKE ?', ['%'.mb_strtolower($t, 'UTF-8').'%']);
+                    // ต้องมีทุก token (AND)
+                    $must->whereRaw('LOWER(name) LIKE ?', ['%'.$t.'%']);
                 }
             })
+            // จัดเรียงตามความเกี่ยวข้องมากสุด -> ชื่อสั้นกว่า -> ชื่อ
+            ->orderByDesc('score')
+            ->orderByRaw('CHAR_LENGTH(name) ASC')
             ->orderBy('name')
             ->limit(20)
             ->get();
@@ -100,7 +149,6 @@ public function searchByName(Request $request)
                 'pic'    => (string) ($r->pic ?? ''),
                 'price'  => isset($r->webpriceTHB) ? (string) str_replace(',', '', $r->webpriceTHB) : null,
                 'lead'   => (string) ($r->lead_time_web ?? ''),
-                // 'url'    => route('product.detail', ['iditem' => $r->iditem]),
             ];
         });
 
@@ -111,7 +159,6 @@ public function searchByName(Request $request)
             ->header('X-Search-Time', $elapsedMs.'ms');
 
     } catch (\Throwable $e) {
-        // ✅ ดักทุกกรณี query พัง แล้ว log + ส่งออก
         Log::error('[SEARCHBAR] query fail', [
             'q'      => $q,
             'error'  => $e->getMessage(),
@@ -123,6 +170,26 @@ public function searchByName(Request $request)
             ->header('X-Search-DB', 'ok')
             ->header('X-Search-Error', '1');
     }
+}
+public function showProductDetail(string $iditem)
+{
+    $product = Hikaridenki::query()
+        ->where('iditem', $iditem)
+        ->select([
+            'iditem','model','name','price','discount','size',
+            'lead_time','webpriceTHB','stock','lead_time_web',
+            'brand','pic',
+        ])
+        // ตัดช่องว่าง และทำ fallback: lead_time_web -> lead_time
+        ->selectRaw("
+            COALESCE(
+                NULLIF(TRIM(lead_time_web), ''),
+                NULLIF(TRIM(lead_time), '')
+            ) as lead_time_view
+        ")
+        ->firstOrFail();
+
+    return view('productdetail', compact('product')); // ไปหน้าเดียวเท่านั้น
 }
 
 }

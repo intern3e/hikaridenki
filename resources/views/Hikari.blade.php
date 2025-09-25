@@ -10,7 +10,7 @@
   <meta property="og:description" content="โซลูชันระบบไฟสำรองและไฟฉุกเฉินแบบครบวงจร โดยทีมงานมืออาชีพ">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="th_TH">
-  <link rel="icon" type="image/png" href="{{ asset('storage/logo/Gemini_Generated_Image_44k6m544k6m544k6.png') }}">
+  <link rel="icon" type="image/png" href="{{ asset('storage/logo/PNG.png') }}">
   <link rel="canonical" href="https://www.powercare.co.th/">
 
   <!-- Preload key image -->
@@ -127,7 +127,7 @@
     <div class="max-w-7xl mx-auto flex items-center justify-between py-3.5 px-4 md:px-6">
       <!-- Logo -->
       <a href="/" class="flex items-center gap-2">
-        <img src="{{ asset('storage/logo/Gemini_Generated_Image_44k6m544k6m544k6.png') }}"
+        <img src="{{ asset('storage/logo/PNG.png') }}"
              alt="PowerCare logo"
              class="w-8 h-8 object-contain"
              loading="eager" decoding="async" fetchpriority="high">
@@ -138,7 +138,7 @@
       <!-- ========== Desktop Navigation ========== -->
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium ml-auto mr-6">
         <a href="/" class="hover:text-blue-700">HOME</a>
-        <a href="Product" class="hover:text-blue-700">OUR CATALOG</a>
+        <a href="Product" class="hover:text-blue-700">SERVICE</a>
         <a href="showproduct" class="hover:text-blue-700">ALL PRODUCT</a>
       </nav>
 
@@ -147,9 +147,12 @@
         <a href="tel:+6620000000" class="flex items-center gap-2 hover:text-blue-700">
           <i class="bi bi-telephone"></i> 099-080-2197
         </a>
-        <a href="mailto:powercarebyhikari@gmail.com" class="flex items-center gap-2 hover:text-blue-700">
-          <i class="bi bi-envelope"></i> powercarebyhikari@gmail.com
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th" 
+          target="_blank" 
+          class="flex items-center gap-2 hover:text-blue-700">
+          <i class="bi bi-envelope"></i> Info@hikaridenki.co.th
         </a>
+
         <a href="#contact" class="btn btn-primary">
           <i class="bi bi-send"></i> Contact
         </a>
@@ -166,7 +169,7 @@
     <!-- ========== Mobile Menu (horizontal bar) ========== -->
     <nav id="mobileMenu" class="hidden md:hidden bg-blue-50 border-t text-sm font-medium flex justify-center gap-6 py-3">
       <a href="/" class="hover:text-blue-700">HOME</a>
-      <a href="Product" class="hover:text-blue-700">OUR CATALOG</a>
+      <a href="Product" class="hover:text-blue-700">SERVICE</a>
        <a href="showproduct" class="hover:text-blue-700">ALL PRODUCT</a>
       <a href="#contact" class="btn btn-primary text-xs px-3 py-1">
         <i class="bi bi-chat-dots"></i> Contact
@@ -179,9 +182,11 @@
         <i class="bi bi-telephone-fill"></i> 099-080-2197
         </a>
       </a>
-      <a href="mailto:powercarebyhikari@gmail.com" class="flex items-center gap-1">
-        <i class="bi bi-envelope-fill"></i> powercarebyhikari@gmail.com
-      </a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th" 
+          target="_blank" 
+          class="flex items-center gap-2 hover:text-blue-700">
+          <i class="bi bi-envelope"></i> Info@hikaridenki.co.th
+        </a>
     </div>
   </header>
 
@@ -408,7 +413,7 @@
         <h2 class="text-3xl font-bold" style="color:var(--brand)">พันธมิตรแบรนด์ชั้นนำ</h2>
         <div class="w-16 h-1 mx-auto mt-3 mb-12 rounded" style="background:var(--accent)"></div>
 
-        <div class="grid md:grid-cols-3 gap-10">
+        <div class="grid md:grid-cols-4 gap-10">
 
           <!-- UPS -->
           <section class="bg-gray-50 rounded-2xl p-8 border-l-4 border-emerald-600 soft text-left reveal">
@@ -461,6 +466,16 @@
             </div>
           </section>
 
+                    <!-- Emergency -->
+               <section class="bg-gray-50 rounded-2xl p-8 border-l-4 border-red-500 soft text-left reveal">
+            <h3 class="font-semibold mb-6 flex items-center gap-2" style="color:var(--brand)">
+              <i class="bi bi-lightbulb text-amber-500"></i> ระบบแจ้งเหตุเพลิงไหม้
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 place-items-center">
+              <img src="{{ asset('storage/logo/notifier-seeklogo.png') }}" alt="Sunny" class="h-20 object-contain">
+            </div>
+          </section>
+
         </div>
       </div>
     </section>
@@ -472,7 +487,7 @@
   <!-- ===== Floating buttons (LINE + Back to top) ===== -->
   <div id="floating-buttons" aria-label="Quick actions">
 <!-- LINE -->
-<a href="line://ti/p/@Hikaridenki" aria-label="LINE" class="circle" title="Chat on LINE"
+<a href="line://ti/p/@543ubjtx" aria-label="LINE" class="circle" title="Chat on LINE"
    style="display:flex;align-items:center;justify-content:center;">
   <img src="{{ asset('storage/line.avif') }}" alt="LINE" 
        style="width:40px;height:40px;object-fit:contain;">
