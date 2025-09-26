@@ -210,17 +210,15 @@
     <div class="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       @foreach ($items as $item)
         <div class="bg-white rounded-xl overflow-hidden soft ring-1 ring-slate-200 flex flex-col">
-          {{-- รูปสินค้า --}}
-          <div class="relative">
-            @php $fallback = asset('storage/fallback/battery_sad_300.png'); @endphp
-            <img
-              src="{{ $item->pic ?: $fallback }}"
-              alt="{{ $item->model ?? ($item->name ?? 'Product') }}"
-              class="product-img w-full object-contain bg-white"
-              loading="lazy" decoding="async"
-              onerror="this.onerror=null;this.src='{{ $fallback }}'; this.setAttribute('data-placeholder','1');"
-            >
-          </div>
+        <div class="relative">
+          <img
+            src="{{ $item->pic_resolved ?? '' }}"
+            alt="{{ $item->model ?? ($item->name ?? 'Product') }}"
+            class="product-img w-full object-contain bg-white"
+            loading="lazy" decoding="async"
+            onerror="this.onerror=null; this.setAttribute('data-placeholder','1');"
+          >
+        </div>
 
           {{-- เนื้อหา --}}
           <div class="p-3 sm:p-4 flex-1 flex flex-col">

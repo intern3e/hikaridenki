@@ -7,14 +7,13 @@ use App\Models\Hikaridenki;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-
 class ProductController extends Controller
 {
 
 public function showproduct(Request $request, ?string $brand = null)
 {
-    $brandParam    = $brand ?? $request->query('brand');
-    $brandParam    = is_string($brandParam)    ? trim($brandParam)    : null;
+    $brandParam = $brand ?? $request->query('brand');
+    $brandParam = is_string($brandParam) ? trim($brandParam) : null;
 
     $allBrands = Hikaridenki::query()
         ->select('brand')
@@ -23,31 +22,49 @@ public function showproduct(Request $request, ?string $brand = null)
 
     $brandCounts = $allBrands->map(fn($b)=>trim($b))->filter()->countBy()->sortDesc();
 
-    // Active states
     $activeBrand = $brandParam ?: '*';
-
-
     $activeBrandSlug = ($activeBrand === '*') ? '*' : Str::slug($activeBrand);
 
-    $q = Hikaridenki::query()
-        ->select(['iditem', 'model', 'name', 'price', 'discount', 'size',
-        'lead_time', 'webpriceTHB', 'stock', 'lead_time_web',
-        'brand', 'pic'])
-        ->when($brandParam,    fn($q)=>$q->where('brand', $brandParam))
-        ->orderByDesc('iditem');
-    $items = $q->paginate(32)->withQueryString();
 
+    $brandThumbs = [
+        'MAKITA' => '',
+    ];
+
+    $q = Hikaridenki::query()
+        ->select([
+            'iditem','model','name','price','discount','size',
+            'lead_time','webpriceTHB','stock','lead_time_web',
+            'brand','pic'
+        ])
+        ->when($brandParam, fn($q)=>$q->where('brand', $brandParam))
+        ->orderByDesc('iditem');
+
+    // ใช้ through() ของ paginator สร้าง field ชั่วคราว pic_resolved
+    $items = $q->paginate(32)->withQueryString()
+        ->through(function ($it) use ($brandThumbs) {
+            // ถ้ามี pic อยู่แล้ว ใช้อันนั้น
+            if (!empty($it->pic)) {
+                $it->pic_resolved = $it->pic;
+                return $it;
+            }
+
+            // ไม่มี pic: ลองหาแทนด้วย brand
+            $brandKey = strtoupper(trim((string)($it->brand ?? '')));
+            $it->pic_resolved = $brandThumbs[$brandKey] ?? null; // ถ้าไม่มี mapping จะเป็น null ไว้ก่อน
+            return $it;
+        });
 
     return view('allproduct', [
-        'name'             => $q,
-        'items'            => $items,
-        'brandCounts'      => $brandCounts,
-        'activeBrand'      => $activeBrand,
-        'activeBrandSlug'  => $activeBrandSlug,
-        'activeSlug'       => $activeBrandSlug,
-        'brandParam'       => $brandParam,
+        'name'            => $q,
+        'items'           => $items,
+        'brandCounts'     => $brandCounts,
+        'activeBrand'     => $activeBrand,
+        'activeBrandSlug' => $activeBrandSlug,
+        'activeSlug'      => $activeBrandSlug,
+        'brandParam'      => $brandParam,
     ]);
- }
+}
+
 public function searchByName(Request $request)
 {
     $q = trim($request->query('q', ''));
