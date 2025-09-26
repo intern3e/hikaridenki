@@ -10,11 +10,11 @@
   <meta property="og:description" content="โซลูชันระบบไฟสำรองและไฟฉุกเฉินแบบครบวงจร โดยทีมงานมืออาชีพ">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="th_TH">
-  <link rel="icon" type="image/png" href="{{ asset('storage/logo/PNG.png') }}">
+  <link rel="icon" type="image/png" href="<?php echo e(asset('storage/logo/PNG.png')); ?>">
   <link rel="canonical" href="https://www.powercare.co.th/">
 
   <!-- Preload key image -->
-  <link rel="preload" as="image" href="{{ asset('storage/logo/20.png') }}">
+  <link rel="preload" as="image" href="<?php echo e(asset('storage/logo/20.png')); ?>">
 
   <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,7 +49,7 @@
     <div class="max-w-7xl mx-auto flex items-center justify-between py-3.5 px-4 md:px-6">
       <!-- Logo -->
       <a href="/" class="flex items-center gap-2">
-        <img src="{{ asset('storage/logo/PNG.png') }}"
+        <img src="<?php echo e(asset('storage/logo/PNG.png')); ?>"
              alt="PowerCare logo"
              class="w-8 h-8 object-contain"
              loading="eager" decoding="async">
@@ -60,8 +60,8 @@
       <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium ml-auto mr-6">
         <a href="/" class="hover:text-blue-700">HOME</a>
-        <a href="{{ route('product.index') }}" class="hover:text-blue-700">SERVICE</a>
-        <a href="{{ route('showproduct') }}" class="hover:text-blue-700">ALL PRODUCT</a>
+        <a href="<?php echo e(route('product.index')); ?>" class="hover:text-blue-700">SERVICE</a>
+        <a href="<?php echo e(route('showproduct')); ?>" class="hover:text-blue-700">ALL PRODUCT</a>
       </nav>
 
 
@@ -92,12 +92,13 @@
         <li><a href="/showproduct" class="hover:text-blue-700">สินค้าทั้งหมด</a></li>
         <li>/</li>
         <li class="text-slate-700 font-semibold">
-          {{ $product->name ?? 'รายละเอียดสินค้า' }}
+          <?php echo e($product->name ?? 'รายละเอียดสินค้า'); ?>
+
         </li>
       </ol>
     </nav>
 
-    @php
+    <?php
       // เตรียมข้อมูลแสดงผล
       $imgSrc    = $product->pic ?: asset('storage/logo/20.png');
       $nameTxt   = $product->name ?? '—';
@@ -120,7 +121,7 @@
       } else {
           $stockTxt = is_numeric($stockRaw) ? number_format((float)$stockRaw) . ' ชิ้น' : $stockRaw;
       }
-    @endphp
+    ?>
 
     <section class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
       <!-- รูปสินค้า -->
@@ -128,38 +129,39 @@
         <figure class="flex flex-col items-center">
           <div class="w-[300px] h-[300px] bg-white border border-slate-200 rounded-2xl flex items-center justify-center overflow-hidden">
             <img
-              src="{{ $imgSrc }}"
-              alt="{{ $nameTxt }}"
+              src="<?php echo e($imgSrc); ?>"
+              alt="<?php echo e($nameTxt); ?>"
               width="300" height="300"
               class="w-[300px] h-[300px] object-contain"
               loading="eager" decoding="async" />
           </div>
-          @if($brandTxt || $modelTxt)
+          <?php if($brandTxt || $modelTxt): ?>
             <figcaption class="mt-3 text-xs text-slate-500">
-              {{ $brandTxt ? 'แบรนด์: '.$brandTxt : '' }}{{ $brandTxt && $modelTxt ? ' • ' : '' }}{{ $modelTxt ? 'รุ่น: '.$modelTxt : '' }}
+              <?php echo e($brandTxt ? 'แบรนด์: '.$brandTxt : ''); ?><?php echo e($brandTxt && $modelTxt ? ' • ' : ''); ?><?php echo e($modelTxt ? 'รุ่น: '.$modelTxt : ''); ?>
+
             </figcaption>
-          @endif
+          <?php endif; ?>
         </figure>
       </div>
 
       <!-- รายละเอียดสินค้า -->
       <div class="space-y-4">
-        <h1 class="text-2xl md:text-3xl font-extrabold leading-tight">{{ $nameTxt }}</h1>
+        <h1 class="text-2xl md:text-3xl font-extrabold leading-tight"><?php echo e($nameTxt); ?></h1>
 
         <div class="flex flex-wrap items-center gap-3 text-sm">
           <!-- ระยะเวลาจัดส่ง -->
           <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 ring-1 ring-amber-200">
             <i class="bi bi-clock-history"></i>
-            ระยะเวลาจัดส่ง: <strong class="ml-1">{{ $leadTxt }}</strong>
+            ระยะเวลาจัดส่ง: <strong class="ml-1"><?php echo e($leadTxt); ?></strong>
           </span>
 
           <!-- สต็อก -->
           <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full
-            {{ $stockTxt === 'ติดต่อสอบถาม'
+            <?php echo e($stockTxt === 'ติดต่อสอบถาม'
                 ? 'bg-gray-100 text-gray-600 ring-1 ring-gray-300'
-                : 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200' }}">
+                : 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'); ?>">
             <i class="bi bi-box-seam"></i>
-            สต็อก: <strong class="ml-1">{{ $stockTxt }}</strong>
+            สต็อก: <strong class="ml-1"><?php echo e($stockTxt); ?></strong>
           </span>
         </div>
 
@@ -167,13 +169,14 @@
         <div class="pt-2">
           <div class="text-slate-500 text-sm">ราคา</div>
           <div class="text-3xl font-black tracking-tight mt-1">
-            {{ $priceTxt === '—' ? '—' : $priceTxt.' ฿' }}
+            <?php echo e($priceTxt === '—' ? '—' : $priceTxt.' ฿'); ?>
+
           </div>
         </div>
 
         <!-- ปุ่มสอบถาม -->
         <div class="flex flex-wrap gap-3 pt-2">
-          @php
+          <?php
             $to      = 'Info@hikaridenki.co.th';
             $subject = 'สอบถามสินค้า: ' . $nameTxt;
             $body    = "สวัสดีทีม Hikari,\n\nต้องการสอบถามข้อมูลสินค้า:\n"
@@ -185,9 +188,9 @@
                       . '&to='   . rawurlencode($to)
                       . '&su='   . rawurlencode($subject)
                       . '&body=' . rawurlencode($body);
-          @endphp
+          ?>
 
-          <a href="{{ $gmailUrl }}" target="_blank" rel="noopener" class="btn btn-primary">
+          <a href="<?php echo e($gmailUrl); ?>" target="_blank" rel="noopener" class="btn btn-primary">
             <i class="bi bi-chat-dots"></i> สอบถามเพิ่มเติม
           </a>
         </div>
@@ -205,8 +208,9 @@
     </section>
   </main>
 
-  {{-- footer --}}
-  @include('footer')
+  
+  <?php echo $__env->make('footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
 </body>
 </html>
+<?php /**PATH C:\xampp\htdocs\hikaridenki\resources\views/productdetail.blade.php ENDPATH**/ ?>
