@@ -310,7 +310,6 @@
                   </div>
                 </div>
               </details>
-
             </div>
           </div>
         </details>
@@ -347,159 +346,38 @@
 @endphp
 
 
-<!-- UPS -->
 <div class="rounded-2xl border border-slate-200 bg-white/70 p-4 mt-4">
-  <div class="text-[11px] font-semibold tracking-widest text-slate-500 mb-2">UPS</div>
+    @foreach($categories as $cat)
+        <details class="border border-slate-200 rounded-xl p-3 group mb-2">
+            <summary class="cursor-pointer font-semibold text-base flex justify-between items-center select-none">
+                <span>{{ $cat }}</span>
+                <i class="bi bi-chevron-down transition-transform duration-200 group-open:rotate-180"></i>
+            </summary>
 
-  <details class="border border-slate-200 rounded-xl p-3 group">
-    <summary class="cursor-pointer font-semibold text-base flex justify-between items-center select-none">
-      <span>UPS เครื่องสำรองไฟ</span>
-      <i class="bi bi-chevron-down transition-transform duration-200 group-open:rotate-180"></i>
-    </summary>
-
-    <ul class="mt-3 grid grid-cols-2 gap-3 text-sm">
-      <li class="min-w-0">
-        <button type="button" class="{{ $chipBox }}"
-          onclick="showPDF(`{{ asset('storage/UPS/APC/APC Easy UPS Single Phase Family Brochure.pdf') }}`)"
-          title="APC"><span class="truncate">APC</span></button>
-      </li>
-      <li class="min-w-0">
-        <button type="button" class="{{ $chipBox }}"
-          onclick="showPDF(`{{ asset('storage/UPS/CyberPower/CyberPower_CL_UPS-2016.pdf') }}`)"
-          title="CyberPower"><span class="truncate">CyberPower</span></button>
-      </li>
-      <li class="min-w-0">
-        <button type="button" class="{{ $chipBox }}"
-          onclick="showPDF(`{{ asset('storage/UPS/Delta/Delta-UPS-en-us.pdf') }}`)"
-          title="Delta"><span class="truncate">Delta</span></button>
-      </li>
-      <li class="min-w-0">
-        <button type="button" class="{{ $chipBox }}"
-          onclick="showPDF(`{{ asset('storage/UPS/Eaton/eaton_ups_product_catalogue_en-gb-anz.pdf') }}`)"
-          title="Eaton"><span class="truncate">Eaton</span></button>
-      </li>
-      <li class="min-w-0">
-        <button type="button" class="{{ $chipBox }}"
-          onclick="showPDF(`{{ asset('storage/UPS/Vertiv/Vertiv-ups-catalogue-en.pdf') }}`)"
-          title="Vertiv"><span class="truncate">Vertiv</span></button>
-      </li>
-    </ul>
-  </details>
+            <ul class="mt-3 space-y-2">
+                @foreach($services[$cat] ?? [] as $brand => $items)
+                    <li>
+                        <details class="border rounded p-2 bg-slate-100">
+                            <summary class="cursor-pointer font-medium">{{ $brand }}</summary>
+                            <ul class="mt-2 pl-4 space-y-1">
+                                @foreach($items as $service)
+                                    <li>
+                                        <button type="button"
+                                                class="px-2 py-1 border rounded bg-white hover:bg-slate-200"
+                                                onclick="showPDF(`{{ asset('storage/' . $service->pdf) }}`)"
+                                                title="{{ $service->name_brochure }}">
+                                            {{ $service->name_brochure }}
+                                        </button>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </details>
+                    </li>
+                @endforeach
+            </ul>
+        </details>
+    @endforeach
 </div>
-
-<!-- EMERGENCY -->
-<div class="rounded-2xl border border-slate-200 bg-white/70 p-4 mt-4">
-  <div class="text-[11px] font-semibold tracking-widest text-slate-500 mb-2">EMERGENCY</div>
-
-  <details class="border border-slate-200 rounded-xl p-3 group">
-    <summary class="cursor-pointer font-semibold text-base flex justify-between items-center select-none">
-      <span>ไฟฉุกเฉินและป้ายหนีไฟ</span>
-      <i class="bi bi-chevron-down transition-transform duration-200 group-open:rotate-180"></i>
-    </summary>
-
-    <ul class="mt-3 grid grid-cols-2 gap-3 text-sm">
-      <li class="min-w-0">
-        <button type="button" class="{{ $chipBox }}"
-          onclick="showPDF(`{{ asset('storage/Emergency/Dyno/Dyno ไฟฉุกเฉิน Cover-front.pdf') }}`)"
-          title="Dyno"><span class="truncate">Dyno</span></button>
-      </li>
-      <li class="min-w-0">
-        <button type="button" class="{{ $chipBox }}"
-          onclick="showPDF(`{{ asset('storage/Emergency/Maxbright/MaxBright  ไฟฉุกเฉิน.pdf') }}`)"
-          title="Maxbright"><span class="truncate">Maxbright</span></button>
-      </li>
-      <li class="col-span-2 min-w-0">
-        <button type="button" class="{{ $chipBox }}"
-          onclick="showPDF(`{{ asset('storage/Emergency/Sunny/Sunny-Catalog_2024.pdf') }}`)"
-          title="Sunny"><span class="truncate">Sunny</span></button>
-      </li>
-    </ul>
-  </details>
-</div>
-
-<!-- BATTERY -->
-<div class="rounded-2xl border border-slate-200 bg-white/70 p-4 mt-4">
-  <div class="text-[11px] font-semibold tracking-widest text-slate-500 mb-2">BATTERY</div>
-
-  <details class="border border-slate-200 rounded-xl p-3 group">
-    <summary class="cursor-pointer font-semibold text-base flex justify-between items-center select-none">
-      <span>แบตเตอรี่</span>
-      <i class="bi bi-chevron-down transition-transform duration-200 group-open:rotate-180"></i>
-    </summary>
-
-    <div class="mt-3 space-y-3 text-sm">
-
-      <!-- Leoch -->
-      <details class="border border-slate-200 rounded-lg p-3 group">
-        <summary class="cursor-pointer font-semibold flex justify-between items-center select-none">
-          <span>Leoch Battery</span>
-          <i class="bi bi-chevron-down transition-transform duration-200 group-open:rotate-180"></i>
-        </summary>
-
-        <!-- 1 คอลัมน์เฉพาะ BATTERY -->
-        <ul class="mt-2 grid grid-cols-1 gap-3">
-          <li class="min-w-0">
-            <button type="button"
-              class="{{ $chipBox }} h-auto min-h-10 py-2 px-3 justify-start text-left whitespace-normal break-words"
-              onclick="showPDF(`{{ asset('storage/Battery/Leoch Battery/Leoch LHR Series ups.pdf') }}`)"
-              title="Leoch LHR Series ups">
-              <span class="leading-snug">Leoch LHR Series ups</span>
-            </button>
-          </li>
-
-          <li class="min-w-0">
-            <button type="button"
-              class="{{ $chipBox }} h-auto min-h-10 py-2 px-3 justify-start text-left whitespace-normal break-words"
-              onclick="showPDF(`{{ asset('storage/Battery/Leoch Battery/Leoch LP Series Battery.pdf') }}`)"
-              title="Leoch LP Series Battery">
-              <span class="leading-snug">Leoch LP Series Battery</span>
-            </button>
-          </li>
-
-          <li class="min-w-0">
-            <button type="button"
-              class="{{ $chipBox }} h-auto min-h-10 py-2 px-3 justify-start text-left whitespace-normal break-words"
-              onclick="showPDF(`{{ asset('storage/Battery/Leoch Battery/Leoch XP -series-sheet_july-2024.pdf') }}`)"
-              title="Leoch XP -series">
-              <span class="leading-snug">Leoch XP -series</span>
-            </button>
-          </li>
-        </ul>
-      </details>
-
-      <!-- Long -->
-      <details class="border border-slate-200 rounded-lg p-3 group">
-        <summary class="cursor-pointer font-semibold flex justify-between items-center select-none">
-          <span>Long Battery</span>
-          <i class="bi bi-chevron-down transition-transform duration-200 group-open:rotate-180"></i>
-        </summary>
-
-        <!-- 1 คอลัมน์เฉพาะ BATTERY -->
-        <ul class="mt-2 grid grid-cols-1 gap-3">
-          <li class="min-w-0">
-            <button type="button"
-              class="{{ $chipBox }} h-auto min-h-10 py-2 px-3 justify-start text-left whitespace-normal break-words"
-              onclick="showPDF(`{{ asset('storage/Battery/Long Battery/Long IDCUPS_Batteries.pdf') }}`)"
-              title="Long IDCUPS_Batteries">
-              <span class="leading-snug">Long IDCUPS_Batteries</span>
-            </button>
-          </li>
-
-          <li class="min-w-0">
-            <button type="button"
-              class="{{ $chipBox }} h-auto min-h-10 py-2 px-3 justify-start text-left whitespace-normal break-words"
-              onclick="showPDF(`{{ asset('storage/Battery/Long Battery/Long Sealed_Lead_Acid_Batteries.pdf') }}`)"
-              title="Long Sealed-Lead-Acid">
-              <span class="leading-snug">Long Sealed-Lead-Acid</span>
-            </button>
-          </li>
-        </ul>
-      </details>
-
-    </div>
-  </details>
-</div>
-
       </div> <!-- /scroll container -->
     </aside>
 
@@ -511,6 +389,20 @@
     </section>
 
   </main>
+  <!-- แสดงpdf -->
+<script>
+function showPDF(url) {
+    const container = document.getElementById('pdfContainer');
+    container.innerHTML = '';
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.width = '100%';
+    iframe.height = '800px'; // ปรับสูงตามต้องการ
+    iframe.style.border = 'none';
+
+    container.appendChild(iframe);
+}
+</script>
 
  <!-- Footer -->
   <footer id="contact" class="mt-auto bg-gradient-to-r from-blue-800 via-blue-700 to-teal-600 text-white relative">

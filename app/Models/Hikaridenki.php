@@ -10,25 +10,20 @@ class Hikaridenki extends Model
     protected $primaryKey = 'iditem';
     public $incrementing = false;
     protected $keyType = 'string';
+    public $timestamps = false;
 
     protected $fillable = [
-        'iditem', 'model', 'name', 'price', 'discount', 'size',
+        'iditem', 'Model', 'name', 'price', 'discount', 'size',
         'lead_time', 'webpriceTHB', 'stock', 'lead_time_web',
         'brand', 'pic',
     ];
 
-    /**
-     * (ออปชัน) ให้ Route Model Binding ใช้คอลัมน์ iditem
-     */
+
     public function getRouteKeyName()
     {
         return 'iditem';
     }
-
-    /**
-     * Accessor: เข้าถึงด้วย $model->webprice_thb_float
-     * แปลง webpriceTHB (string) ให้เป็น float ปลอดภัยสำหรับ number_format()
-     */
+    
     public function getWebpriceThbFloatAttribute(): ?float
     {
         $raw = $this->webpriceTHB;
