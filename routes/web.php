@@ -7,7 +7,7 @@ use App\Http\Controllers\BrochureController;
 Route::get('/', function () {
     return view('Hikari');
 });
-Route::get('/product', [BrochureController::class, 'index'])->name('products.index');
+Route::get('/product', [BrochureController::class, 'index'])->name('product.index');
 Route::get('footer', function () {
     return view('footer');
 });
