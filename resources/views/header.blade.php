@@ -15,10 +15,9 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="th_TH">
 
-  <!-- Tailwind & Icons (no external font) -->
+  <!-- Tailwind & Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  
 
   <style>
     :root{
@@ -26,7 +25,6 @@
       --ink:#0f172a; --muted:#475569; --bg:#f8fafc; --line:#e6edf5;
       --glass-bg:rgba(255,255,255,.86); --ring:0 0 0 3px rgba(17,64,138,.18);
       --nav:#0b2a6b; --brand-hover:#facc15;
-      /* Fluid sizes */
       --fs-2xs: clamp(10px, 0.28rem + 0.2vw, 12px);
       --fs-xs:  clamp(11px, 0.32rem + 0.35vw, 13px);
       --fs-sm:  clamp(12px, 0.36rem + 0.55vw, 14.5px);
@@ -46,7 +44,6 @@
     .btn-ghost{border:1px solid rgba(2,6,23,.1);color:var(--brand)}
     .chip{padding:.35rem .6rem;border-radius:999px;border:1px solid rgba(2,6,23,.1);font-size:.8rem}
 
-    /* Header */
     .header-glass{background:var(--glass-bg);backdrop-filter:saturate(1.1) blur(8px);-webkit-backdrop-filter:saturate(1.1) blur(8px)}
     .header-glass.is-scrolled{background:rgba(255,255,255,.96);box-shadow:0 6px 24px rgba(15,23,42,.06)}
     .nav-link{position:relative;color:var(--nav);padding:.25rem .125rem;transition:color .2s ease;font-weight:500;letter-spacing:.2px;white-space:nowrap}
@@ -54,7 +51,6 @@
     .nav-link:focus-visible{outline:none;box-shadow:var(--ring);border-radius:10px}
     .nav-link[aria-current="page"]{color:var(--brand);font-weight:700}
 
-    /* Dropdown (desktop) */
     .dropdown{position:relative}
     .dropdown-toggle{display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .125rem;color:var(--nav);font-weight:500;letter-spacing:.2px;transition:color .2s ease}
     .dropdown-toggle:hover{color:var(--brand)}
@@ -72,7 +68,6 @@
     .product-link:hover{background:#f4f7fb;border-color:#dbe5f0;transform:translateY(-1px);box-shadow:0 8px 20px rgba(2,6,23,.06);color:var(--brand)}
     .product-link i{display:none!important}
 
-    /* Drawer (mobile) */
     .drawer-backdrop{position:fixed;inset:0;background:rgba(2,6,23,.45);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .22s ease;z-index:49}
     .drawer{position:fixed;top:0;right:0;height:100dvh;width:88vw;max-width:420px;background:#fff;border-left:1px solid var(--line);box-shadow:-28px 0 64px rgba(2,6,23,.14);transform:translateX(100%);transition:transform .25s ease;z-index:50;display:flex;flex-direction:column}
     .drawer.open{transform:translateX(0)} .drawer-backdrop.open{opacity:1;pointer-events:auto} .body-lock{overflow:hidden}
@@ -97,7 +92,6 @@
     .btn-rfq:hover{color:var(--brand-hover)}
     @media (min-width:768px){#mDrawer,#mBackdrop{display:none!important}}
 
-    /* Header fluid type */
     .header-glass .nav-link,
     .header-glass .dropdown-toggle,
     .header-glass .dropdown-panel,
@@ -109,14 +103,13 @@
     #menuBtn{font-size:var(--fs-icon)}
     .header-glass i.bi{font-size:1em}
 
-    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       .card,.soft,.drawer,.drawer-backdrop,.dropdown-panel,.collapse-panel{transition:none!important}
       html{scroll-behavior:auto}
     }
   </style>
 
-  {{-- JSON-LD แบบปลอดภัยสำหรับ Blade --}}
+  {{-- JSON-LD --}}
   @php
     $schema = [
       '@context' => 'https://schema.org',
@@ -136,8 +129,8 @@
     {!! json_encode($schema, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!}
   </script>
 
-  <!-- LINE opener (global) -->
   <script>
+    // ====== LINE opener ======
     function openLINE(el){
       var rawId = (el.getAttribute('data-line-id') || el.getAttribute('data-lineid') || '@543ubjtx').trim();
       var id = rawId.startsWith('@') ? rawId : ('@' + rawId);
@@ -161,16 +154,17 @@
       }catch(e){ clearTimeout(t); fallback(); return false; }
     }
 
-    // ===== RFQ opener (Gmail + fallback) =====
-    function openRFQ(){
+    // ====== RFQ opener — เปิดแท็บใหม่เสมอ (Gmail → mailto fallback) ======
+    function openRFQ(evt){
+      if (evt && evt.preventDefault) evt.preventDefault();
+
       const to = 'Info@hikaridenki.co.th';
       const subject = 'ขอใบเสนอราคา จาก PowerCare by Hikari';
 
-      // พยายามดึงชื่อสินค้าจาก <title> ถ้าเป็นหน้ารายละเอียดสินค้า
       let prod = '';
       try{
         const raw = (document.title || '').split('|')[0].trim();
-        if (raw && !/PowerCare by Hikari/.test(raw)) prod = raw;
+        if (raw && !/PowerCare by Hikari/i.test(raw)) prod = raw;
       }catch(_){}
 
       const lines = [
@@ -196,13 +190,56 @@
         + '?subject=' + encodeURIComponent(subject)
         + '&body='    + encodeURIComponent(body);
 
-      let opened = window.open(gmail, '_blank', 'noopener');
-      if (!opened) { location.href = gmail; }
+      let win = window.open(gmail, '_blank', 'noopener,noreferrer');
+
+      if (!win) {
+        const a = document.createElement('a');
+        a.href = gmail; a.target = '_blank'; a.rel = 'noopener'; a.style.display='none';
+        document.body.appendChild(a); a.click(); a.remove();
+      }
+
       setTimeout(() => {
         try{
-          if (document.visibilityState !== 'hidden') window.location.href = mailto;
-        }catch(_){ window.location.href = mailto; }
-      }, 1200);
+          if (document.visibilityState === 'visible') {
+            window.open(mailto, '_blank', 'noopener');
+          }
+        }catch(_){}
+      }, 800);
+
+      return false;
+    }
+
+    // ====== Email opener สำหรับ Info@... — เปิดแท็บใหม่เสมอ ======
+    function openEmail(evt, to, subject = '', body = ''){
+      if (evt && evt.preventDefault) evt.preventDefault();
+
+      const gmail = 'https://mail.google.com/mail/?view=cm&fs=1'
+        + '&to=' + encodeURIComponent(to)
+        + (subject ? '&su=' + encodeURIComponent(subject) : '')
+        + (body    ? '&body=' + encodeURIComponent(body)    : '');
+
+      const mailto = 'mailto:' + encodeURIComponent(to)
+        + (subject || body ? '?' : '')
+        + (subject ? 'subject=' + encodeURIComponent(subject) : '')
+        + (subject && body ? '&' : '')
+        + (body ? 'body=' + encodeURIComponent(body) : '');
+
+      let win = window.open(gmail, '_blank', 'noopener,noreferrer');
+
+      if (!win) {
+        const a = document.createElement('a');
+        a.href = gmail; a.target = '_blank'; a.rel = 'noopener'; a.style.display='none';
+        document.body.appendChild(a); a.click(); a.remove();
+      }
+
+      setTimeout(() => {
+        try{
+          if (document.visibilityState === 'visible') {
+            window.open(mailto, '_blank', 'noopener');
+          }
+        }catch(_){}
+      }, 700);
+
       return false;
     }
   </script>
@@ -287,13 +324,22 @@
 
       <!-- Desktop CTAs -->
       <div class="hidden md:flex items-center gap-5 ml-auto desk-cta">
-        <a href="tel:+66990802197" class="flex items-center gap-2 hover:text-blue-700"><i class="bi bi-telephone" aria-hidden="true"></i> 099-080-2197</a>
-        <a href="mailto:Info@hikaridenki.co.th" class="flex items-center gap-2 hover:text-blue-700"><i class="bi bi-envelope" aria-hidden="true"></i> Info@hikaridenki.co.th</a>
+        <a href="tel:+66990802197" class="flex items-center gap-2 hover:text-blue-700" rel="nofollow noopener"><i class="bi bi-telephone" aria-hidden="true"></i> 099-080-2197</a>
+
+        <!-- อีเมล: เปิดแท็บใหม่เสมอ -->
+        <a href="mailto:Info@hikaridenki.co.th"
+           class="flex items-center gap-2 hover:text-blue-700"
+           rel="nofollow noopener"
+           onclick="return openEmail(event, 'Info@hikaridenki.co.th');">
+          <i class="bi bi-envelope" aria-hidden="true"></i> Info@hikaridenki.co.th
+        </a>
+
         <a href="https://line.me/R/ti/p/@543ubjtx" class="flex items-center gap-2 hover:text-green-600" aria-label="เพิ่มเพื่อน LINE @543ubjtx" rel="noopener" onclick="return openLINE(this)" data-line-id="@543ubjtx">
           <i class="bi bi-chat-dots" aria-hidden="true"></i> LINE
         </a>
-        <!-- ปุ่ม RFQ ใช้ JS -->
-        <a href="#rfq" onclick="return openRFQ();" class="btn btn-primary">
+
+        <!-- ปุ่ม RFQ ใช้ JS (เปิดแท็บใหม่เสมอ) -->
+        <a href="#rfq" onclick="return openRFQ(event);" class="btn btn-primary" rel="noopener">
           <i class="bi bi-send" aria-hidden="true"></i> ขอใบเสนอราคา
         </a>
       </div>
@@ -384,22 +430,29 @@
     </section>
 
     <section class="drawer-section">
-      <a href="tel:+66990802197" class="action-card" aria-label="โทร 099-080-2197">
+      <a href="tel:+66990802197" class="action-card" aria-label="โทร 099-080-2197" rel="nofollow noopener">
         <span class="icon-bubble"><i class="bi bi-telephone-fill" aria-hidden="true"></i></span><span>099-080-2197</span>
       </a>
       <div style="height:10px"></div>
-      <a href="mailto:Info@hikaridenki.co.th" class="action-card" aria-label="อีเมลติดต่อ">
+
+      <!-- อีเมล (มือถือ): เปิดแท็บใหม่เสมอ -->
+      <a href="mailto:Info@hikaridenki.co.th"
+         class="action-card"
+         aria-label="อีเมลติดต่อ"
+         rel="nofollow noopener"
+         onclick="return openEmail(event, 'Info@hikaridenki.co.th');">
         <span class="icon-bubble"><i class="bi bi-envelope-fill" aria-hidden="true"></i></span><span>Info@hikaridenki.co.th</span>
       </a>
+
       <div style="height:10px"></div>
-      <a href="https://line.me/R/ti/p/@543ubjtx" class="action-card" aria-label="เพิ่มเพื่อน LINE @543ubjtx" onclick="return openLINE(this)" data-line-id="@543ubjtx">
+      <a href="https://line.me/R/ti/p/@543ubjtx" class="action-card" aria-label="เพิ่มเพื่อน LINE @543ubjtx" onclick="return openLINE(this)" data-line-id="@543ubjtx" rel="noopener">
         <span class="icon-bubble"><i class="bi bi-chat-dots" aria-hidden="true"></i></span><span>LINE</span>
       </a>
     </section>
 
     <div class="drawer-footer">
       <!-- ปุ่ม RFQ (Mobile) -->
-      <a href="#rfq" onclick="return openRFQ();" class="btn-rfq">
+      <a href="#rfq" onclick="return openRFQ(event);" class="btn-rfq" rel="noopener">
         <i class="bi bi-send-fill" aria-hidden="true"></i><span>ขอใบเสนอราคา</span>
       </a>
     </div>
@@ -413,7 +466,6 @@
     const onScroll = () => { if (window.scrollY > 6) header.classList.add('is-scrolled'); else header.classList.remove('is-scrolled'); };
     onScroll(); document.addEventListener('scroll', onScroll, {passive:true});
 
-    // Active link (optional)
     try{
       const path = location.pathname.replace(/\/+$/,'') || '/';
       document.querySelectorAll('nav[aria-label="เมนูหลัก"] .nav-link').forEach(a=>{
@@ -422,7 +474,6 @@
       });
     }catch(_){}
 
-    // ===== Desktop PRODUCT dropdown (CLICK-ONLY) =====
     const dd = document.getElementById('productDropdown');
     if (dd){
       const ddBtn   = dd.querySelector('.dropdown-toggle');
@@ -436,11 +487,8 @@
       ddPanel.addEventListener('click', (e)=> e.stopPropagation());
       document.addEventListener('click', (e)=>{ if(!dd.contains(e.target)) closeDD(); });
       document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDD(); });
-
-      // ❌ ไม่มี hover แล้ว
     }
 
-    // ===== Drawer (mobile) =====
     const btn = document.getElementById('menuBtn');
     const drawer = document.getElementById('mDrawer');
     const backdrop = document.getElementById('mBackdrop');
@@ -480,7 +528,6 @@
     });
     window.addEventListener('resize', () => { if (window.innerWidth >= 768 && drawer.classList.contains('open')) closeDrawer(); });
 
-    // ===== Mobile PRODUCT accordion =====
     const mToggle = document.getElementById('mProdToggle');
     const mPanel  = document.getElementById('mProdPanel');
     mToggle?.addEventListener('click', ()=>{

@@ -54,7 +54,7 @@ public function admin(Request $request)
             return redirect('/admin');
         }
 
-        return back()->with('error', 'รหัสผิดไอ้โง่จะแฮคกูหรอ');
+        return back()->with('error', 'รหัสผิดพลาดโปรดลองอีกครั่ง');
     }
 
     public function logout(Request $request)

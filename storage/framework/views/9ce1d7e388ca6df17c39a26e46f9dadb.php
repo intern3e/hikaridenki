@@ -16,122 +16,212 @@
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
+<!-- ===== Footer ===== -->
+<footer class="relative text-white" role="contentinfo" aria-label="PowerCare footer">
+  <!-- Gradient background -->
+  <div class="absolute inset-0 bg-gradient-to-br from-[#0a2356] via-[#0b2a6b] to-[#0f4c75]"></div>
+  <!-- Soft light halos -->
+  <div class="pointer-events-none absolute inset-0 opacity-[.12]"
+       style="background:
+         radial-gradient(900px 280px at 15% -10%, rgba(255,255,255,.35), rgba(255,255,255,0)),
+         radial-gradient(700px 240px at 85% 110%, rgba(255,255,255,.22), rgba(255,255,255,0));"></div>
 
-  <!-- Footer -->
-  <footer id="contact" class="mt-auto bg-gradient-to-r from-blue-800 via-blue-700 to-teal-600 text-white relative">
-    <div class="relative max-w-6xl mx-auto px-6 lg:px-8 py-12">
+  <!-- Content -->
+  <div class="relative max-w-7xl mx-auto px-4 md:px-6 py-12 sm:py-16">
+    <div class="grid gap-y-8 gap-x-8 lg:gap-x-12 grid-cols-1 md:grid-cols-12 items-start">
 
-      <!-- 📱 Mobile: Accordion -->
-      <div class="md:hidden space-y-4">
-        
-        <details class="bg-white/10 rounded-lg p-4">
-          <summary class="flex items-center justify-between cursor-pointer text-lg font-semibold">
-            <span class="flex items-center gap-2">
-              <i class="bi bi-geo-alt-fill text-2xl"></i> ที่อยู่
-            </span>
-            <i class="bi bi-chevron-down"></i>
-          </summary>
-          <div class="mt-2 text-sm opacity-90 pl-8">
-            <a href="https://www.google.com/maps/place/Hikari+Thailand.co.Ltd.+%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%A9%E0%B8%B1%E0%B8%97+%E0%B8%AE%E0%B8%B4%E0%B8%84%E0%B8%B2%E0%B8%A3%E0%B8%B4+(%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8%E0%B9%84%E0%B8%97%E0%B8%A2)+%E0%B8%88%E0%B8%B3%E0%B8%81%E0%B8%B1%E0%B8%94/@13.5511999,100.6676464,21z/data=!4m10!1m2!2m1!1zaGlrYXJpIGRlbmtpIOC4l-C4teC5iOC4reC4ouC4ueC5iA!3m6!1s0x311d58dd5128c8ed:0x1b3fc8268126b0d3!8m2!3d13.551206!4d100.6678593!15sCiJoaWthcmkgZGVua2kg4LiX4Li14LmI4Lit4Lii4Li54LmIIgJIAVoOIgxoaWthcmkgZGVua2mSAQ5tZXRhbF93b3Jrc2hvcJoBI0NoWkRTVWhOTUc5blMwVkpRMEZuU1VSV2MzVkxVa3BuRUFFqgFHEAEqECIMaGlrYXJpIGRlbmtpKDUyHxABIhtS9pmK1l0-goJGUIY45Qgc6IonW2MgYruelXQyEBACIgxoaWthcmkgZGVua2ngAQD6AQQIABAe!16s%2Fg%2F11b6d01qrs?entry=ttu&g_ep=EgoyMDI1MDkyMS4wIKXMDSoASAFQAw%3D%3D"
-               target="_blank" rel="noopener"
-               class="hover:underline block">
-              บริษัท ฮิคาริ เดงกิ จำกัด<br>
-                39/7, ชั้น 4, วุฒากาส, ตลาดพลู<br>
-                เขตธนบุรี , กรุงเทพมหานคร 10600
+      <!-- Brand & tagline -->
+      <section class="md:col-span-7 space-y-4">
+        <div>
+          <p class="text-sm/5 tracking-wider uppercase text-amber-300">PowerCare</p>
+          <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold">PowerCare by Hikari</h2>
+          <p class="mt-2 text-slate-100/90 leading-relaxed">
+            โซลูชันระบบไฟสำรองสำหรับองค์กร — ติดตั้ง บำรุงรักษา ตรวจรับรอง โดยทีมวิศวกรมืออาชีพ
+          </p>
+        </div>
+
+        <!-- Contact -->
+        <address class="not-italic grid sm:grid-cols-2 gap-3 text-[15px] leading-6">
+          <a href="tel:021172995" class="group inline-flex items-center gap-2 rounded-lg px-3 py-2 bg-white/5 hover:bg-white/10 transition">
+            <i class="bi bi-telephone-inbound"></i>
+            <span>02-117-2995 <span class="text-white/75">(คุณ อาร์ท)</span></span>
+          </a>
+          <a href="tel:0990802197" class="group inline-flex items-center gap-2 rounded-lg px-3 py-2 bg-white/5 hover:bg-white/10 transition">
+            <i class="bi bi-telephone"></i>
+            <span>099-080-2197</span>
+          </a>
+
+          <!-- Email: เปิดแท็บใหม่เสมอ -->
+          <a href="mailto:Info@hikaridenki.co.th"
+             class="group inline-flex items-center gap-2 rounded-lg px-3 py-2 bg-white/5 hover:bg-white/10 transition"
+             rel="nofollow noopener"
+             onclick="return openEmail(event, 'Info@hikaridenki.co.th');">
+            <i class="bi bi-envelope"></i>
+            <span>Info@hikaridenki.co.th</span>
+          </a>
+
+          <!-- LINE: ใช้ openLINE (ไม่เปลี่ยนหน้าเดิม) -->
+          <a href="https://line.me/R/ti/p/@543ubjtx"
+             class="group inline-flex items-center gap-2 rounded-lg px-3 py-2 bg-white/5 hover:bg-white/10 transition"
+             aria-label="เพิ่มเพื่อน LINE @543ubjtx"
+             rel="noopener"
+             onclick="return openLINE(this)"
+             data-line-id="@543ubjtx">
+            <i class="bi bi-line"></i>
+            <span>LINE: @543ubjtx</span>
+          </a>
+        </address>
+
+        <!-- B2B badges -->
+        <div class="mt-2">
+          <p class="font-semibold text-amber-300 mb-2">พร้อมสำหรับงาน B2B</p>
+          <ul class="grid sm:grid-cols-2 gap-2 text-[15px]">
+            <li class="inline-flex items-center gap-2">
+              <i class="bi bi-receipt-cutoff text-amber-300"></i>
+              ใบเสนอราคา / PO / ใบกำกับภาษี
+            </li>
+            <li class="inline-flex items-center gap-2">
+              <i class="bi bi-building-check text-amber-300"></i>
+              รองรับเครดิตเทอมองค์กร
+            </li>
+            <li class="inline-flex items-center gap-2">
+              <i class="bi bi-award text-amber-300"></i>
+              ทีมวิศวกรมีใบรับรอง
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Map & CTA -->
+      <section class="md:col-span-5">
+        <div class="rounded-2xl overflow-hidden ring-1 ring-white/10 bg-white/5 backdrop-blur-sm">
+          <div class="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between gap-3">
+            <h3 class="font-semibold">แผนที่</h3>
+            <!-- ปุ่มเปิดใน Google Maps (ใช้ URL ที่ให้มา) -->
+            <a
+              href="https://www.google.com/maps?sca_esv=f442afecdae9aeb2&biw=2085&bih=793&output=search&q=3e+trading&source=lnms&fbs=AIIjpHxqwKbi9fIHKmgqO5KM2QVegmDuQH3NmN1RYrLTkkp4NZ92ZFfjCCzPyQrAmp0jW-Zmjg7gpZBOPJMw7l-U91fqOW5SIGU4inXslNKeA7KVexOSokM-8zG0GI581wZuClSFRwk4Kj3s6WxcIbb0q97BcxerLoQrMyK9r6OoNRL8PINajiNcT_b47eoQoCstGeAZaT9kMZRAyGIpkYAUWQ549N1AFhb7wDDU5-ncSOoKlv1aOcFbDNoLwDqYAExPEEjVpwZjBKkZFvTn71AZ3QvjtwAZfigHqN3s66dOdHnFCKLtcgA&entry=mc&ved=1t:200715&ictx=111"
+              target="_blank" rel="noopener"
+              class="inline-flex items-center gap-2 rounded-lg px-3 py-2 bg-white text-[#0b2a6b] hover:bg-amber-400 hover:text-black transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-300"
+              aria-label="เปิดตำแหน่ง 3E Trading ใน Google Maps"
+            >
+              <i class="bi bi-geo-alt-fill"></i>
+              เปิดใน Google Maps
             </a>
           </div>
-        </details>
 
-        <details class="bg-white/10 rounded-lg p-4">
-          <summary class="flex items-center justify-between cursor-pointer text-lg font-semibold">
-            <span class="flex items-center gap-2">
-              <i class="bi bi-telephone-fill text-2xl"></i> การติดต่อ
-            </span>
-            <i class="bi bi-chevron-down"></i>
-          </summary>
-          <div class="mt-2 text-sm pl-8">
-       <a href="tel:+6621172995" class="hover:underline block">02-117-2995 (คุณ อาร์ท)</a>
-        <a href="tel:+66990802197" class="hover:underline block">099-080-2197</a>
-
-            <span class="italic text-amber-200 block mt-2">บริการ 9.00-18.00</span>
+          <!-- ฝังแผนที่ -->
+          <div class="aspect-[16/10] sm:aspect-[16/9] bg-black/20">
+            <iframe
+              src="https://www.google.com/maps?sca_esv=f442afecdae9aeb2&biw=2085&bih=793&output=embed&q=3e+trading&source=lnms&fbs=AIIjpHxqwKbi9fIHKmgqO5KM2QVegmDuQH3NmN1RYrLTkkp4NZ92ZFfjCCzPyQrAmp0jW-Zmjg7gpZBOPJMw7l-U91fqOW5SIGU4inXslNKeA7KVexOSokM-8zG0GI581wZuClSFRwk4Kj3s6WxcIbb0q97BcxerLoQrMyK9r6OoNRL8PINajiNcT_b47eoQoCstGeAZaT9kMZRAyGIpkYAUWQ549N1AFhb7wDDU5-ncSOoKlv1aOcFbDNoLwDqYAExPEEjVpwZjBKkZFvTn71AZ3QvjtwAZfigHqN3s66dOdHnFCKLtcgA&entry=mc&ved=1t:200715&ictx=111"
+              class="w-full h-full border-0"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen
+            ></iframe>
           </div>
-        </details>
 
-        <details class="bg-white/10 rounded-lg p-4">
-          <summary class="flex items-center justify-between cursor-pointer text-lg font-semibold">
-            <span class="flex items-center gap-2">
-              <i class="bi bi-envelope-fill text-2xl"></i> เว็บไซต์และอีเมล
-            </span>
-            <i class="bi bi-chevron-down"></i>
-          </summary>
-        <div class="mt-2 text-sm pl-8">
-          <a href="https://www.hikaridenki.co.th" target="_blank" rel="noopener"
-            class="font-bold hover:underline block">www.hikaridenki.co.th</a>
-
-          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th"
-            target="_blank" rel="noopener"
-            class="hover:underline block mt-2">Info@hikaridenki.co.th</a>
-        </div>
-
-        </details>
-
-      </div>
-
-      <!-- 🖥 PC: Grid 3 Columns -->
-      <div class="hidden md:grid grid-cols-3 gap-8 mb-10">
-        
-        <!-- Address -->
-        <div class="text-center hover:scale-105 transition">
-          <div class="flex justify-center mb-4 text-4xl text-white">
-            <i class="bi bi-geo-alt-fill"></i>
+          <!-- ปุ่มล่าง (มือถือ) -->
+          <div class="p-4 sm:p-5 border-t border-white/10 sm:hidden">
+            <a
+              href="https://www.google.com/maps?sca_esv=f442afecdae9aeb2&biw=2085&bih=793&output=search&q=3e+trading&source=lnms&fbs=AIIjpHxqwKbi9fIHKmgqO5KM2QVegmDuQH3NmN1RYrLTkkp4NZ92ZFfjCCzPyQrAmp0jW-Zmjg7gpZBOPJMw7l-U91fqOW5SIGU4inXslNKeA7KVexOSokM-8zG0GI581wZuClSFRwk4Kj3s6WxcIbb0q97BcxerLoQrMyK9r6OoNRL8PINajiNcT_b47eoQoCstGeAZaT9kMZRAyGIpkYAUWQ549N1AFhb7wDDU5-ncSOoKlv1aOcFbDNoLwDqYAExPEEjVpwZjBKkZFvTn71AZ3QvjtwAZfigHqN3s66dOdHnFCKLtcgA&entry=mc&ved=1t:200715&ictx=111"
+              target="_blank" rel="noopener"
+              class="w-full inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 bg-white text-[#0b2a6b] hover:bg-amber-400 hover:text-black transition"
+            >
+              <i class="bi bi-map"></i>
+              เปิดใน Google Maps
+            </a>
           </div>
-          <h3 class="font-semibold text-lg mb-2">ที่อยู่</h3>
-          <a href="https://www.google.com/maps/place/Hikari+Thailand.co.Ltd.+%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%A9%E0%B8%B1%E0%B8%97+%E0%B8%AE%E0%B8%B4%E0%B8%84%E0%B8%B2%E0%B8%A3%E0%B8%B4+(%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8%E0%B9%84%E0%B8%97%E0%B8%A2)+%E0%B8%88%E0%B8%B3%E0%B8%81%E0%B8%B1%E0%B8%94/@13.5511999,100.6676464,21z/data=!4m10!1m2!2m1!1zaGlrYXJpIGRlbmtpIOC4l-C4teC5iOC4reC4ouC4ueC5iA!3m6!1s0x311d58dd5128c8ed:0x1b3fc8268126b0d3!8m2!3d13.551206!4d100.6678593!15sCiJoaWthcmkgZGVua2kg4LiX4Li14LmI4Lit4Lii4Li54LmIIgJIAVoOIgxoaWthcmkgZGVua2mSAQ5tZXRhbF93b3Jrc2hvcJoBI0NoWkRTVWhOTUc5blMwVkpRMEZuU1VSV2MzVkxVa3BuRUFFqgFHEAEqECIMaGlrYXJpIGRlbmtpKDUyHxABIhtS9pmK1l0-goJGUIY45Qgc6IonW2MgYruelXQyEBACIgxoaWthcmkgZGVua2ngAQD6AQQIABAe!16s%2Fg%2F11b6d01qrs?entry=ttu&g_ep=EgoyMDI1MDkyMS4wIKXMDSoASAFQAw%3D%3D"
-             target="_blank" rel="noopener"
-             class="hover:underline block text-sm opacity-90">
-            บริษัท ฮิคาริ เดงกิ จำกัด<br>
-            39/7, ชั้น 4, วุฒากาส, ตลาดพลู<br>
-            เขตธนบุรี , กรุงเทพมหานคร 10600
-          </a>
         </div>
+      </section>
+    </div>
 
-        <!-- Phone -->
-        <div class="text-center hover:scale-105 transition">
-          <div class="flex justify-center mb-4 text-4xl text-white">
-            <i class="bi bi-telephone-fill"></i>
-          </div>
-          <h3 class="font-semibold text-lg mb-2">การติดต่อ</h3>
-          <a href="tel:+6621172995" class="hover:underline block">02-117-2995 (คุณ อาร์ท)</a>
-        <a href="tel:+66990802197" class="hover:underline block">099-080-2197</a>
-
-            <span class="italic text-amber-200 block mt-2">บริการ 9.00-18.00</span>
-        </div>
-
-        <!-- Website & Email -->
-        <div class="text-center hover:scale-105 transition">
-          <div class="flex justify-center mb-4 text-4xl text-white">
-            <i class="bi bi-envelope-fill"></i>
-          </div>
-        <h3 class="font-semibold text-lg mb-2">เว็บไซต์และอีเมล</h3>
-        <a href="https://www.hikaridenki.co.th" target="_blank" rel="noopener"
-          class="font-bold hover:underline block">www.hikaridenki.co.th</a>
-        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th"
-          target="_blank" rel="noopener"
-          class="hover:underline block mt-2">Info@hikaridenki.co.th</a>
-
-        </div>
-      </div>
-
-      <!-- Divider -->
-      <div class="border-t border-white/20 mb-6"></div>
-
-      <!-- Bottom -->
-      <div class="text-center text-xs md:text-sm opacity-90">
-        <p>© 2025 hikaridenki by Hikari. All rights reserved.</p>
-        <p class="italic mt-2">"hikaridenki by Hikari - We Care Your Power System"</p>
+    <!-- Bottom bar -->
+    <div class="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-white/80">
+      <p>© <span class="tabular-nums"><?php echo e(date('Y')); ?></span> PowerCare by Hikari. สงวนลิขสิทธิ์.</p>
+      <div class="flex items-center gap-4">
+        <a href="#" class="hover:text-white">นโยบายความเป็นส่วนตัว</a>
+        <span aria-hidden="true" class="opacity-50">•</span>
+        <a href="#" class="hover:text-white">ข้อตกลงการใช้งาน</a>
       </div>
     </div>
-  </footer>
+  </div>
+</footer>
+<!-- ===== /Footer ===== -->
+
+<!-- ===== Footer helpers (เฉพาะถ้ายังไม่มีฟังก์ชันบนเพจ) ===== -->
+<script>
+  // ถ้ายังไม่เคยประกาศ openEmail ในหน้า ให้ประกาศที่นี่
+  if (typeof window.openEmail !== 'function') {
+    window.openEmail = function (evt, to, subject = '', body = '') {
+      if (evt && evt.preventDefault) evt.preventDefault();
+
+      const gmail = 'https://mail.google.com/mail/?view=cm&fs=1'
+        + '&to=' + encodeURIComponent(to)
+        + (subject ? '&su=' + encodeURIComponent(subject) : '')
+        + (body    ? '&body=' + encodeURIComponent(body)    : '');
+
+      const mailto = 'mailto:' + encodeURIComponent(to)
+        + (subject || body ? '?' : '')
+        + (subject ? 'subject=' + encodeURIComponent(subject) : '')
+        + (subject && body ? '&' : '')
+        + (body ? 'body=' + encodeURIComponent(body) : '');
+
+      // เปิด Gmail ในแท็บใหม่
+      let win = window.open(gmail, '_blank', 'noopener,noreferrer');
+
+      // ถ้าถูกบล็อค popup → ใช้ <a> ชั่วคราว
+      if (!win) {
+        const a = document.createElement('a');
+        a.href = gmail; a.target = '_blank'; a.rel = 'noopener'; a.style.display='none';
+        document.body.appendChild(a); a.click(); a.remove();
+      }
+
+      // ถ้าแท็บเดิมยังโฟกัสอยู่ → เปิด mailto ในแท็บใหม่ (หน้าเดิมไม่เปลี่ยน)
+      setTimeout(() => {
+        try {
+          if (document.visibilityState === 'visible') {
+            window.open(mailto, '_blank', 'noopener');
+          }
+        } catch (_) {}
+      }, 700);
+
+      return false;
+    };
+  }
+
+  // ถ้ายังไม่เคยประกาศ openLINE ในหน้า ให้ประกาศที่นี่
+  if (typeof window.openLINE !== 'function') {
+    window.openLINE = function (el) {
+      var rawId = (el.getAttribute('data-line-id') || el.getAttribute('data-lineid') || '@543ubjtx').trim();
+      var id = rawId.startsWith('@') ? rawId : ('@' + rawId);
+      var webURL = 'https://line.me/R/ti/p/' + encodeURIComponent(id);
+
+      // พยายามเปิดเว็บ LINE ในแท็บใหม่ก่อน (ไม่เปลี่ยนหน้าเดิม)
+      var win = window.open(webURL, '_blank', 'noopener');
+
+      // หากอยู่บน iOS/Android และมีแอป ให้พยายามเปิดแอปผ่าน intent/URI โดยไม่เปลี่ยนหน้าเดิม
+      try {
+        var ua = navigator.userAgent || '';
+        var isiOS = /iP(hone|od|ad)/.test(ua);
+        var isAndroid = /Android/i.test(ua);
+
+        // เปิด scheme ผ่านหน้าต่างที่เพิ่งเปิด (ถ้าอนุญาต) เพื่อลดผลกระทบแท็บปัจจุบัน
+        if (isAndroid && win) {
+          // Android: ใช้ intent
+          var intent = 'intent://ti/p/' + encodeURIComponent(id)
+            + '#Intent;scheme=line;package=jp.naver.line.android;end';
+          setTimeout(() => { try { win.location = intent; } catch(_){} }, 50);
+        } else if (isiOS && win) {
+          // iOS: ใช้ line:// scheme
+          setTimeout(() => { try { win.location = 'line://ti/p/' + id; } catch(_){} }, 50);
+        }
+      } catch (_) {}
+
+      return false;
+    };
+  }
+</script>
+
 
 </body>
 </html>

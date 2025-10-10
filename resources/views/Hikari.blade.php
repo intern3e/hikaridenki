@@ -331,116 +331,12 @@
 
   </section>
 
- <!-- ===== Footer ===== -->
-<footer class="relative text-white" role="contentinfo" aria-label="PowerCare footer">
-  <div class="absolute inset-0 bg-gradient-to-br from-[#0a2356] via-[#0b2a6b] to-[#0f4c75]"></div>
-  <div class="pointer-events-none absolute inset-0 opacity-[.12]"
-       style="background:
-         radial-gradient(900px 280px at 15% -10%, rgba(255,255,255,.35), rgba(255,255,255,0)),
-         radial-gradient(700px 240px at 85% 110%, rgba(255,255,255,.2), rgba(255,255,255,0));"></div>
-
-  <div class="relative max-w-7xl mx-auto px-4 md:px-6 py-10 sm:py-14">
-    <div class="grid gap-y-6 sm:gap-y-8 gap-x-8 lg:gap-x-12 xl:gap-x-16 grid-cols-1 sm:grid-cols-2 md:grid-cols-12 items-start">
-      <section class="order-1 md:order-none w-full md:col-span-3 p-4 sm:p-5 md:p-0 bg-white/5 md:bg-transparent ring-1 ring-white/10 md:ring-0 rounded-xl" aria-labelledby="ft-brand">
-        <div class="flex items-center gap-3">
-          <img src="{{ asset('storage/logo/PNG.png') }}" alt="PowerCare" class="w-10 h-10 object-contain drop-shadow-md" loading="lazy" decoding="async">
-          <h2 id="ft-brand" class="font-semibold text-[20px] sm:text-[22px] leading-tight tracking-tight">PowerCare by Hikari</h2>
-        </div>
-        <p class="mt-3 text-[13px] sm:text-sm leading-relaxed text-white/80">โซลูชันระบบไฟสำรองสำหรับองค์กร — ติดตั้ง บำรุงรักษา ตรวจรับรอง โดยทีมวิศวกรมืออาชีพ</p>
-      </section>
-
-      <section class="order-2 md:order-none w-full md:col-span-3 rounded-xl p-4 sm:p-5 md:p-0 bg-white/5 md:bg-transparent ring-1 ring-white/10 md:ring-0 backdrop-blur md:backdrop-blur-0" aria-labelledby="ft-contact">
-        <h3 id="ft-contact" class="font-semibold mb-3 sm:mb-4 text-white/95 tracking-tight">ติดต่อเรา</h3>
-        <ul class="space-y-2.5 sm:space-y-3 text-[13px] sm:text-[14px] text-white/85">
-          <li class="group -m-2 p-2 rounded-lg hover:bg-white/5 active:bg-white/10 flex items-start gap-3">
-            <i class="bi bi-telephone-fill opacity-90 text-base leading-6 shrink-0" aria-hidden="true"></i>
-            <div class="flex flex-col leading-6">
-              <a href="tel:021172995" class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40" aria-label="โทร 02-117-2995 คุณอาร์ท">02-117-2995 (คุณ อาร์ท)</a>
-              <a href="tel:0990802197" class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40" aria-label="โทร 099-080-2197">099-080-2197</a>
-            </div>
-          </li>
-
-          <li class="group -m-2 p-2 rounded-lg hover:bg-white/5 active:bg-white/10 flex items-center gap-3">
-            <i class="bi bi-envelope-fill opacity-90 text-base leading-6 shrink-0" aria-hidden="true"></i>
-            <a href="mailto:Info@hikaridenki.co.th" class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40">Info@hikaridenki.co.th</a>
-          </li>
-
-          <li class="group -m-2 p-2 rounded-lg hover:bg-white/5 active:bg-white/10 flex items-center gap-3">
-            <i class="bi bi-chat-dots-fill opacity-90 text-base leading-6 shrink-0" aria-hidden="true"></i>
-            <a href="https://line.me/R/ti/p/@543ubjtx" data-smartline data-lineid="@543ubjtx" class="inline-flex items-center gap-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40" target="_blank" rel="noopener" aria-label="เพิ่มเพื่อน LINE @543ubjtx">
-              LINE: @543ubjtx
-              <i class="bi bi-box-arrow-up-right text-xs opacity-80" aria-hidden="true"></i>
-            </a>
-          </li>
-
-        </ul>
-      </section>
-
-      <section class="order-4 md:order-none w-full md:col-span-2 p-4 sm:p-5 md:p-0 bg-white/5 md:bg-transparent ring-1 ring-white/10 md:ring-0 rounded-xl" aria-labelledby="ft-b2b">
-        <h3 id="ft-b2b" class="font-semibold mb-3 sm:mb-4 text-white/95 tracking-tight md:whitespace-nowrap">พร้อมสำหรับงาน B2B</h3>
-        <ul class="space-y-2 text-[13px] sm:text-[14px] text-white/85">
-          <li class="flex items-start gap-2 leading-6"><i class="bi bi-check2-circle mt-[2px] text-base shrink-0" aria-hidden="true"></i><span class="md:whitespace-nowrap">ใบเสนอราคา / PO / ใบกำกับภาษี</span></li>
-          <li class="flex items-start gap-2 leading-6"><i class="bi bi-check2-circle mt-[2px] text-base shrink-0" aria-hidden="true"></i><span class="md:whitespace-nowrap">รองรับเครดิตเทอมองค์กร</span></li>
-          <li class="flex items-start gap-2 leading-6"><i class="bi bi-check2-circle mt-[2px] text-base shrink-0" aria-hidden="true"></i><span class="md:whitespace-nowrap">ทีมวิศวกรมีใบรับรอง</span></li>
-        </ul>
-      </section>
-
-      <!-- แผนที่: เปลี่ยนเป็น ทริปเปิ้ล อี เทรดดิ้ง ทั้งชื่อ + ลิงก์ + iframe -->
-      <section class="order-3 md:order-none w-full md:col-span-4 md:pl-8 xl:pl-12 md:border-l md:border-white/10" aria-labelledby="ft-map">
-        <h3 id="ft-map" class="sr-only">แผนที่</h3>
+  
+  @include('footer')
 
 
-        <div class="rounded-xl overflow-hidden ring-1 ring-white/10 bg-white/5 backdrop-blur">
-          <iframe
-            title="ทริปเปิ้ล อี เทรดดิ้ง — แผนที่"
-            src="https://www.google.com/maps?hl=th&q=13.717683,100.4732644&z=17&output=embed"
-            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            class="block w-full aspect-[4/3] sm:aspect-[16/10]"
-            style="border:0;filter:contrast(1.02) brightness(.98)"></iframe>
-        </div>
+<!-- ===== /Footer ===== -->
 
-        <a href="https://www.google.com/maps/place/%E0%B8%97%E0%B8%A3%E0%B8%B4%E0%B8%9B%E0%B9%80%E0%B8%9B%E0%B8%B4%E0%B9%89%E0%B8%A5+%E0%B8%AD%E0%B8%B5+%E0%B9%80%E0%B8%97%E0%B8%A3%E0%B8%94%E0%B8%94%E0%B8%B4%E0%B9%89%E0%B8%87/@13.717683,100.4706895,17z/data=!3m1!4b1!4m6!3m5!1s0x30e2991a367db98b:0x4c961d180eb9153f!8m2!3d13.717683!4d100.4732644!16s%2Fg%2F1xg5q33q?entry=ttu"
-           target="_blank" rel="noopener"
-           class="mt-2 inline-flex items-center gap-2 text-white/85 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40">
-          <i class="bi bi-geo-alt" aria-hidden="true"></i>
-          เปิดใน Google Maps
-          <i class="bi bi-box-arrow-up-right text-xs opacity-80" aria-hidden="true"></i>
-        </a>
-      </section>
-    </div>
-  </div>
-
-  <div class="relative border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-4 md:px-6 py-5 sm:py-6 text-[12px] sm:text-xs text-white/80">
-      <nav aria-label="Legal" class="flex flex-col items-center gap-2 sm:gap-3">
-        <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-          <span>© {{ date('Y') }} PowerCare by Hikari</span>
-          <a href="#privacy" class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40">นโยบายความเป็นส่วนตัว</a>
-          <a href="#terms" class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40">เงื่อนไขการใช้งาน</a>
-        </div>
-      </nav>
-    </div>
-  </div>
-
-  <!-- Smart LINE opener (data-smartline anchors) -->
-  <script>
-    (function () {
-      const anchors = document.querySelectorAll('a[data-smartline][data-lineid]');
-      function tryOpenLine(e) {
-        e.preventDefault();
-        const a = e.currentTarget;
-        const id = a.getAttribute('data-lineid');
-        if (!id) return;
-        const scheme = 'line://ti/p/' + encodeURIComponent(id);
-        const webUrl = 'https://line.me/R/ti/p/' + encodeURIComponent(id);
-        let opened = false;
-        const t = setTimeout(() => { if (!opened) window.open(webUrl, '_blank', 'noopener'); }, 700);
-        try { opened = true; window.location.href = scheme; } finally { setTimeout(() => clearTimeout(t), 1200); }
-      }
-      anchors.forEach(a => a.addEventListener('click', tryOpenLine, { passive: false }));
-    })();
-  </script>
-</footer>
 
 
 </body>

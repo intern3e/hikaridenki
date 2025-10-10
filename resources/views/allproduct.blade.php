@@ -13,7 +13,8 @@
   {{-- ====== Resolve route/query params (สำคัญ) ====== --}}
   @php
     // อ่าน brand/category จาก route param ก่อน แล้วค่อย fallback เป็น query string
-    $brandParam    = $brandParam    ?? request()->route('brand')    ?? request('brand');
+    $brandInRoute  = request()->route('brand');
+    $brandParam    = $brandParam    ?? $brandInRoute ?? request('brand');
     $categoryParam = $categoryParam ?? request()->route('category') ?? request('category', request('catagory'));
   @endphp
 
@@ -51,15 +52,13 @@
       --fs-2xl: clamp(22px, 0.9rem + 2.4vw, 34px);
       --img-size: 222.5px;
     }
-
+    body{ font-family:"Prompt",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue","Noto Sans Thai",Arial,"Apple Color Emoji","Segoe UI Emoji"; background:var(--bg); }
     .soft{ box-shadow:0 1px 2px rgba(2,6,23,.04), 0 6px 24px rgba(2,6,23,.06) }
     .chips{ display:flex; flex-wrap:wrap; gap:8px; align-items:center }
     .chip{ display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .75rem; border-radius:999px; line-height:1; font-size:var(--fs-xs); white-space:nowrap; border:1px solid var(--line) }
     .img-rail{ position:relative; display:flex; align-items:center; justify-content:center; background:#fff; padding:8px; width:100% }
     .img-square{ width:var(--img-size); height:var(--img-size); display:flex; align-items:center; justify-content:center; margin-inline:auto }
     .img-square>img{ max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; object-position:center; display:block; margin:auto }
-
-    /* Toolbar */
     .toolbar{ background:rgba(255,255,255,.86); backdrop-filter:saturate(120%) blur(10px); border:1px solid var(--line); border-radius:18px; box-shadow:0 10px 30px rgba(2,15,46,.06) }
     .seg{ display:inline-grid; grid-auto-flow:column; gap:2px; background:#e7effb; padding:4px; border-radius:999px }
     .seg input{ display:none }
@@ -67,8 +66,6 @@
     .seg input:checked + label{ background:#fff; color:#0b2a6b; box-shadow:0 1px 0 rgba(0,0,0,.04), inset 0 0 0 1px rgba(17,64,138,.12) }
     .chip-toggle{ display:inline-flex; align-items:center; gap:.5rem; padding:.55rem .8rem; border-radius:999px; border:1px solid var(--line); background:#fff; font-size:var(--fs-xs) }
     .chip-toggle.active{ background:#ecfdf5; color:#047857; border-color:#a7f3d0 }
-
-    /* Mobile card */
     .mcard{ border-radius:16px; background:#fff; border:1px solid var(--line); box-shadow:0 6px 20px rgba(2,15,46,.05); padding:12px }
     .mcard-grid{ display:grid; grid-template-columns:96px minmax(0,1fr); gap:12px; align-items:start }
     .mcard-img{ width:96px; height:96px; border-radius:12px; background:#fff; border:1px solid #e5e7eb; display:grid; place-items:center; overflow:hidden }
@@ -80,8 +77,6 @@
     .m-price{ font-weight:800; color:#b45309; font-size:15.5px; letter-spacing:.2px }
     .line-clamp-2{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden }
     .no-scrollbar{ scrollbar-width:none } .no-scrollbar::-webkit-scrollbar{ display:none }
-
-    /* Mobile sort dropdown */
     .dd-root{ position:relative }
     .dd-trigger{ display:flex; align-items:center; justify-content:space-between; gap:.75rem; width:100%; border:1px solid #e2e8f0; border-radius:.75rem; background:#fff; padding:.625rem .875rem; font-size:var(--fs-sm); color:#334155; box-shadow:0 1px 1px rgba(2,6,23,.04), 0 8px 24px rgba(2,6,23,.06) }
     .dd-chev{ transition: transform .2s ease }
@@ -96,29 +91,20 @@
 
 <body>
   @php
-    // ===== Helper: append current query (เช่น in_stock=1) ให้ลิงก์ต่าง ๆ
-    $withQS = function(string $url, array $extra = []) {
+    // Helper: แนบ query ปัจจุบันแบบเลือกได้ว่าตัด key ไหนทิ้ง (กัน brand ซ้อน)
+    $keepQS = function(string $url, array $extra = [], array $drop = []) {
       $q = request()->query();
-      foreach ($extra as $k=>$v) { $q[$k]=$v; }
+      foreach ($drop as $rm) { unset($q[$rm]); }
+      foreach ($extra as $k=>$v) { if ($v === null) unset($q[$k]); else $q[$k]=$v; }
       $qs = http_build_query($q);
       return $qs ? $url.'?'.$qs : $url;
     };
   @endphp
 
   <main class="max-w-7xl mx-auto px-4 md:px-6 py-6" id="main">
-    {{-- ========= BRAND THUMBS ========= --}}
+    {{-- ========= BRAND THUMBS (มาจาก Controller) ========= --}}
     @php
-      $brandThumbs = [
-        'MAKITA' => 'https://drive.google.com/thumbnail?id=1oCLDXm-YckE1pxdGiUlz0EmGg4fGimCu&sz=w1000',
-        'NANABOSHI' => 'https://drive.google.com/thumbnail?id=1WJwlCP-EtwISVk8139dB1zkLKTsyGoGC&sz=w1000',
-        'KRANZLE' => 'https://drive.google.com/thumbnail?id=1kJVxf42NY_8ig4l8Iw0tZ18g9nb73jTU&sz=w1000',
-        'MITSUBISHI' => 'https://drive.google.com/thumbnail?id=1Yxcj66hz2SK8bwadkN5YoVqTBwv90mVT&sz=w1000',
-        'SPARE PART PUMP' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'SEALAND' => 'https://drive.google.com/thumbnail?id=1_3E3sxucBZBOjFabPcCRQUHbPFD_3Q61&sz=w1000',
-        'TOYO' => 'https://drive.google.com/thumbnail?id=1SQUc-xvdGKeXa0mCUt_Cw7NRK80GS2Se&sz=w1000',
-        'SUPER-X' => 'https://drive.google.com/thumbnail?id=1gGP_ztP6O5Pwxsv7iew-MyzAzDyRJpOE&sz=w1000',
-        'MARUYAMA' => 'https://drive.google.com/thumbnail?id=1jEAkDPk7LlbMcI-8CiouKRC9G6LYaZB5&sz=w1000',
-      ];
+      if (!isset($brandThumbs) || !is_array($brandThumbs)) { $brandThumbs = []; }
     @endphp
 
     {{-- ========= FETCH + SORT (brand/sort/in_stock) ========= --}}
@@ -134,7 +120,6 @@
       $inStock  = request('in_stock') === '1';
       $viewAll  = request('view') === 'all';
 
-      // perPage
       $perPage  = $viewAll
                   ? 100000
                   : (($items ?? null) instanceof \Illuminate\Contracts\Pagination\Paginator
@@ -162,11 +147,9 @@
         $qb = DB::table($table);
 
         // columns
-        if (Schema::hasColumn($table,'iditem')) {
-          $qb->addSelect('iditem');
-        } elseif (Schema::hasColumn($table,'id')) {
-          $qb->addSelect(DB::raw('id as iditem'));
-        }
+        if (Schema::hasColumn($table,'iditem')) $qb->addSelect('iditem');
+        elseif (Schema::hasColumn($table,'id')) $qb->addSelect(DB::raw('id as iditem'));
+
         foreach (['brand','name','model','stock','created_at','updated_at'] as $c) {
           if (Schema::hasColumn($table,$c)) $qb->addSelect($c);
         }
@@ -282,10 +265,14 @@
         })->map->count()->sortKeys();
       }
 
-      // ช่วยให้ sidebar highlight ยี่ห้อปัจจุบันถูกต้อง
+      // สำหรับ sidebar ไฮไลต์แบรนด์ปัจจุบัน
       $currentBrandSlug = $brandParam
         ? \Illuminate\Support\Str::slug($brandParam, '-')
         : '*';
+
+      // คีย์ที่ต้องพกต่อ (ยกเว้น brand เมื่ออยู่บน route แบรนด์)
+      $persistKeys = ['in_stock','view','q','category','catagory'];
+      if (!$brandInRoute && request()->has('brand')) { $persistKeys[] = 'brand'; }
     @endphp
     {{-- ========= END FETCH ========= --}}
 
@@ -311,10 +298,15 @@
                  class="absolute left-0 right-0 top-[calc(100%+6px)] hidden bg-white border rounded-xl shadow-lg z-[40] overflow-hidden"></div>
           </div>
 
+          @php
+            $sortVal   = request('sort','new');
+            $sortLabel = ['new'=>'มาใหม่','price_asc'=>'ราคาต่ำ → สูง','price_desc'=>'ราคาสูง → ต่ำ','name'=>'รหัส/ชื่อ (A–Z)'][$sortVal] ?? 'มาใหม่';
+          @endphp
+
           <!-- Sort (desktop) -->
           <div class="hidden md:block">
             <form method="GET" data-seg-sort>
-              @foreach (['brand','in_stock','view','q','category','catagory'] as $k)
+              @foreach ($persistKeys as $k)
                 @if(request()->has($k)) <input type="hidden" name="{{ $k }}" value="{{ request($k) }}"> @endif
               @endforeach
               <input type="hidden" name="sort" value="{{ request('sort','new') }}">
@@ -334,15 +326,10 @@
             </form>
           </div>
 
-          @php
-            $sortVal   = request('sort','new');
-            $sortLabel = ['new'=>'มาใหม่','price_asc'=>'ราคาต่ำ → สูง','price_desc'=>'ราคาสูง → ต่ำ','name'=>'รหัส/ชื่อ (A–Z)'][$sortVal] ?? 'มาใหม่';
-          @endphp
-
           <!-- MOBILE: เรียงโดย + สต็อก -->
           <div class="md:hidden flex items-center justify-between gap-2">
             <form method="GET" id="sortForm" class="flex items-center gap-2 flex-1 min-w-0">
-              @foreach (['brand','in_stock','view','q','category','catagory'] as $k)
+              @foreach ($persistKeys as $k)
                 @if(request()->has($k)) <input type="hidden" name="{{ $k }}" value="{{ request($k) }}"> @endif
               @endforeach
               <input type="hidden" name="sort" id="sortInput" value="{{ $sortVal }}">
@@ -398,7 +385,7 @@
           </div>
 
           <nav class="max-h-[70vh] overflow-y-auto no-scrollbar py-2" aria-label="กรองตามยี่ห้อ">
-            <a href="{{ $withQS(route('showproduct')) }}"
+            <a href="{{ $keepQS(route('showproduct'), [], ['brand']) }}"
                class="block px-4 py-2 mx-2 rounded-md {{ $currentBrandSlug==='*' ? 'bg-blue-600 text-white' : 'hover:bg-slate-50' }}"
                style="font-size:var(--fs-sm)">ทั้งหมด</a>
 
@@ -406,7 +393,8 @@
               @php
                 $slug = \Illuminate\Support\Str::slug($brandName, '-');
                 $isActive = $currentBrandSlug === $slug;
-                $brandUrl = $withQS(route('showproduct.bybrand', ['brand' => $brandName]));
+                // ตัด brand ออกจาก query เพื่อไม่ให้ซ้อนกับ route
+                $brandUrl = $keepQS(route('showproduct.bybrand', ['brand' => $brandName]), [], ['brand']);
               @endphp
               <a href="{{ $brandUrl }}"
                  class="flex items-center justify-between px-4 py-2 mx-2 rounded-md {{ $isActive ? 'bg-blue-600 text-white' : 'hover:bg-slate-50' }}"
@@ -460,7 +448,7 @@
 
                 $brandUpper = strtoupper(trim((string)($item->brand ?? '')));
                 $imgSrc = !empty($item->pic_resolved) ? $item->pic_resolved
-                        : ($brandUpper && isset($brandThumbs[$brandUpper]) ? $brandThumbs[$brandUpper] : asset('storage/fallback/battery_sad_300.png'));
+                        : ($brandUpper && isset($brandThumbs[$brandUpper]) ? $brandThumbs[$brandUpper] : asset('https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000'));
 
                 $idForRoute = $item->iditem ?? $item->id ?? null;
               @endphp
@@ -509,67 +497,119 @@
                 $hasStock = ($rawStock !== '' && $rawStock !== '-' && $rawStock !== '—' && (int)$rawStock > 0);
                 $stockTxt = $hasStock ? number_format((int)$rawStock).' ชิ้น' : 'ติดต่อสอบถาม';
 
-                $stockChip = $hasStock ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200'
-                                       : 'bg-slate-100 text-slate-700 ring-1 ring-slate-300';
-                $leadChip  = 'bg-amber-50 text-amber-700 ring-1 ring-amber-200';
-
                 $rawPrice  = trim((string)($item->webpriceTHB ?? ''));
                 $priceNum  = (float) str_replace([',',' '], '', $rawPrice);
                 $hasPrice  = ($rawPrice !== '' && $priceNum > 0);
 
                 $brandUpper = strtoupper(trim((string)($item->brand ?? '')));
                 $imgSrc = !empty($item->pic_resolved) ? $item->pic_resolved
-                        : ($brandUpper && isset($brandThumbs[$brandUpper]) ? $brandThumbs[$brandUpper] : asset('storage/fallback/battery_sad_300.png'));
+                        : ($brandUpper && isset($brandThumbs[$brandUpper]) ? $brandThumbs[$brandUpper] : asset('https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000'));
 
                 $idForRoute = $item->iditem ?? $item->id ?? null;
               @endphp
 
-             <article class="bg-white rounded-xl overflow-hidden soft ring-1 ring-slate-200 flex flex-col js-card cursor-pointer"
-         @if($idForRoute) data-href="{{ route('showproduct.byiditem', ['iditem' => $idForRoute]) }}" @endif
-         aria-label="ดูรายละเอียด {{ $item->name ?? $item->model ?? 'สินค้า' }}">
+              <article class="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md js-card cursor-pointer"
+                       @if($idForRoute) data-href="{{ route('showproduct.byiditem', ['iditem' => $idForRoute]) }}" @endif
+                       aria-label="ดูรายละเอียด {{ $item->name ?? $item->model ?? 'สินค้า' }}">
 
-  <!-- รูปสินค้า + แบรนด์ -->
-  <div class="img-rail relative">
-    <div class="img-square">
-      <img src="{{ $imgSrc }}" alt="{{ $item->model ?? ($item->name ?? 'Product') }}"
-           loading="lazy" decoding="async"
-           onerror="this.onerror=null; this.setAttribute('data-placeholder','1'); this.src='{{ asset('storage/fallback/battery_sad_300.png') }}';">
-    </div>
-    @if(!empty($item->brand))
-      <span class="absolute left-2 bottom-2 inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs bg-sky-50 text-sky-700 ring-1 ring-sky-200">
-        <i class="bi bi-building"></i>{{ $item->brand }}
-      </span>
-    @endif
-  </div>
+                <!-- รูปสินค้า 225x225 -->
+                <div class="img-rail p-3 pb-0">
+                  <div class="relative mx-auto w-[225px] h-[225px] overflow-hidden rounded-xl bg-white ring-1 ring-slate-200 grid place-items-center">
+                    <img
+                      src="{{ $imgSrc }}"
+                      alt="{{ $item->model ?? ($item->name ?? 'Product') }}"
+                      loading="lazy" decoding="async"
+                      width="225" height="225"
+                      class="h-full w-full object-contain transition duration-300 group-hover:scale-[1.02]"
+                      onerror="this.onerror=null; this.setAttribute('data-placeholder','1'); this.src='{{ asset('storage/fallback/battery_sad_300.png') }}';"
+                    >
+                  </div>
+                </div>
 
-  <div class="p-3 sm:p-4 flex-1 flex flex-col">
-    <!-- เล็กลงหน่อย: 13px บนมือถือ, 14px ขึ้นไปบนจอใหญ่ -->
-    <h3 class="mb-2 font-medium text-slate-600 leading-snug text-[13px] sm:text-sm">
-      {{ $item->name ?? $item->model ?? '—' }}
-    </h3>
+                <!-- เนื้อหา -->
+                <div class="p-3 sm:p-4 flex-1 flex flex-col">
+                  <!-- แบรนด์ -->
+                <h3 class="inline-flex items-center justify-center
+                          h-6 sm:h-7 px-2
+                          font-extrabold text-black text-[13px] sm:text-[14px] leading-none
+                          rounded-full bg-amber-400 border border-amber-500 shadow-sm
+                          whitespace-nowrap w-fit">
+                  {{ $item->brand ?? '—' }}
+                </h3>
 
-    @if($hasPrice)
-      <div class="font-bold text-amber-600 mb-3">{{ e($rawPrice) }} ฿</div>
-    @else
-      <div class="font-semibold text-slate-600 mb-3">สอบถามเพิ่มเติม</div>
-    @endif
 
-    <div class="chips mb-3">
-      <span class="chip {{ $leadChip }}"><i class="bi bi-truck"></i><span class="label">ส่ง:</span><strong class="value">{{ $leadTxt }}</strong></span>
-      <span class="chip {{ $stockChip }}"><i class="bi bi-box-seam"></i><span class="label">คงเหลือ:</span><strong class="value">{{ $stockTxt }}</strong></span>
-    </div>
+                  <h4 class="mt-2 font-semibold text-slate-900 leading-snug text-[13px] sm:text-[14px]">
+                    <span class="text-slate-500">รุ่น :</span>
+                    <span class="ml-1">{{ $item->model ?? '—' }}</span>
+                  </h4>
 
-    <div class="mt-auto grid grid-cols-1 gap-2">
-      @if($idForRoute)
-        <a href="{{ route('showproduct.byiditem', ['iditem' => $idForRoute]) }}"
-           class="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-blue-600 text-white font-semibold">
-          <i class="bi bi-card-text"></i> ดูรายละเอียด
-        </a>
-      @endif
-    </div>
-  </div>
-</article>
+                  <!-- ชื่อสินค้า -->
+                  <p class="mt-1 text-slate-600 leading-snug text-[11px] sm:text-[12px] line-clamp-2">
+                    {{ $item->name ?? '—' }}
+                  </p>
 
+                  <!-- ราคา -->
+                  @if($hasPrice)
+                    <div class="mt-2 mb-3 text-amber-600">
+                      <span class="font-extrabold text-[20px] sm:text-[22px] align-baseline">{{ e($rawPrice) }}</span>
+                      <span class="font-bold text-[16px] align-baseline">฿</span>
+                    </div>
+                  @else
+                    <div class="mt-2 mb-3 font-semibold text-slate-600">สอบถามเพิ่มเติม</div>
+                  @endif
+
+                  {{-- Delivery & Stock --}}
+                  @php
+                    $leadTxt  = trim((string)($leadTxt  ?? '3–5 days'));
+                    $stockTxt = trim((string)($stockTxt ?? 'ติดต่อสอบถาม'));
+                    $qty = $stockTxt; $status = '';
+                    if (preg_match('/^(.+?)\s*(\((?:.+?)\))\s*$/u', $stockTxt, $m)) { $qty = trim($m[1]); $status = trim($m[2]); }
+                    $statusClass = ($status !== '' && function_exists('str_contains') && str_contains($status, 'มีของ'))
+                                    ? 'text-emerald-600' : 'text-rose-600';
+                  @endphp
+
+                  <div class="rounded-[18px] border border-blue-100 bg-white p-2.5 sm:p-3" role="group" aria-label="ข้อมูลการจัดส่งและสต็อก">
+                    <div class="flex items-center gap-2">
+                      <i class="bi bi-truck text-[16px] sm:text-[18px] text-blue-600 leading-none"></i>
+                      <div class="min-w-0 leading-tight">
+                        <div class="font-semibold text-slate-800 text-[12px] sm:text-[12px] tracking-tight">การจัดส่ง</div>
+                        <div class="text-slate-500 text-[12px] sm:text-[12.5px] whitespace-nowrap tracking-tight">
+                          พร้อมจัดส่ง: <strong class="text-slate-800 font-semibold">{{ $leadTxt }}</strong>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="h-px my-2 bg-slate-100"></div>
+
+                    <div class="flex items-center gap-2">
+                      <i class="bi bi-box-seam text-[16px] sm:text-[18px] text-emerald-600 leading-none"></i>
+                      <div class="min-w-0 leading-tight">
+                        <div class="inline-flex items-baseline gap-2 text-slate-800 whitespace-nowrap">
+                          <span class="font-semibold text-[13px] sm:text-[13px] tracking-tight">สต็อก</span>
+                          <span class="text-[13px] sm:text-[13px] tracking-tight">
+                            <strong class="text-slate-800 font-semibold">{{ $qty }}</strong>
+                            @if($status !== '')
+                              <span class="{{ $statusClass }}"> {{ $status }} </span>
+                            @endif
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <!-- ปุ่ม -->
+                  <div class="mt-auto grid grid-cols-1 gap-2">
+                    @if($idForRoute)
+                      <a href="{{ route('showproduct.byiditem', ['iditem' => $idForRoute]) }}"
+                         class="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-blue-600 text-white font-semibold
+                                hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 active:translate-y-[1px]">
+                        <i class="bi bi-card-text"></i>
+                        ดูรายละเอียด
+                      </a>
+                    @endif
+                  </div>
+                </div>
+              </article>
             @endforeach
           </div>
 
@@ -639,10 +679,10 @@
       window.addEventListener('resize', ()=>{ if(root.classList.contains('open')) panel.style.maxHeight = panel.scrollHeight + 'px'; });
     })();
 
-    // Search dropdown (AJAX) — เคารพ in_stock
+    // Search dropdown (AJAX) — เคารพ in_stock + ไม่พก brand ใน query
     document.addEventListener('DOMContentLoaded', function(){
       const SEARCH_URL = "{{ route('search.products') }}";
-      const BRAND_THUMBS = {!! json_encode($brandThumbs, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!};
+      const BRAND_THUMBS = {!! json_encode($brandThumbs ?? [], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!};
       const ROUTE_SHOW      = @json(route('showproduct'));
       const ROUTE_BY_BRAND  = @json(route('showproduct.bybrand',   ['brand'  => '___BRAND___']));
       const ROUTE_BY_IDITEM = @json(route('showproduct.byiditem',  ['iditem' => '___ID___']));
@@ -657,8 +697,12 @@
       const IN_STOCK_ON = PERSIST_QS.get('in_stock') === '1';
       const KEEP_QS = (urlStr) => {
         const u = new URL(urlStr, location.origin);
+        // ลบ brand ออกเสมอ เพื่อไม่ให้ซ้อนกับ route
+        u.searchParams.delete('brand');
         if (IN_STOCK_ON) u.searchParams.set('in_stock','1');
-        ['q','view','category','catagory'].forEach(k=>{ if(PERSIST_QS.has(k) && !u.searchParams.has(k)) u.searchParams.set(k,PERSIST_QS.get(k)); });
+        ['q','view','category','catagory'].forEach(k=>{
+          if(PERSIST_QS.has(k) && !u.searchParams.has(k)) u.searchParams.set(k,PERSIST_QS.get(k));
+        });
         return u.toString();
       };
 
@@ -740,118 +784,24 @@
 
       document.addEventListener('click', (e)=>{ const hit = e.target.closest('#'+dd.id+', #'+input.id); if(!hit) closeDD(); });
     });
-  </script>
 
-   <!-- ===== Footer ===== -->
-<footer class="relative text-white" role="contentinfo" aria-label="PowerCare footer">
-  <div class="absolute inset-0 bg-gradient-to-br from-[#0a2356] via-[#0b2a6b] to-[#0f4c75]"></div>
-  <div class="pointer-events-none absolute inset-0 opacity-[.12]"
-       style="background:
-         radial-gradient(900px 280px at 15% -10%, rgba(255,255,255,.35), rgba(255,255,255,0)),
-         radial-gradient(700px 240px at 85% 110%, rgba(255,255,255,.2), rgba(255,255,255,0));"></div>
-
-  <div class="relative max-w-7xl mx-auto px-4 md:px-6 py-10 sm:py-14">
-    <div class="grid gap-y-6 sm:gap-y-8 gap-x-8 lg:gap-x-12 xl:gap-x-16 grid-cols-1 sm:grid-cols-2 md:grid-cols-12 items-start">
-      <section class="order-1 md:order-none w-full md:col-span-3 p-4 sm:p-5 md:p-0 bg-white/5 md:bg-transparent ring-1 ring-white/10 md:ring-0 rounded-xl" aria-labelledby="ft-brand">
-        <div class="flex items-center gap-3">
-          <img src="{{ asset('storage/logo/PNG.png') }}" alt="PowerCare" class="w-10 h-10 object-contain drop-shadow-md" loading="lazy" decoding="async">
-          <h2 id="ft-brand" class="font-semibold text-[20px] sm:text-[22px] leading-tight tracking-tight">PowerCare by Hikari</h2>
-        </div>
-        <p class="mt-3 text-[13px] sm:text-sm leading-relaxed text-white/80">โซลูชันระบบไฟสำรองสำหรับองค์กร — ติดตั้ง บำรุงรักษา ตรวจรับรอง โดยทีมวิศวกรมืออาชีพ</p>
-      </section>
-
-      <section class="order-2 md:order-none w-full md:col-span-3 rounded-xl p-4 sm:p-5 md:p-0 bg-white/5 md:bg-transparent ring-1 ring-white/10 md:ring-0 backdrop-blur md:backdrop-blur-0" aria-labelledby="ft-contact">
-        <h3 id="ft-contact" class="font-semibold mb-3 sm:mb-4 text-white/95 tracking-tight">ติดต่อเรา</h3>
-        <ul class="space-y-2.5 sm:space-y-3 text-[13px] sm:text-[14px] text-white/85">
-          <li class="group -m-2 p-2 rounded-lg hover:bg-white/5 active:bg-white/10 flex items-start gap-3">
-            <i class="bi bi-telephone-fill opacity-90 text-base leading-6 shrink-0" aria-hidden="true"></i>
-            <div class="flex flex-col leading-6">
-              <a href="tel:021172995" class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40" aria-label="โทร 02-117-2995 คุณอาร์ท">02-117-2995 (คุณ อาร์ท)</a>
-              <a href="tel:0990802197" class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40" aria-label="โทร 099-080-2197">099-080-2197</a>
-            </div>
-          </li>
-
-          <li class="group -m-2 p-2 rounded-lg hover:bg-white/5 active:bg-white/10 flex items-center gap-3">
-            <i class="bi bi-envelope-fill opacity-90 text-base leading-6 shrink-0" aria-hidden="true"></i>
-            <a href="mailto:Info@hikaridenki.co.th" class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40">Info@hikaridenki.co.th</a>
-          </li>
-
-          <li class="group -m-2 p-2 rounded-lg hover:bg-white/5 active:bg-white/10 flex items-center gap-3">
-            <i class="bi bi-chat-dots-fill opacity-90 text-base leading-6 shrink-0" aria-hidden="true"></i>
-            <a href="https://line.me/R/ti/p/@543ubjtx" data-smartline data-lineid="@543ubjtx" class="inline-flex items-center gap-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40" target="_blank" rel="noopener" aria-label="เพิ่มเพื่อน LINE @543ubjtx">
-              LINE: @543ubjtx
-              <i class="bi bi-box-arrow-up-right text-xs opacity-80" aria-hidden="true"></i>
-            </a>
-          </li>
-
-        </ul>
-      </section>
-
-      <section class="order-4 md:order-none w-full md:col-span-2 p-4 sm:p-5 md:p-0 bg-white/5 md:bg-transparent ring-1 ring-white/10 md:ring-0 rounded-xl" aria-labelledby="ft-b2b">
-        <h3 id="ft-b2b" class="font-semibold mb-3 sm:mb-4 text-white/95 tracking-tight md:whitespace-nowrap">พร้อมสำหรับงาน B2B</h3>
-        <ul class="space-y-2 text-[13px] sm:text-[14px] text-white/85">
-          <li class="flex items-start gap-2 leading-6"><i class="bi bi-check2-circle mt-[2px] text-base shrink-0" aria-hidden="true"></i><span class="md:whitespace-nowrap">ใบเสนอราคา / PO / ใบกำกับภาษี</span></li>
-          <li class="flex items-start gap-2 leading-6"><i class="bi bi-check2-circle mt-[2px] text-base shrink-0" aria-hidden="true"></i><span class="md:whitespace-nowrap">รองรับเครดิตเทอมองค์กร</span></li>
-          <li class="flex items-start gap-2 leading-6"><i class="bi bi-check2-circle mt-[2px] text-base shrink-0" aria-hidden="true"></i><span class="md:whitespace-nowrap">ทีมวิศวกรมีใบรับรอง</span></li>
-        </ul>
-      </section>
-
-      <!-- แผนที่: เปลี่ยนเป็น ทริปเปิ้ล อี เทรดดิ้ง ทั้งชื่อ + ลิงก์ + iframe -->
-      <section class="order-3 md:order-none w-full md:col-span-4 md:pl-8 xl:pl-12 md:border-l md:border-white/10" aria-labelledby="ft-map">
-        <h3 id="ft-map" class="sr-only">แผนที่</h3>
-
-
-        <div class="rounded-xl overflow-hidden ring-1 ring-white/10 bg-white/5 backdrop-blur">
-          <iframe
-            title="ทริปเปิ้ล อี เทรดดิ้ง — แผนที่"
-            src="https://www.google.com/maps?hl=th&q=13.717683,100.4732644&z=17&output=embed"
-            loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            class="block w-full aspect-[4/3] sm:aspect-[16/10]"
-            style="border:0;filter:contrast(1.02) brightness(.98)"></iframe>
-        </div>
-
-        <a href="https://www.google.com/maps/place/%E0%B8%97%E0%B8%A3%E0%B8%B4%E0%B8%9B%E0%B9%80%E0%B8%9B%E0%B8%B4%E0%B9%89%E0%B8%A5+%E0%B8%AD%E0%B8%B5+%E0%B9%80%E0%B8%97%E0%B8%A3%E0%B8%94%E0%B8%94%E0%B8%B4%E0%B9%89%E0%B8%87/@13.717683,100.4706895,17z/data=!3m1!4b1!4m6!3m5!1s0x30e2991a367db98b:0x4c961d180eb9153f!8m2!3d13.717683!4d100.4732644!16s%2Fg%2F1xg5q33q?entry=ttu"
-           target="_blank" rel="noopener"
-           class="mt-2 inline-flex items-center gap-2 text-white/85 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40">
-          <i class="bi bi-geo-alt" aria-hidden="true"></i>
-          เปิดใน Google Maps
-          <i class="bi bi-box-arrow-up-right text-xs opacity-80" aria-hidden="true"></i>
-        </a>
-      </section>
-    </div>
-  </div>
-
-  <div class="relative border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-4 md:px-6 py-5 sm:py-6 text-[12px] sm:text-xs text-white/80">
-      <nav aria-label="Legal" class="flex flex-col items-center gap-2 sm:gap-3">
-        <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-          <span>© {{ date('Y') }} PowerCare by Hikari</span>
-          <a href="#privacy" class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40">นโยบายความเป็นส่วนตัว</a>
-          <a href="#terms" class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40">เงื่อนไขการใช้งาน</a>
-        </div>
-      </nav>
-    </div>
-  </div>
-
-  <!-- Smart LINE opener (data-smartline anchors) -->
-  <script>
+    // ล้าง brand ใน query หากอยู่บน route แบรนด์ (กันซ้อน /brand/{brand}?brand=XYZ)
     (function () {
-      const anchors = document.querySelectorAll('a[data-smartline][data-lineid]');
-      function tryOpenLine(e) {
-        e.preventDefault();
-        const a = e.currentTarget;
-        const id = a.getAttribute('data-lineid');
-        if (!id) return;
-        const scheme = 'line://ti/p/' + encodeURIComponent(id);
-        const webUrl = 'https://line.me/R/ti/p/' + encodeURIComponent(id);
-        let opened = false;
-        const t = setTimeout(() => { if (!opened) window.open(webUrl, '_blank', 'noopener'); }, 700);
-        try { opened = true; window.location.href = scheme; } finally { setTimeout(() => clearTimeout(t), 1200); }
+      var routeBrand = @json($brandInRoute);
+      if (routeBrand) {
+        var u = new URL(window.location.href);
+        if (u.searchParams.has('brand')) {
+          u.searchParams.delete('brand');
+          history.replaceState(null, '', u.toString());
+        }
       }
-      anchors.forEach(a => a.addEventListener('click', tryOpenLine, { passive: false }));
     })();
   </script>
-</footer>
 
+  @include('footer')
+
+
+  <!-- NOTE: ตรวจสอบ routes/web.php ให้ใช้ path ที่ถูกต้อง -->
+  <!-- ควรเป็น: Route::get('/showproduct/brand/{brand}', ...)->name('showproduct.bybrand'); -->
 </body>
 </html>

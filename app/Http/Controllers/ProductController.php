@@ -1,303 +1,186 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\DB; 
-use Illuminate\Support\Facades\Log; 
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Models\Hikaridenki;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    public function showproduct(Request $request, ?string $brand = null)
+    {
+        $brandParam = $brand ?? $request->query('brand');
+        $brandParam = is_string($brandParam) ? trim($brandParam) : null;
 
-public function showproduct(Request $request, ?string $brand = null)
-{
-    $brandParam = $brand ?? $request->query('brand');
-    $brandParam = is_string($brandParam) ? trim($brandParam) : null;
+        $allBrands = Hikaridenki::query()
+            ->select('brand')
+            ->whereNotNull('brand')->where('brand','<>','')
+            ->pluck('brand');
 
-    $allBrands = Hikaridenki::query()
-        ->select('brand')
-        ->whereNotNull('brand')->where('brand','<>','')
-        ->pluck('brand');
+        $brandCounts = $allBrands->map(fn($b)=>trim($b))->filter()->countBy()->sortDesc();
 
-    $brandCounts = $allBrands->map(fn($b)=>trim($b))->filter()->countBy()->sortDesc();
+        $activeBrand     = $brandParam ?: '*';
+        $activeBrandSlug = ($activeBrand === '*') ? '*' : Str::slug($activeBrand);
 
-    $activeBrand = $brandParam ?: '*';
-    $activeBrandSlug = ($activeBrand === '*') ? '*' : Str::slug($activeBrand);
-    $brandThumbs = [
-        'MAKITA' => 'https://drive.google.com/thumbnail?id=1oCLDXm-YckE1pxdGiUlz0EmGg4fGimCu&sz=w1000',
-        'NANABOSHI' => 'https://drive.google.com/thumbnail?id=1WJwlCP-EtwISVk8139dB1zkLKTsyGoGC&sz=w1000',
-        'KRANZLE' => 'https://drive.google.com/thumbnail?id=1kJVxf42NY_8ig4l8Iw0tZ18g9nb73jTU&sz=w1000',
-        'MITSUBISHI' => 'https://drive.google.com/thumbnail?id=1Yxcj66hz2SK8bwadkN5YoVqTBwv90mVT&sz=w1000',
-        'SPARE PART PUMP' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'SEALAND' => 'https://drive.google.com/thumbnail?id=1_3E3sxucBZBOjFabPcCRQUHbPFD_3Q61&sz=w1000',
-        'TOYO' => 'https://drive.google.com/thumbnail?id=1SQUc-xvdGKeXa0mCUt_Cw7NRK80GS2Se&sz=w1000',
-        'SUPER-X' => 'https://drive.google.com/thumbnail?id=1gGP_ztP6O5Pwxsv7iew-MyzAzDyRJpOE&sz=w1000',
-        'MARUYAMA' => 'https://drive.google.com/thumbnail?id=1jEAkDPk7LlbMcI-8CiouKRC9G6LYaZB5&sz=w1000',
-        'MAKTEC' => 'https://drive.google.com/thumbnail?id=1HEPVqCEHbjZ-JjOoAMPHckpTnC_tWfM_&sz=w1000',
-        'SUPER PUMP' => 'https://drive.google.com/thumbnail?id=1ZRPMsF3x-tGy0xo_Ddf1D-FAvL9m-shn&sz=w1000',
-        'BELLPONY' => 'https://drive.google.com/thumbnail?id=1YmiURn8q9ELjYnxSnk-Nw8nOtIGh6PIF&sz=w1000',
-        'KOGU' => 'https://drive.google.com/thumbnail?id=1WmSjB_NVMCIsHZpTZEg3AOgu_Bc5BX53&sz=w1000',
-        'AXEMAN' => 'https://drive.google.com/thumbnail?id=1-Gts2JbR71_J6mhgr5TiCor-WruvqLXJ&sz=w1000',
-        'HITACHI' => 'https://drive.google.com/thumbnail?id=1jB5tXja7NrsKchxtgQdPneZTtig8_bxk&sz=w1000',
-        'KING' => 'https://drive.google.com/thumbnail?id=1Q-qfhloC4DSPQgG6vVMqpLCzRsos9j6L&sz=w1000',
-        'SPARE PART MOTOR' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'REX' => 'https://drive.google.com/thumbnail?id=1HqwYDbjlpPjxY8k3Zn-_viWZHdHnIhsm&sz=w1000',
-        'HF' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'TSURUMI' => 'https://drive.google.com/thumbnail?id=1CIqRXONCG7QRMpyRp-0Q7N5TAvCoS2ne&sz=w1000',
-        'Gear-Cyclo Drive' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'TAIHOKOHZAI' => 'https://drive.google.com/thumbnail?id=1SUMYv1FMyA72nFD2GO1vRLML6dY92LDH&sz=w1000',
-        'Gear-Helical' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'ICHINEN' => 'https://drive.google.com/thumbnail?id=1BX5pNyzveZMUKvOExgWjgRqnu8YNOOGc&sz=w1000',
-        'ELEPHANT' => 'https://drive.google.com/thumbnail?id=1VyLWqmnzNQNrfezDXetl2aK8KWqej_Dj&sz=w1000',
-        'HERO' => 'https://drive.google.com/thumbnail?id=1Vsq6W7thPZfoLncKmidHa0R4aKLguwqU&sz=w1000',
-        'HUZEY' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'IWARA' => 'https://drive.google.com/thumbnail?id=1edLIMHt2sgdHyai1hBzFJd6guVGcAQV6&sz=w1000',
-        'WINNER' => 'https://drive.google.com/thumbnail?id=1GQbalsy_X1I2lSv-IsKUOPBg9-DmcwX6&sz=w1000',
-        'JSAP' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'PICUS' => 'https://drive.google.com/thumbnail?id=1FmKqgyRkZoyvl1npw5AU3igNLlTgICLv&sz=w1000',
-        'mitsubishi-premium' => 'https://drive.google.com/thumbnail?id=1r09w9yFJmMYK4DNvLeJq8T-qgwO0hCF7&sz=w1000',
-        'NKC' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'KF' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'KSU' => 'https://drive.google.com/thumbnail?id=1wyMy9ZwrKIG2mTQ55xMoD1uC0edZtVTL&sz=w1000',
-        'KYOWA' => 'https://drive.google.com/thumbnail?id=1z5duSag2J8l7uvDyiFo3X4aMEkrxKRe3&sz=w1000',
-        'LEOU-N' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'TDK' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'E-WELD' => 'https://drive.google.com/thumbnail?id=1-TTyKLbD9p2x4K1ftR8LTPiIk664oS3S&sz=w1000',
-        'HONDA' => 'https://drive.google.com/thumbnail?id=1-ixvbbiUj8D0yX2u55tqsVCEvtqSRbUs&sz=w1000',
-        'OP' => 'https://drive.google.com/thumbnail?id=1lG6xKYITra0qTQtD_2ZVqHH05KNFq3gi&sz=w1000',
-        'MASADA JACK' => 'https://drive.google.com/thumbnail?id=1fsEdzQkL1ZWDLbTTMGbgouOUzppju-Tt&sz=w1000',
-        'Non-Automatic Pump' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'IWOOD' => 'https://drive.google.com/thumbnail?id=12uoB6Kt_ahfFTqdIze6DPjG2iD6XjMPq&sz=w1000',
-        'X-WELD' => 'https://drive.google.com/thumbnail?id=145IjmGedj8w03N-kYC6VPJDra4Oqyu_e&sz=w1000',
-    ];
+        $brandThumbs = [
+            'MAKITA' => 'https://drive.google.com/thumbnail?id=1oCLDXm-YckE1pxdGiUlz0EmGg4fGimCu&sz=w1000',
+            'NANABOSHI' => 'https://drive.google.com/thumbnail?id=1WJwlCP-EtwISVk8139dB1zkLKTsyGoGC&sz=w1000',
+            'KRANZLE' => 'https://drive.google.com/thumbnail?id=1kJVxf42NY_8ig4l8Iw0tZ18g9nb73jTU&sz=w1000',
+            'MITSUBISHI' => 'https://drive.google.com/thumbnail?id=1Yxcj66hz2SK8bwadkN5YoVqTBwv90mVT&sz=w1000',
+            'SPARE PART PUMP' => 'https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000',
+            'SEALAND' => 'https://drive.google.com/thumbnail?id=1_3E3sxucBZBOjFabPcCRQUHbPFD_3Q61&sz=w1000',
+            'TOYO' => 'https://drive.google.com/thumbnail?id=1SQUc-xvdGKeXa0mCUt_Cw7NRK80GS2Se&sz=w1000',
+            'SUPER-X' => 'https://drive.google.com/thumbnail?id=1gGP_ztP6O5Pwxsv7iew-MyzAzDyRJpOE&sz=w1000',
+            'MARUYAMA' => 'https://drive.google.com/thumbnail?id=1jEAkDPk7LlbMcI-8CiouKRC9G6LYaZB5&sz=w1000',
+            'MAKTEC' => 'https://drive.google.com/thumbnail?id=1HEPVqCEHbjZ-JjOoAMPHckpTnC_tWfM_&sz=w1000',
+            'SUPER PUMP' => 'https://drive.google.com/thumbnail?id=1ZRPMsF3x-tGy0xo_Ddf1D-FAvL9m-shn&sz=w1000',
+            'BELLPONY' => 'https://drive.google.com/thumbnail?id=1YmiURn8q9ELjYnxSnk-Nw8nOtIGh6PIF&sz=w1000',
+            'KOGU' => 'https://drive.google.com/thumbnail?id=1WmSjB_NVMCIsHZpTZEg3AOgu_Bc5BX53&sz=w1000',
+            'AXEMAN' => 'https://drive.google.com/thumbnail?id=1-Gts2JbR71_J6mhgr5TiCor-WruvqLXJ&sz=w1000',
+            'HITACHI' => 'https://drive.google.com/thumbnail?id=1jB5tXja7NrsKchxtgQdPneZTtig8_bxk&sz=w1000',
+            'KING' => 'https://drive.google.com/thumbnail?id=1Q-qfhloC4DSPQgG6vVMqpLCzRsos9j6L&sz=w1000',
+            'SPARE PART MOTOR' => 'https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000',
+            'REX' => 'https://drive.google.com/thumbnail?id=1HqwYDbjlpPjxY8k3Zn-_viWZHdHnIhsm&sz=w1000',
+            'HF' => 'https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000',
+            'TSURUMI' => 'https://drive.google.com/thumbnail?id=1CIqRXONCG7QRMpyRp-0Q7N5TAvCoS2ne&sz=w1000',
+            'Gear-Cyclo Drive' => 'https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000',
+            'TAIHOKOHZAI' => 'https://drive.google.com/thumbnail?id=1SUMYv1FMyA72nFD2GO1vRLML6dY92LDH&sz=w1000',
+            'Gear-Helical' => 'https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000',
+            'ICHINEN' => 'https://drive.google.com/thumbnail?id=1BX5pNyzveZMUKvOExgWjgRqnu8YNOOGc&sz=w1000',
+            'ELEPHANT' => 'https://drive.google.com/thumbnail?id=1VyLWqmnzNQNrfezDXetl2aK8KWqej_Dj&sz=w1000',
+            'HERO' => 'https://drive.google.com/thumbnail?id=1Vsq6W7thPZfoLncKmidHa0R4aKLguwqU&sz=w1000',
+            'HUZEY' => 'https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000',
+            'IWARA' => 'https://drive.google.com/thumbnail?id=1edLIMHt2sgdHyai1hBzFJd6guVGcAQV6&sz=w1000',
+            'WINNER' => 'https://drive.google.com/thumbnail?id=1GQbalsy_X1I2lSv-IsKUOPBg9-DmcwX6&sz=w1000',
+            'JSAP' => 'https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000',
+            'PICUS' => 'https://drive.google.com/thumbnail?id=1FmKqgyRkZoyvl1npw5AU3igNLlTgICLv&sz=w1000',
+            'mitsubishi-premium' => 'https://drive.google.com/thumbnail?id=1r09w9yFJmMYK4DNvLeJq8T-qgwO0hCF7&sz=w1000',
+            'NKC' => 'https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000',
+            'KF' => 'https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000',
+            'KSU' => 'https://drive.google.com/thumbnail?id=1wyMy9ZwrKIG2mTQ55xMoD1uC0edZtVTL&sz=w1000',
+            'KYOWA' => 'https://drive.google.com/thumbnail?id=1z5duSag2J8l7uvDyiFo3X4aMEkrxKRe3&sz=w1000',
+            'LEOU-N' => 'https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000',
+            'TDK' => 'https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000',
+            'E-WELD' => 'https://drive.google.com/thumbnail?id=1-TTyKLbD9p2x4K1ftR8LTPiIk664oS3S&sz=w1000',
+            'HONDA' => 'https://drive.google.com/thumbnail?id=1-ixvbbiUj8D0yX2u55tqsVCEvtqSRbUs&sz=w1000',
+            'OP' => 'https://drive.google.com/thumbnail?id=1lG6xKYITra0qTQtD_2ZVqHH05KNFq3gi&sz=w1000',
+            'MASADA JACK' => 'https://drive.google.com/thumbnail?id=1fsEdzQkL1ZWDLbTTMGbgouOUzppju-Tt&sz=w1000',
+            'Non-Automatic Pump' => 'https://drive.google.com/thumbnail?id=1zBSHzOsaxkFRiemPhZUZHDXm1kgwe3eA&sz=w1000',
+            'IWOOD' => 'https://drive.google.com/thumbnail?id=12uoB6Kt_ahfFTqdIze6DPjG2iD6XjMPq&sz=w1000',
+            'X-WELD' => 'https://drive.google.com/thumbnail?id=145IjmGedj8w03N-kYC6VPJDra4Oqyu_e&sz=w1000',
+        ];
 
-    $brandThumbs = [
-        'MAKITA' => 'https://drive.google.com/thumbnail?id=1oCLDXm-YckE1pxdGiUlz0EmGg4fGimCu&sz=w1000',
-        'NANABOSHI' => 'https://drive.google.com/thumbnail?id=1WJwlCP-EtwISVk8139dB1zkLKTsyGoGC&sz=w1000',
-        'KRANZLE' => 'https://drive.google.com/thumbnail?id=1kJVxf42NY_8ig4l8Iw0tZ18g9nb73jTU&sz=w1000',
-        'MITSUBISHI' => 'https://drive.google.com/thumbnail?id=1Yxcj66hz2SK8bwadkN5YoVqTBwv90mVT&sz=w1000',
-        'SPARE PART PUMP' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'SEALAND' => 'https://drive.google.com/thumbnail?id=1_3E3sxucBZBOjFabPcCRQUHbPFD_3Q61&sz=w1000',
-        'TOYO' => 'https://drive.google.com/thumbnail?id=1SQUc-xvdGKeXa0mCUt_Cw7NRK80GS2Se&sz=w1000',
-        'SUPER-X' => 'https://drive.google.com/thumbnail?id=1gGP_ztP6O5Pwxsv7iew-MyzAzDyRJpOE&sz=w1000',
-        'MARUYAMA' => 'https://drive.google.com/thumbnail?id=1jEAkDPk7LlbMcI-8CiouKRC9G6LYaZB5&sz=w1000',
-        'MAKTEC' => 'https://drive.google.com/thumbnail?id=1HEPVqCEHbjZ-JjOoAMPHckpTnC_tWfM_&sz=w1000',
-        'SUPER PUMP' => 'https://drive.google.com/thumbnail?id=1ZRPMsF3x-tGy0xo_Ddf1D-FAvL9m-shn&sz=w1000',
-        'BELLPONY' => 'https://drive.google.com/thumbnail?id=1YmiURn8q9ELjYnxSnk-Nw8nOtIGh6PIF&sz=w1000',
-        'KOGU' => 'https://drive.google.com/thumbnail?id=1WmSjB_NVMCIsHZpTZEg3AOgu_Bc5BX53&sz=w1000',
-        'AXEMAN' => 'https://drive.google.com/thumbnail?id=1-Gts2JbR71_J6mhgr5TiCor-WruvqLXJ&sz=w1000',
-        'HITACHI' => 'https://drive.google.com/thumbnail?id=1jB5tXja7NrsKchxtgQdPneZTtig8_bxk&sz=w1000',
-        'KING' => 'https://drive.google.com/thumbnail?id=1Q-qfhloC4DSPQgG6vVMqpLCzRsos9j6L&sz=w1000',
-        'SPARE PART MOTOR' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'REX' => 'https://drive.google.com/thumbnail?id=1HqwYDbjlpPjxY8k3Zn-_viWZHdHnIhsm&sz=w1000',
-        'HF' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'TSURUMI' => 'https://drive.google.com/thumbnail?id=1CIqRXONCG7QRMpyRp-0Q7N5TAvCoS2ne&sz=w1000',
-        'Gear-Cyclo Drive' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'TAIHOKOHZAI' => 'https://drive.google.com/thumbnail?id=1SUMYv1FMyA72nFD2GO1vRLML6dY92LDH&sz=w1000',
-        'Gear-Helical' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'ICHINEN' => 'https://drive.google.com/thumbnail?id=1BX5pNyzveZMUKvOExgWjgRqnu8YNOOGc&sz=w1000',
-        'ELEPHANT' => 'https://drive.google.com/thumbnail?id=1VyLWqmnzNQNrfezDXetl2aK8KWqej_Dj&sz=w1000',
-        'HERO' => 'https://drive.google.com/thumbnail?id=1Vsq6W7thPZfoLncKmidHa0R4aKLguwqU&sz=w1000',
-        'HUZEY' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'IWARA' => 'https://drive.google.com/thumbnail?id=1edLIMHt2sgdHyai1hBzFJd6guVGcAQV6&sz=w1000',
-        'WINNER' => 'https://drive.google.com/thumbnail?id=1GQbalsy_X1I2lSv-IsKUOPBg9-DmcwX6&sz=w1000',
-        'JSAP' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'PICUS' => 'https://drive.google.com/thumbnail?id=1FmKqgyRkZoyvl1npw5AU3igNLlTgICLv&sz=w1000',
-        'mitsubishi-premium' => 'https://drive.google.com/thumbnail?id=1r09w9yFJmMYK4DNvLeJq8T-qgwO0hCF7&sz=w1000',
-        'NKC' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'KF' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'KSU' => 'https://drive.google.com/thumbnail?id=1wyMy9ZwrKIG2mTQ55xMoD1uC0edZtVTL&sz=w1000',
-        'KYOWA' => 'https://drive.google.com/thumbnail?id=1z5duSag2J8l7uvDyiFo3X4aMEkrxKRe3&sz=w1000',
-        'LEOU-N' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'TDK' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'E-WELD' => 'https://drive.google.com/thumbnail?id=1-TTyKLbD9p2x4K1ftR8LTPiIk664oS3S&sz=w1000',
-        'HONDA' => 'https://drive.google.com/thumbnail?id=1-ixvbbiUj8D0yX2u55tqsVCEvtqSRbUs&sz=w1000',
-        'OP' => 'https://drive.google.com/thumbnail?id=1lG6xKYITra0qTQtD_2ZVqHH05KNFq3gi&sz=w1000',
-        'MASADA JACK' => 'https://drive.google.com/thumbnail?id=1fsEdzQkL1ZWDLbTTMGbgouOUzppju-Tt&sz=w1000',
-        'Non-Automatic Pump' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
-        'IWOOD' => 'https://drive.google.com/thumbnail?id=12uoB6Kt_ahfFTqdIze6DPjG2iD6XjMPq&sz=w1000',
-        'X-WELD' => 'https://drive.google.com/thumbnail?id=145IjmGedj8w03N-kYC6VPJDra4Oqyu_e&sz=w1000',
-    ];
+        $q = Hikaridenki::query()
+            ->select([
+                'iditem','model','name','price','discount','size',
+                'lead_time','webpriceTHB','stock','lead_time_web',
+                'brand','pic','num_model'
+            ])
+            ->when($brandParam, fn($q)=>$q->where('brand', $brandParam))
+            ->orderByDesc('iditem');
 
-
-    $q = Hikaridenki::query()
-        ->select([
-            'iditem','model','name','price','discount','size',
-            'lead_time','webpriceTHB','stock','lead_time_web',
-            'brand','pic','num_model'
-        ])
-        ->when($brandParam, fn($q)=>$q->where('brand', $brandParam))
-        ->orderByDesc('iditem');
-
-    // ใช้ through() ของ paginator สร้าง field ชั่วคราว pic_resolved
-    $items = $q->paginate(32)->withQueryString()
-        ->through(function ($it) use ($brandThumbs) {
-            // ถ้ามี pic อยู่แล้ว ใช้อันนั้น
-            if (!empty($it->pic)) {
-                $it->pic_resolved = $it->pic;
+        $items = $q->paginate(32)->withQueryString()
+            ->through(function ($it) use ($brandThumbs) {
+                if (!empty($it->pic)) {
+                    $it->pic_resolved = $it->pic;
+                } else {
+                    $brandKey = strtoupper(trim((string)($it->brand ?? '')));
+                    $it->pic_resolved = $brandThumbs[$brandKey] ?? null;
+                }
                 return $it;
-            }
+            });
 
-            // ไม่มี pic: ลองหาแทนด้วย brand
-            $brandKey = strtoupper(trim((string)($it->brand ?? '')));
-            $it->pic_resolved = $brandThumbs[$brandKey] ?? null; // ถ้าไม่มี mapping จะเป็น null ไว้ก่อน
-            return $it;
-        });
-
-    return view('allproduct', [
-        'name'            => $q,
-        'items'           => $items,
-        'brandCounts'     => $brandCounts,
-        'activeBrand'     => $activeBrand,
-        'activeBrandSlug' => $activeBrandSlug,
-        'activeSlug'      => $activeBrandSlug,
-        'brandParam'      => $brandParam,
-    ]);
-}
-
-public function searchByName(Request $request)
-{
-    $q = trim($request->query('q', ''));
-    if (mb_strlen($q) < 2) {
-        return response()->json([]);
+        return view('allproduct', [
+            'name'            => $q,
+            'items'           => $items,
+            'brandCounts'     => $brandCounts,
+            'activeBrand'     => $activeBrand,
+            'activeBrandSlug' => $activeBrandSlug,
+            'activeSlug'      => $activeBrandSlug,
+            'brandParam'      => $brandParam,
+            'brandThumbs'     => $brandThumbs,
+        ]);
     }
 
-    // เตรียม token (ตัดช่องว่างซ้ำ, lowercase)
-    $tokens = preg_split('/\s+/u', $q, -1, PREG_SPLIT_NO_EMPTY);
-    $tokens = array_values(array_filter(array_map(function($t){
-        return mb_strtolower($t, 'UTF-8');
-    }, $tokens)));
+    public function searchByName(Request $request)
+    {
+        $q = trim($request->query('q', ''));
+        if (mb_strlen($q) < 2) return response()->json([]);
 
-    $qNorm   = mb_strtolower(preg_replace('/\s+/u', ' ', $q), 'UTF-8');  // “fluke 1507” แบบ normalize
-    $t0      = microtime(true);
+        $tokens = preg_split('/\s+/u', $q, -1, PREG_SPLIT_NO_EMPTY);
+        $tokens = array_values(array_filter(array_map(fn($t)=>mb_strtolower($t,'UTF-8'), $tokens)));
 
-    try {
-        DB::connection()->select('select 1');
-    } catch (\Throwable $e) {
-        Log::error('[SEARCHBAR] DB connect fail', ['error' => $e->getMessage()]);
-        return response()
-            ->json(['error' => 'DB connection failed', 'detail' => $e->getMessage()], 500)
-            ->header('X-Search-DB', 'fail');
-    }
+        $qNorm = mb_strtolower(preg_replace('/\s+/u', ' ', $q), 'UTF-8');
+        $t0    = microtime(true);
 
-    try {
-        DB::enableQueryLog();
-
-        // ===== สร้างสูตรคะแนนความเกี่ยวข้อง =====
-        // 1) exact match ทั้งสตริง
-        // 2) prefix match ทั้งสตริง (ขึ้นต้นด้วยคำค้น)
-        // 3) คำเต็มด้วย REGEXP (ขอบเขตคำ)
-        // 4) คะแนนย่อยต่อ token: LIKE และ REGEXP ของคำเต็ม
-        $scoreSql   = [];
-        $scoreBind  = [];
-
-        // exact ทั้งสตริง
-        $scoreSql[] = "(CASE WHEN LOWER(name) = ? THEN 100 ELSE 0 END)";
-        $scoreBind[] = $qNorm;
-
-        // prefix ทั้งสตริง
-        $scoreSql[] = "(CASE WHEN LOWER(name) LIKE ? THEN 60 ELSE 0 END)";
-        $scoreBind[] = $qNorm.'%';
-
-        // คำเต็มของทั้งสตริง (เผื่อกรณีชื่อสินค้าคำเดียว)
-        $scoreSql[] = "(CASE WHEN LOWER(name) REGEXP ? THEN 50 ELSE 0 END)";
-        // \b ใช้ผ่าน POSIX class ใน MySQL: [[:<:]] = เริ่มคำ, [[:>:]] = จบคำ
-        $scoreBind[] = '[[:<:]]'.preg_quote($qNorm, '/').'[[:>:]]';
-
-        // ต่อ token
-        foreach ($tokens as $t) {
-            // พบ token แบบ LIKE
-            $scoreSql[] = "(CASE WHEN LOWER(name) LIKE ? THEN 12 ELSE 0 END)";
-            $scoreBind[] = '%'.$t.'%';
-
-            // พบ token แบบ "คำเต็ม" ด้วย REGEXP
-            $scoreSql[] = "(CASE WHEN LOWER(name) REGEXP ? THEN 18 ELSE 0 END)";
-            $scoreBind[] = '[[:<:]]'.preg_quote($t, '/').'[[:>:]]';
+        try { DB::connection()->select('select 1'); }
+        catch (\Throwable $e) {
+            Log::error('[SEARCHBAR] DB connect fail', ['error'=>$e->getMessage()]);
+            return response()->json(['error'=>'DB connection failed','detail'=>$e->getMessage()],500)
+                ->header('X-Search-DB','fail');
         }
 
-        $scoreExpr = implode(' + ', $scoreSql).' AS score';
+        try {
+            DB::enableQueryLog();
+            $scoreSql=[];$scoreBind=[];
+            $scoreSql[]="(CASE WHEN LOWER(name)=? THEN 100 ELSE 0 END)"; $scoreBind[]=$qNorm;
+            $scoreSql[]="(CASE WHEN LOWER(name) LIKE ? THEN 60 ELSE 0 END)"; $scoreBind[]=$qNorm.'%';
+            $scoreSql[]="(CASE WHEN LOWER(name) REGEXP ? THEN 50 ELSE 0 END)"; $scoreBind[]='[[:<:]]'.preg_quote($qNorm,'/').'[[:>:]]';
+            foreach($tokens as $t){
+                $scoreSql[]="(CASE WHEN LOWER(name) LIKE ? THEN 12 ELSE 0 END)"; $scoreBind[]='%'.$t.'%';
+                $scoreSql[]="(CASE WHEN LOWER(name) REGEXP ? THEN 18 ELSE 0 END)"; $scoreBind[]='[[:<:]]'.preg_quote($t,'/').'[[:>:]]';
+            }
+            $rows = Hikaridenki::query()
+                ->select(['iditem','pic','model','name','webpriceTHB','stock','lead_time_web','brand'])
+                ->selectRaw(implode(' + ',$scoreSql).' AS score', $scoreBind)
+                ->where(function($must)use($tokens){ foreach($tokens as $t){ $must->whereRaw('LOWER(name) LIKE ?', ['%'.$t.'%']); }})
+                ->orderByDesc('score')->orderByRaw('CHAR_LENGTH(name) ASC')->orderBy('name')
+                ->limit(20)->get();
 
-        // ===== เงื่อนไข: ต้องพบทุก token (AND) เพื่อกันผลลัพธ์ไม่เกี่ยว =====
-        $rows = hikaridenki::query()
-            ->select([
-                'iditem','pic','model','name','webpriceTHB','stock','lead_time_web','brand',
-            ])
-            ->selectRaw($scoreExpr, $scoreBind)
-            ->where(function ($must) use ($tokens) {
-                foreach ($tokens as $t) {
-                    // ต้องมีทุก token (AND)
-                    $must->whereRaw('LOWER(name) LIKE ?', ['%'.$t.'%']);
-                }
-            })
-            // จัดเรียงตามความเกี่ยวข้องมากสุด -> ชื่อสั้นกว่า -> ชื่อ
-            ->orderByDesc('score')
-            ->orderByRaw('CHAR_LENGTH(name) ASC')
-            ->orderBy('name')
-            ->limit(20)
-            ->get();
+            $elapsedMs = round((microtime(true)-$t0)*1000,1);
 
-        $elapsedMs = round((microtime(true) - $t0) * 1000, 1);
-        $log = DB::getQueryLog();
-        Log::info('[SEARCHBAR] ok', [
-            'q'         => $q,
-            'tokens'    => $tokens,
-            'count'     => $rows->count(),
-            'elapsedMs' => $elapsedMs,
-            'sql'       => $log[0]['query']    ?? null,
-            'bindings'  => $log[0]['bindings'] ?? null,
-        ]);
+            $payload = $rows->map(fn($r)=>[
+                'iditem'=>$r->iditem,
+                'name'=>(string)($r->name ?? ''),
+                'model'=>(string)($r->model ?? ''),
+                'brand'=>(string)($r->brand ?? ''),
+                'pic'=>(string)($r->pic ?? ''),
+                'price'=>isset($r->webpriceTHB)?(string)str_replace(',','',$r->webpriceTHB):null,
+                'lead'=>(string)($r->lead_time_web ?? ''),
+            ]);
 
-        $payload = $rows->map(function ($r) {
-            return [
-                'iditem' => $r->iditem,
-                'name'   => (string) ($r->name ?? ''),
-                'model'  => (string) ($r->model ?? ''),
-                'brand'  => (string) ($r->brand ?? ''),
-                'pic'    => (string) ($r->pic ?? ''),
-                'price'  => isset($r->webpriceTHB) ? (string) str_replace(',', '', $r->webpriceTHB) : null,
-                'lead'   => (string) ($r->lead_time_web ?? ''),
-            ];
-        });
+            return response()->json($payload)
+                ->header('X-Search-DB','ok')
+                ->header('X-Search-Count',$payload->count())
+                ->header('X-Search-Time',$elapsedMs.'ms');
 
-        return response()
-            ->json($payload)
-            ->header('X-Search-DB', 'ok')
-            ->header('X-Search-Count', $payload->count())
-            ->header('X-Search-Time', $elapsedMs.'ms');
-
-    } catch (\Throwable $e) {
-        Log::error('[SEARCHBAR] query fail', [
-            'q'      => $q,
-            'error'  => $e->getMessage(),
-            'trace'  => substr($e->getTraceAsString(), 0, 1500),
-        ]);
-
-        return response()
-            ->json(['error' => 'Search failed', 'detail' => $e->getMessage()], 500)
-            ->header('X-Search-DB', 'ok')
-            ->header('X-Search-Error', '1');
+        } catch (\Throwable $e) {
+            Log::error('[SEARCHBAR] query fail', ['q'=>$q,'error'=>$e->getMessage()]);
+            return response()->json(['error'=>'Search failed','detail'=>$e->getMessage()],500)
+                ->header('X-Search-DB','ok')->header('X-Search-Error','1');
+        }
     }
-}
-public function showProductDetail(string $iditem)
-{
-    $product = Hikaridenki::query()
-        ->where('iditem', $iditem)
-        ->select([
-            'iditem','model','name','price','discount','size',
-            'lead_time','webpriceTHB','stock','lead_time_web',
-            'brand','pic','num_model'
-        ])
-        // ตัดช่องว่าง และทำ fallback: lead_time_web -> lead_time
-        ->selectRaw("
-            COALESCE(
-                NULLIF(TRIM(lead_time_web), ''),
-                NULLIF(TRIM(lead_time), '')
-            ) as lead_time_view
-        ")
-        ->firstOrFail();
 
-    return view('productdetail', compact('product')); // ไปหน้าเดียวเท่านั้น
-}
+    public function showProductDetail(string $iditem)
+    {
+        $product = Hikaridenki::query()
+            ->where('iditem', $iditem)
+            ->select([
+                'iditem','model','name','price','discount','size',
+                'lead_time','webpriceTHB','stock','lead_time_web',
+                'brand','pic','num_model'
+            ])
+            ->selectRaw("
+                COALESCE(
+                    NULLIF(TRIM(lead_time_web), ''),
+                    NULLIF(TRIM(lead_time), '')
+                ) as lead_time_view
+            ")
+            ->firstOrFail();
 
+        return view('productdetail', compact('product'));
+    }
 }
