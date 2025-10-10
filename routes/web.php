@@ -11,6 +11,9 @@ Route::get('/product', [BrochureController::class, 'index'])->name('product.inde
 Route::get('footer', function () {
     return view('footer');
 });
+Route::get('header', function () {
+    return view('header');
+});
 // Route::get('showproductdetail', function () {
 //     return view('showproductdetail');
 // });
@@ -51,3 +54,8 @@ Route::delete('/admin/product/{iditem}/delete', [AdminController::class, 'delete
     ->name('admin.product.delete');
 
 Route::post('/admin/addbrochures', [AdminController::class, 'addbrochures'])->name('service.addbrochures');
+
+
+Route::get('/test', function () {
+    return view('new.test');   // เรียกไฟล์ test.blade.php
+});

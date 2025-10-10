@@ -24,6 +24,53 @@ public function showproduct(Request $request, ?string $brand = null)
 
     $activeBrand = $brandParam ?: '*';
     $activeBrandSlug = ($activeBrand === '*') ? '*' : Str::slug($activeBrand);
+    $brandThumbs = [
+        'MAKITA' => 'https://drive.google.com/thumbnail?id=1oCLDXm-YckE1pxdGiUlz0EmGg4fGimCu&sz=w1000',
+        'NANABOSHI' => 'https://drive.google.com/thumbnail?id=1WJwlCP-EtwISVk8139dB1zkLKTsyGoGC&sz=w1000',
+        'KRANZLE' => 'https://drive.google.com/thumbnail?id=1kJVxf42NY_8ig4l8Iw0tZ18g9nb73jTU&sz=w1000',
+        'MITSUBISHI' => 'https://drive.google.com/thumbnail?id=1Yxcj66hz2SK8bwadkN5YoVqTBwv90mVT&sz=w1000',
+        'SPARE PART PUMP' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
+        'SEALAND' => 'https://drive.google.com/thumbnail?id=1_3E3sxucBZBOjFabPcCRQUHbPFD_3Q61&sz=w1000',
+        'TOYO' => 'https://drive.google.com/thumbnail?id=1SQUc-xvdGKeXa0mCUt_Cw7NRK80GS2Se&sz=w1000',
+        'SUPER-X' => 'https://drive.google.com/thumbnail?id=1gGP_ztP6O5Pwxsv7iew-MyzAzDyRJpOE&sz=w1000',
+        'MARUYAMA' => 'https://drive.google.com/thumbnail?id=1jEAkDPk7LlbMcI-8CiouKRC9G6LYaZB5&sz=w1000',
+        'MAKTEC' => 'https://drive.google.com/thumbnail?id=1HEPVqCEHbjZ-JjOoAMPHckpTnC_tWfM_&sz=w1000',
+        'SUPER PUMP' => 'https://drive.google.com/thumbnail?id=1ZRPMsF3x-tGy0xo_Ddf1D-FAvL9m-shn&sz=w1000',
+        'BELLPONY' => 'https://drive.google.com/thumbnail?id=1YmiURn8q9ELjYnxSnk-Nw8nOtIGh6PIF&sz=w1000',
+        'KOGU' => 'https://drive.google.com/thumbnail?id=1WmSjB_NVMCIsHZpTZEg3AOgu_Bc5BX53&sz=w1000',
+        'AXEMAN' => 'https://drive.google.com/thumbnail?id=1-Gts2JbR71_J6mhgr5TiCor-WruvqLXJ&sz=w1000',
+        'HITACHI' => 'https://drive.google.com/thumbnail?id=1jB5tXja7NrsKchxtgQdPneZTtig8_bxk&sz=w1000',
+        'KING' => 'https://drive.google.com/thumbnail?id=1Q-qfhloC4DSPQgG6vVMqpLCzRsos9j6L&sz=w1000',
+        'SPARE PART MOTOR' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
+        'REX' => 'https://drive.google.com/thumbnail?id=1HqwYDbjlpPjxY8k3Zn-_viWZHdHnIhsm&sz=w1000',
+        'HF' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
+        'TSURUMI' => 'https://drive.google.com/thumbnail?id=1CIqRXONCG7QRMpyRp-0Q7N5TAvCoS2ne&sz=w1000',
+        'Gear-Cyclo Drive' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
+        'TAIHOKOHZAI' => 'https://drive.google.com/thumbnail?id=1SUMYv1FMyA72nFD2GO1vRLML6dY92LDH&sz=w1000',
+        'Gear-Helical' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
+        'ICHINEN' => 'https://drive.google.com/thumbnail?id=1BX5pNyzveZMUKvOExgWjgRqnu8YNOOGc&sz=w1000',
+        'ELEPHANT' => 'https://drive.google.com/thumbnail?id=1VyLWqmnzNQNrfezDXetl2aK8KWqej_Dj&sz=w1000',
+        'HERO' => 'https://drive.google.com/thumbnail?id=1Vsq6W7thPZfoLncKmidHa0R4aKLguwqU&sz=w1000',
+        'HUZEY' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
+        'IWARA' => 'https://drive.google.com/thumbnail?id=1edLIMHt2sgdHyai1hBzFJd6guVGcAQV6&sz=w1000',
+        'WINNER' => 'https://drive.google.com/thumbnail?id=1GQbalsy_X1I2lSv-IsKUOPBg9-DmcwX6&sz=w1000',
+        'JSAP' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
+        'PICUS' => 'https://drive.google.com/thumbnail?id=1FmKqgyRkZoyvl1npw5AU3igNLlTgICLv&sz=w1000',
+        'mitsubishi-premium' => 'https://drive.google.com/thumbnail?id=1r09w9yFJmMYK4DNvLeJq8T-qgwO0hCF7&sz=w1000',
+        'NKC' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
+        'KF' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
+        'KSU' => 'https://drive.google.com/thumbnail?id=1wyMy9ZwrKIG2mTQ55xMoD1uC0edZtVTL&sz=w1000',
+        'KYOWA' => 'https://drive.google.com/thumbnail?id=1z5duSag2J8l7uvDyiFo3X4aMEkrxKRe3&sz=w1000',
+        'LEOU-N' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
+        'TDK' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
+        'E-WELD' => 'https://drive.google.com/thumbnail?id=1-TTyKLbD9p2x4K1ftR8LTPiIk664oS3S&sz=w1000',
+        'HONDA' => 'https://drive.google.com/thumbnail?id=1-ixvbbiUj8D0yX2u55tqsVCEvtqSRbUs&sz=w1000',
+        'OP' => 'https://drive.google.com/thumbnail?id=1lG6xKYITra0qTQtD_2ZVqHH05KNFq3gi&sz=w1000',
+        'MASADA JACK' => 'https://drive.google.com/thumbnail?id=1fsEdzQkL1ZWDLbTTMGbgouOUzppju-Tt&sz=w1000',
+        'Non-Automatic Pump' => 'https://drive.google.com/thumbnail?id=1nntqUdGv51yaDpB0pLWLHP_CZSm9HlZ7&sz=w1000',
+        'IWOOD' => 'https://drive.google.com/thumbnail?id=12uoB6Kt_ahfFTqdIze6DPjG2iD6XjMPq&sz=w1000',
+        'X-WELD' => 'https://drive.google.com/thumbnail?id=145IjmGedj8w03N-kYC6VPJDra4Oqyu_e&sz=w1000',
+    ];
 
     $brandThumbs = [
         'MAKITA' => 'https://drive.google.com/thumbnail?id=1oCLDXm-YckE1pxdGiUlz0EmGg4fGimCu&sz=w1000',
@@ -78,7 +125,7 @@ public function showproduct(Request $request, ?string $brand = null)
         ->select([
             'iditem','model','name','price','discount','size',
             'lead_time','webpriceTHB','stock','lead_time_web',
-            'brand','pic'
+            'brand','pic','num_model'
         ])
         ->when($brandParam, fn($q)=>$q->where('brand', $brandParam))
         ->orderByDesc('iditem');
@@ -239,7 +286,7 @@ public function showProductDetail(string $iditem)
         ->select([
             'iditem','model','name','price','discount','size',
             'lead_time','webpriceTHB','stock','lead_time_web',
-            'brand','pic',
+            'brand','pic','num_model'
         ])
         // ตัดช่องว่าง และทำ fallback: lead_time_web -> lead_time
         ->selectRaw("

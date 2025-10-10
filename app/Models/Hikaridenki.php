@@ -13,7 +13,7 @@ class Hikaridenki extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'iditem', 'Model', 'name', 'price', 'discount', 'size',
+        'iditem', 'Model', 'name', 'price', 'discount', 'size','num_model',
         'lead_time', 'webpriceTHB', 'stock', 'lead_time_web',
         'brand', 'pic',
     ];
