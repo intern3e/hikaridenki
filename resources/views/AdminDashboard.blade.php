@@ -305,10 +305,10 @@
                     id: '{{ $product->iditem }}',
                     model: @js($product->model ?? $product->Model ?? ''),
                     name: @js($product->name ?? ''),
-                    price: @js($product->price ?? ''),
-                    discount: @js($product->discount ?? ''),
+                    price: @js($product->webpriceTHB?? $product->Price ),
+                    discount: @js($product->discount?? ''),
                     size: @js($product->size ?? ''),
-                    lead_time: @js($product->lead_time ?? ''),
+                    lead_time: @js($product->Lead_time_web ?? $product->Lead_time ),
                     stock: @js($product->stock ?? ''),
                     brand: @js($product->brand ?? '')
                   })"

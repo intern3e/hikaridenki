@@ -263,63 +263,41 @@
       <nav class="hidden md:flex items-center gap-6 ml-8 font-medium" aria-label="เมนูหลัก">
         <a href="{{ url('/') }}" class="nav-link">HOME</a>
 
-        <!-- PRODUCT dropdown -->
-        <div class="dropdown" id="productDropdown">
-          <button class="dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="productPanel">
-            PRODUCT <i class="bi bi-chevron-down" aria-hidden="true"></i>
-          </button>
-          <div class="dropdown-panel" id="productPanel" role="menu" aria-label="Product list">
-            <div class="product-grid">
-              <a class="product-link" href="{{ url('showproduct') }}"><span>สินค้าทั้งหมด</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=MAKITA"><span>MAKITA</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=NANABOSHI"><span>NANABOSHI</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=KRANZLE"><span>KRANZLE</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=MITSUBISHI"><span>MITSUBISHI</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=SPARE%20PART%20PUMP"><span>SPARE PART PUMP</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=SEALAND"><span>SEALAND</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=TOYO"><span>TOYO</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=SUPER-X"><span>SUPER-X</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=MARUYAMA"><span>MARUYAMA</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=MAKTEC"><span>MAKTEC</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=SUPER%20PUMP"><span>SUPER PUMP</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=BELLPONY"><span>BELLPONY</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=KOGU"><span>KOGU</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=AXEMAN"><span>AXEMAN</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=HITACHI"><span>HITACHI</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=KING"><span>KING</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=SPARE%20PART%20MOTOR"><span>SPARE PART MOTOR</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=REX"><span>REX</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=HF"><span>HF</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=TSURUMI"><span>TSURUMI</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=Gear-Cyclo%20Drive"><span>Gear-Cyclo Drive</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=TAIHOKOHZAI"><span>TAIHOKOHZAI</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=Gear-Helical"><span>Gear-Helical</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=ICHINEN"><span>ICHINEN</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=ELEPHANT"><span>ELEPHANT</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=HERO"><span>HERO</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=HUZEY"><span>HUZEY</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=IWARA"><span>IWARA</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=WINNER"><span>WINNER</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=JSAP"><span>JSAP</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=PICUS"><span>PICUS</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=mitsubishi-premium"><span>mitsubishi-premium</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=NKC"><span>NKC</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=KF"><span>KF</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=KSU"><span>KSU</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=KYOWA"><span>KYOWA</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=LEOU-N"><span>LEOU-N</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=TDK"><span>TDK</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=E-WELD"><span>E-WELD</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=HONDA"><span>HONDA</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=OP"><span>OP</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=MASADA%20JACK"><span>MASADA JACK</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=Non-Automatic%20Pump"><span>Non-Automatic Pump</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=IWOOD"><span>IWOOD</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=Refrigerator"><span>Refrigerator</span></a>
-              <a class="product-link" href="{{ url('showproduct') }}?brand=X-WELD"><span>X-WELD</span></a>
-            </div>
-          </div>
-        </div>
+       @php
+  use App\Models\Hikaridenki;
+
+  // ดึงแบรนด์แบบไดนามิก
+  $allBrands = Hikaridenki::query()
+      ->select('brand')
+      ->whereNotNull('brand')
+      ->where('brand','<>','')
+      ->pluck('brand')
+      ->map(fn($b) => preg_replace('/\s+/u', ' ', trim((string)$b)))   // trim + ลดช่องว่างซ้ำ
+      ->filter(fn($b) => $b !== '')                                    // ตัดค่าว่างทิ้ง
+      ->unique(fn($b) => mb_strtolower($b, 'UTF-8'))                   // ลบรายการซ้ำแบบไม่แคสเซนซิทีฟ
+      ->sort(fn($a,$b) => strnatcasecmp($a,$b))                        // เรียงแบบ natural case-insensitive
+      ->values();
+@endphp
+
+<!-- PRODUCT dropdown -->
+<div class="dropdown" id="productDropdown">
+  <button class="dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="productPanel">
+    PRODUCT <i class="bi bi-chevron-down" aria-hidden="true"></i>
+  </button>
+
+  <div class="dropdown-panel" id="productPanel" role="menu" aria-label="Product list">
+    <div class="product-grid">
+      <a class="product-link" href="{{ url('showproduct') }}"><span>สินค้าทั้งหมด</span></a>
+
+      @foreach($allBrands as $brand)
+        <a class="product-link" href="{{ url('showproduct') }}?brand={{ rawurlencode($brand) }}">
+          <span>{{ $brand }}</span>
+        </a>
+      @endforeach
+    </div>
+  </div>
+</div>
+
       </nav>
 
       <!-- Desktop CTAs -->
@@ -367,67 +345,29 @@
       </button>
     </div>
 
-    <section class="drawer-section">
-      <nav class="menu-list" aria-label="เมนูมือถือ">
-        <a href="{{ url('/') }}" class="menu-item">HOME <i class="bi bi-chevron-right" aria-hidden="true"></i></a>
 
-        <!-- PRODUCT Accordion (Mobile) -->
-        <button class="collapse-toggle" type="button" id="mProdToggle" aria-expanded="false" aria-controls="mProdPanel">
-          PRODUCT <i class="bi bi-chevron-down" aria-hidden="true"></i>
-        </button>
-        <div id="mProdPanel" class="collapse-panel" role="region" aria-label="Product list">
-          <div class="sub-list">
-            <a class="sub-item" href="{{ url('showproduct') }}">สินค้าทั้งหมด</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=MAKITA">MAKITA</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=NANABOSHI">NANABOSHI</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=KRANZLE">KRANZLE</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=MITSUBISHI">MITSUBISHI</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=SPARE%20PART%20PUMP">SPARE PART PUMP</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=SEALAND">SEALAND</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=TOYO">TOYO</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=SUPER-X">SUPER-X</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=MARUYAMA">MARUYAMA</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=MAKTEC">MAKTEC</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=SUPER%20PUMP">SUPER PUMP</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=BELLPONY">BELLPONY</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=KOGU">KOGU</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=AXEMAN">AXEMAN</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=HITACHI">HITACHI</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=KING">KING</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=SPARE%20PART%20MOTOR">SPARE PART MOTOR</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=REX">REX</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=HF">HF</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=TSURUMI">TSURUMI</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=Gear-Cyclo%20Drive">Gear-Cyclo Drive</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=TAIHOKOHZAI">TAIHOKOHZAI</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=Gear-Helical">Gear-Helical</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=ICHINEN">ICHINEN</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=ELEPHANT">ELEPHANT</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=HERO">HERO</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=HUZEY">HUZEY</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=IWARA">IWARA</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=WINNER">WINNER</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=JSAP">JSAP</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=PICUS">PICUS</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=mitsubishi-premium">mitsubishi-premium</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=NKC">NKC</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=KF">KF</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=KSU">KSU</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=KYOWA">KYOWA</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=LEOU-N">LEOU-N</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=TDK">TDK</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=E-WELD">E-WELD</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=HONDA">HONDA</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=OP">OP</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=MASADA%20JACK">MASADA JACK</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=Non-Automatic%20Pump">Non-Automatic Pump</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=IWOOD">IWOOD</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=Refrigerator">Refrigerator</a>
-            <a class="sub-item" href="{{ url('showproduct') }}?brand=X-WELD">X-WELD</a>
-          </div>
-        </div>
-      </nav>
-    </section>
+<section class="drawer-section">
+  <nav class="menu-list" aria-label="เมนูมือถือ">
+    <a href="{{ url('/') }}" class="menu-item">HOME <i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+
+    <!-- PRODUCT Accordion (Mobile) -->
+    <button class="collapse-toggle" type="button" id="mProdToggle" aria-expanded="false" aria-controls="mProdPanel">
+      PRODUCT <i class="bi bi-chevron-down" aria-hidden="true"></i>
+    </button>
+
+    <div id="mProdPanel" class="collapse-panel" role="region" aria-label="Product list">
+      <div class="sub-list">
+        <a class="sub-item" href="{{ url('showproduct') }}">สินค้าทั้งหมด</a>
+
+        @forelse ($allBrands as $brand)
+          <a class="sub-item" href="{{ url('showproduct') }}?brand={{ rawurlencode($brand) }}">{{ $brand }}</a>
+        @empty
+          <span class="sub-item text-slate-500">— ไม่มีข้อมูลแบรนด์ —</span>
+        @endforelse
+      </div>
+    </div>
+  </nav>
+</section>
 
     <section class="drawer-section">
       <a href="tel:+66990802197" class="action-card" aria-label="โทร 099-080-2197" rel="nofollow noopener">
