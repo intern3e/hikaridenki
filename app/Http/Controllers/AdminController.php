@@ -132,9 +132,26 @@ public function uploadCsv(\Illuminate\Http\Request $request)
     ]);
 
     // ====== Validate ======
-    $request->validate([
-        'csv_file' => 'required|file|mimes:csv,txt',
-    ]);
+    try {
+        // รับ MIME ที่มักเจอจริงบน production (รวม Excel CSV)
+        $request->validate([
+            'csv_file' => 'required|file|mimetypes:text/plain,text/csv,application/csv,application/vnd.ms-excel,application/octet-stream',
+        ]);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        $f = $request->file('csv_file');
+        logger()->error('[CSV] file validation failed', [
+            'errors'       => $e->errors(),
+            'content_type' => $request->headers->get('content-type'),
+            'content_len'  => $request->headers->get('content-length'),
+            'name'         => $f?->getClientOriginalName(),
+            'ext'          => $f?->getClientOriginalExtension(),
+            'mime'         => $f?->getMimeType(),        // finfo PHP เห็นเป็นอะไร
+            'client_mime'  => $f?->getClientMimeType(),  // เบราว์เซอร์ส่งมาเป็นอะไร
+        ]);
+        return back()->with('error',
+            'ไฟล์ต้องเป็น CSV/TXT (รองรับ text/csv, text/plain, application/csv, application/vnd.ms-excel, application/octet-stream)'
+        );
+    }
 
     // ====== Env hardening ======
     @ini_set('max_execution_time', '0');
