@@ -97,37 +97,110 @@ public function admin(Request $request)
     }
 
 
-public function uploadCsv(Request $request)
+public function uploadCsv(\Illuminate\Http\Request $request)
 {
+    // ====== Runtime context & logger ======
+    $reqId  = (string) \Illuminate\Support\Str::uuid();
+    $start  = microtime(true);
+    $pid    = function_exists('getmypid') ? getmypid() : null;
+
+    // ไฟล์ log แยกของงานนี้ (เพิ่มเติมจาก Laravel log ปกติ)
+    $logDir  = 'logs';
+    $logFile = $logDir.'/csv_upload_'.date('Ymd').'.log';
+    \Illuminate\Support\Facades\Storage::disk('local')->makeDirectory($logDir);
+
+    $log = function(string $level, string $msg, array $ctx = []) use ($reqId, $logFile) {
+        $payload = array_merge(['req' => $reqId], $ctx);
+        \Illuminate\Support\Facades\Log::{$level}('[CSV] '.$msg, $payload);
+        try {
+            \Illuminate\Support\Facades\Storage::disk('local')->append(
+                $logFile,
+                date('c').' ['.strtoupper($level).'] '.$msg.' '.json_encode($payload, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES)
+            );
+        } catch (\Throwable $e) {
+            // ถ้าเขียนไฟล์ไม่ได้ก็ปล่อยไป ใช้ Laravel log แทน
+        }
+    };
+
+    $log('info', 'START uploadCsv', [
+        'php'     => PHP_VERSION,
+        'pid'     => $pid,
+        'ip'      => request()->ip(),
+        'agent'   => (string) request()->userAgent(),
+        'content' => $request->headers->get('content-type'),
+        'len'     => (string) $request->headers->get('content-length'),
+    ]);
+
+    // ====== Validate ======
     $request->validate([
         'csv_file' => 'required|file|mimes:csv,txt',
     ]);
 
+    // ====== Env hardening ======
     @ini_set('max_execution_time', '0');
     @ini_set('memory_limit', '1024M');
-    DB::connection()->disableQueryLog();
+    \DB::connection()->disableQueryLog();
 
-    // ทำให้ path ใช้ได้เสมอ
-    $file = $request->file('csv_file');
-    $tmp  = $file->getRealPath();
-    if (!$tmp || !file_exists($tmp)) {
-        Storage::disk('local')->makeDirectory('tmp');
-        $stored = $file->storeAs('tmp', 'upload_'.Str::uuid().'.csv', 'local');
-        $tmp    = Storage::disk('local')->path($stored);
+    // ====== Resolve DB/table (ให้รันได้ทั้ง local/prod) ======
+    $table = 'hikaridenki';
+    if (class_exists(\App\Models\Hikaridenki::class)) {
+        $table = (new \App\Models\Hikaridenki)->getTable(); // กันเคสชื่อตารางต่างกัน
+    }
+    $currentDb = optional(\DB::selectOne('SELECT DATABASE() AS db'))->db;
+    $log('info', 'DB resolved', ['database' => $currentDb, 'table' => $table]);
+
+    // เช็คว่าตารางมีจริง
+    try {
+        $exists = \Illuminate\Support\Facades\Schema::hasTable($table);
+        if (!$exists) {
+            $log('error', 'Base table not found', ['table' => $table]);
+            return back()->with('error', "ไม่พบตาราง {$table} ในฐานข้อมูล {$currentDb}");
+        }
+    } catch (\Throwable $e) {
+        $log('warning', 'Schema check failed', ['error' => $e->getMessage()]);
     }
 
-    $fh = fopen($tmp, 'r');
-    if ($fh === false) return back()->with('error', 'เปิดไฟล์ไม่สำเร็จ');
+    // ====== รับไฟล์ + ทำให้ path ใช้ได้เสมอ ======
+    $file = $request->file('csv_file');
+    if (!$file) {
+        $log('error', 'No file received by PHP (csv_file missing)');
+        return back()->with('error', 'ไม่ได้รับไฟล์ csv_file — โปรดตรวจแบบฟอร์ม enctype และขนาดไฟล์');
+    }
 
-    // เดาตัวคั่น , หรือ ;
-    $probe = fread($fh, 2048) ?: '';
+    $tmp = $file->getRealPath();
+    if (!$tmp || !file_exists($tmp)) {
+        \Illuminate\Support\Facades\Storage::disk('local')->makeDirectory('tmp');
+        $stored = $file->storeAs('tmp', 'upload_'.\Illuminate\Support\Str::uuid().'.csv', 'local');
+        $tmp    = \Illuminate\Support\Facades\Storage::disk('local')->path($stored);
+        $log('info', 'Stored fallback copy', ['stored' => $stored, 'tmp' => $tmp]);
+    }
+
+    // ====== เปิดไฟล์ ======
+    $fh = @fopen($tmp, 'r');
+    if ($fh === false) {
+        $log('error', 'fopen failed', ['tmp' => $tmp]);
+        return back()->with('error', 'เปิดไฟล์ไม่สำเร็จ');
+    }
+
+    // ====== เดาตัวคั่น (รองรับ ; , tab) ======
+    $probe = fread($fh, 4096) ?: '';
     rewind($fh);
-    $delimiter = (substr_count($probe, ';') > substr_count($probe, ',')) ? ';' : ',';
+    $counts = [
+        ';'  => substr_count($probe, ';'),
+        ','  => substr_count($probe, ','),
+        "\t" => substr_count($probe, "\t"),
+    ];
+    arsort($counts);
+    $delimiter = array_key_first($counts) ?? ',';
+    $log('info', 'Delimiter guessed', ['delimiter' => $delimiter, 'counts' => $counts]);
 
-    // ===== Header =====
+    // ====== Header ======
     $header = fgetcsv($fh, 0, $delimiter);
-    if (!$header) { fclose($fh); return back()->with('error', 'อ่านหัวตารางไม่ได้'); }
-
+    if (!$header) {
+        fclose($fh);
+        $log('error', 'Cannot read header row');
+        return back()->with('error', 'อ่านหัวตารางไม่ได้');
+    }
     // ล้าง BOM/trim
     $header = array_map(function($h){
         if ($h === null) return null;
@@ -135,7 +208,7 @@ public function uploadCsv(Request $request)
         return is_string($h) ? trim($h) : $h;
     }, $header);
 
-    // map หัวคอลัมน์จาก CSV → ชื่อคอลัมน์ใน DB (คงเคสให้ตรง DB)
+    // map CSV header -> DB columns
     $mapHeader = function($h) {
         $k = strtolower(preg_replace('/[\s_]+/u', '', (string)$h));
         return match ($k) {
@@ -147,22 +220,23 @@ public function uploadCsv(Request $request)
             'price'         => 'Price',
             'discount'      => 'discount',
             'size'          => 'size',
-            'leadtime'      => 'Lead_time',      
+            'leadtime'      => 'Lead_time',
             'webpricethb'   => 'webpriceTHB',
             'stock'         => 'stock',
-            'leadtimeweb'   => 'Lead_time_web', 
+            'leadtimeweb'   => 'Lead_time_web',
             'brand'         => 'brand',
-            default         => $h,               
+            default         => $h, // ไม่รู้จักก็ปล่อยชื่อเดิม
         };
     };
     $header = array_map($mapHeader, $header);
 
     if (!in_array('iditem', $header, true)) {
         fclose($fh);
+        $log('error', 'iditem column missing in header', ['header' => $header]);
         return back()->with('error', 'ไม่พบคอลัมน์ iditem');
     }
 
-    // คอลัมน์ที่อนุญาตให้เขียน (ตรง DB)
+    // คอลัมน์ที่อนุญาตให้เขียน
     $allowed = [
         'iditem','pic',
         'Model','num_model','name',
@@ -171,7 +245,7 @@ public function uploadCsv(Request $request)
         'brand',
     ];
 
-    // helper: ค่าว่าง → null
+    // Helpers
     $enull = function($v) {
         if ($v === null) return null;
         if (is_string($v)) {
@@ -181,8 +255,6 @@ public function uploadCsv(Request $request)
         }
         return $v;
     };
-
-    // helper: แปลงตัวเลข ("1,234.00" → 1234) ค่าว่าง → null
     $num = function($v) use ($enull) {
         $v = $enull($v);
         if ($v === null) return null;
@@ -190,29 +262,54 @@ public function uploadCsv(Request $request)
         return is_numeric($s) ? 0 + $s : null;
     };
 
-    $buffer    = [];
-    $chunkSize = 4000; // 2k–10k ตามสเปก
-    $total     = 0;
+    $buffer        = [];
+    $chunkSize     = 4000; // ปรับได้ 2000–10000 ตามสเปกเซิร์ฟเวอร์
+    $total         = 0;
+    $rowsRead      = 0;
+    $skippedNoId   = 0;
+    $headerCount   = count($header);
 
-    DB::beginTransaction();
+    // พยายามเช็ค unique key (log เพื่อ debug ต่างสภาพแวดล้อม)
+    try {
+        $row = \DB::selectOne("
+            SELECT COUNT(1) AS c
+            FROM INFORMATION_SCHEMA.STATISTICS
+            WHERE TABLE_SCHEMA = DATABASE()
+              AND TABLE_NAME = ?
+              AND COLUMN_NAME = 'iditem'
+              AND NON_UNIQUE = 0
+            LIMIT 1
+        ", [$table]);
+        $hasUniqueId = $row && intval($row->c) > 0;
+        $log('info', 'Unique index on iditem', ['hasUnique' => $hasUniqueId]);
+    } catch (\Throwable $e) {
+        $log('warning', 'Unique index check failed', ['error' => $e->getMessage()]);
+    }
+
+    \DB::beginTransaction();
     try {
         while (($row = fgetcsv($fh, 0, $delimiter)) !== false) {
-            if ($row === null || $row === [null] || $row === ['']) continue;
+            $rowsRead++;
 
-            // ให้จำนวนคอลัมน์เท่ากับ header
-            if (count($row) < count($header)) $row = array_pad($row, count($header), null);
-            if (count($row) > count($header)) $row = array_slice($row, 0, count($header));
+            if ($row === null || $row === [null] || $row === ['']) {
+                continue;
+            }
+
+            // align จำนวนคอลัมน์ให้เท่ากัน
+            if (count($row) < $headerCount) $row = array_pad($row, $headerCount, null);
+            if (count($row) > $headerCount) $row = array_slice($row, 0, $headerCount);
 
             $assoc = @array_combine($header, $row);
-            if ($assoc === false) continue;
+            if ($assoc === false) {
+                $log('warning', 'array_combine failed', ['rowNo' => $rowsRead + 1]);
+                continue;
+            }
 
-            // สร้าง payload ตาม allowed + แปลงค่าว่างเป็น null
+            // payload
             $payload = [];
             foreach ($allowed as $col) {
                 if (!array_key_exists($col, $assoc)) { $payload[$col] = null; continue; }
-
                 $val = $assoc[$col];
-
                 if (in_array($col, ['Price','webpriceTHB','discount','stock'], true)) {
                     $payload[$col] = $num($val);
                 } else {
@@ -220,44 +317,76 @@ public function uploadCsv(Request $request)
                 }
             }
 
-            // ต้องมี iditem
-            if (empty($payload['iditem'])) continue;
+            if (empty($payload['iditem'])) {
+                $skippedNoId++;
+                continue;
+            }
 
             $buffer[] = $payload;
 
             if (count($buffer) >= $chunkSize) {
-                DB::table('hikaridenki')->upsert(
+                $t0 = microtime(true);
+                \DB::table($table)->upsert(
                     $buffer,
-                    ['iditem'], // unique key
-                    // อัปเดตคอลัมน์เหล่านี้เมื่อเจอซ้ำ (ค่าว่างได้เป็น null)
-                    ['pic','Model','num_model','name','Price','discount','size',
-                     'Lead_time','webpriceTHB','stock','Lead_time_web','brand']
+                    ['iditem'],
+                    array_values(array_diff($allowed, ['iditem']))
                 );
+                $dt = microtime(true) - $t0;
+
                 $total += count($buffer);
+                $log('info', 'UPSERT chunk done', ['chunk' => count($buffer), 'elapsed_s' => round($dt, 3)]);
                 $buffer = [];
             }
         }
 
         if (!empty($buffer)) {
-            DB::table('hikaridenki')->upsert(
+            $t0 = microtime(true);
+            \DB::table($table)->upsert(
                 $buffer,
                 ['iditem'],
-                ['pic','Model','num_model','name','Price','discount','size',
-                 'Lead_time','webpriceTHB','stock','Lead_time_web','brand']
+                array_values(array_diff($allowed, ['iditem']))
             );
+            $dt = microtime(true) - $t0;
+
             $total += count($buffer);
+            $log('info', 'UPSERT last chunk done', ['chunk' => count($buffer), 'elapsed_s' => round($dt, 3)]);
         }
 
-        DB::commit();
+        \DB::commit();
         fclose($fh);
     } catch (\Throwable $e) {
-        DB::rollBack();
+        \DB::rollBack();
         if (is_resource($fh)) fclose($fh);
-        report($e);
-        return back()->with('error', 'อัปโหลดล้มเหลว: '.$e->getMessage());
+
+        $msg = $e->getMessage();
+        $hint = null;
+
+        if (str_contains($msg, 'Base table or view not found') || str_contains($msg, '42S02')) {
+            $hint = "ไม่พบตาราง {$table} (ตรวจชื่อ/ตัวพิมพ์ และการเชื่อมต่อ DB: {$currentDb})";
+        } elseif (str_contains($msg, 'cannot be null') || str_contains($msg, "doesn't have a default value") || str_contains($msg, '1364')) {
+            $hint = "สคีมาบังคับ NOT NULL แต่ CSV เว้นว่าง → ปรับคอลัมน์ให้รับ NULL หรือใส่ DEFAULT";
+        } elseif (str_contains($msg, 'Duplicate entry')) {
+            $hint = "พบ Duplicate key; ตรวจ UNIQUE/PRIMARY KEY ของ iditem และข้อมูลซ้ำใน CSV";
+        }
+
+        $log('error', 'UPLOAD FAILED', ['error' => $msg, 'hint' => $hint]);
+        return back()->with('error', 'อัปโหลดล้มเหลว: '.$msg.($hint ? " | {$hint}" : ''));
     }
 
-    return back()->with('success', "อัปโหลดสำเร็จ: ประมวลผล {$total} แถว (ค่าว่าง → null)");
+    $elapsed = microtime(true) - $start;
+    $memPeak = function_exists('memory_get_peak_usage') ? round(memory_get_peak_usage(true) / (1024*1024), 1) : null;
+
+    $log('info', 'DONE uploadCsv', [
+        'rows_read'   => $rowsRead,
+        'total_upsert'=> $total,
+        'skipped_no_iditem' => $skippedNoId,
+        'elapsed_s'   => round($elapsed, 3),
+        'mem_peak_mb' => $memPeak,
+    ]);
+
+    return back()->with('success',
+        "อัปโหลดสำเร็จ: อ่าน {$rowsRead} แถว, upsert {$total} แถว, ข้าม (ไม่มี iditem) {$skippedNoId}, ใช้เวลา ".round($elapsed,2)."s (req={$reqId})"
+    );
 }
 public function addbrochures(Request $request)
 {
