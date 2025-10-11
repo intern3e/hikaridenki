@@ -115,6 +115,7 @@ public function uploadCsv(Request $request)
 
         if ($product) {
             $product->update([
+                'pic' => $data['pic']?? $product->pic,
                 'Model' => $data['Model'] ?? $product->Model,
                 'name' => $data['name'] ?? $product->name,
                 'webpriceTHB' => $data['webpriceTHB'] ?? $product->webpriceTHB,
@@ -126,6 +127,7 @@ public function uploadCsv(Request $request)
             ]);
         } else {
             Hikaridenki::create([
+                'pic' => $data['pic'],
                 'iditem' => $data['iditem'],
                 'Model' => $data['Model'] ?? null,
                 'name' => $data['name'] ?? null,
