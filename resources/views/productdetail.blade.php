@@ -240,7 +240,7 @@
 
   </style>
 </head>
-
+<br>
 <body class="bg-slate-50 text-slate-900">
   <!-- ===== HERO ===== -->
   <section class="relative">
@@ -287,7 +287,7 @@
             <img src="{{ $imgSrc }}" alt="{{ $titleLine ?: $nameTxt }}" class="product-img" loading="eager" decoding="async" />
           </figure>
           @if($sublineCore)
-            <figcaption class="mt-3 text-xs text-slate-500 text-center">{{ $sublineCore }}</figcaption>
+          <figcaption class="mt-3 text-sm md:text-base text-slate-500 text-center">{{ $sublineCore }}</figcaption>
           @endif
         </div>
       </section>
@@ -301,6 +301,7 @@
             <div class="text-[2.25rem] md:text-[2.6rem] font-black tracking-tight tabnums">
               {{ $priceTxt }}
             </div>
+            <h4 class="text-slate-500">ราคายังไม่รวมภาษี (VAT)</h4>
           </div>
 
           {{-- ดาวรีวิว --}}
@@ -360,7 +361,7 @@
           {{-- CTA ทางเลือก --}}
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button type="button"
-              class="btn inline-flex items-center justify-center gap-2 px-4 h-[46px] font-semibold soft bg-[#06C755] text-white hover:brightness-110"
+              class="btn inline-flex items-center justify-center gap-2 px-4 h-[46px] font-semibold soft bg-[#00b24a] text-white hover:brightness-110"
               onclick="openLineDeepLink('{{ $lineScheme }}','{{ $lineWeb }}')"
               aria-label="คุยกับเรา (LINE)">
               <i class="bi bi-line"></i> <span>คุยกับเรา (LINE)</span>
@@ -414,7 +415,7 @@
       }, 800);
     }
   </script>
-
+<br><br><br>
   @include('footer')
 
 
