@@ -240,7 +240,7 @@
 
   </style>
 </head>
-
+<br>
 <body class="bg-slate-50 text-slate-900">
   <!-- ===== HERO ===== -->
   <section class="relative">
@@ -287,7 +287,7 @@
             <img src="<?php echo e($imgSrc); ?>" alt="<?php echo e($titleLine ?: $nameTxt); ?>" class="product-img" loading="eager" decoding="async" />
           </figure>
           <?php if($sublineCore): ?>
-            <figcaption class="mt-3 text-xs text-slate-500 text-center"><?php echo e($sublineCore); ?></figcaption>
+          <figcaption class="mt-3 text-sm md:text-base text-slate-500 text-center"><?php echo e($sublineCore); ?></figcaption>
           <?php endif; ?>
         </div>
       </section>
@@ -302,6 +302,7 @@
               <?php echo e($priceTxt); ?>
 
             </div>
+            <h4 class="text-slate-500">ราคายังไม่รวมภาษี (VAT)</h4>
           </div>
 
           
@@ -361,7 +362,7 @@
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button type="button"
-              class="btn inline-flex items-center justify-center gap-2 px-4 h-[46px] font-semibold soft bg-[#06C755] text-white hover:brightness-110"
+              class="btn inline-flex items-center justify-center gap-2 px-4 h-[46px] font-semibold soft bg-[#00b24a] text-white hover:brightness-110"
               onclick="openLineDeepLink('<?php echo e($lineScheme); ?>','<?php echo e($lineWeb); ?>')"
               aria-label="คุยกับเรา (LINE)">
               <i class="bi bi-line"></i> <span>คุยกับเรา (LINE)</span>
@@ -415,7 +416,7 @@
       }, 800);
     }
   </script>
-
+<br><br><br>
   <?php echo $__env->make('footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
 

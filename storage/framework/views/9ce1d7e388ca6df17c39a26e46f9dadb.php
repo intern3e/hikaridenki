@@ -92,47 +92,139 @@
         </div>
       </section>
 
-      <!-- Map & CTA -->
-      <section class="md:col-span-5">
-        <div class="rounded-2xl overflow-hidden ring-1 ring-white/10 bg-white/5 backdrop-blur-sm">
-          <div class="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between gap-3">
-            <h3 class="font-semibold">แผนที่</h3>
-            <!-- ปุ่มเปิดใน Google Maps (ใช้ URL ที่ให้มา) -->
-            <a
-              href="https://www.google.com/maps?sca_esv=f442afecdae9aeb2&biw=2085&bih=793&output=search&q=3e+trading&source=lnms&fbs=AIIjpHxqwKbi9fIHKmgqO5KM2QVegmDuQH3NmN1RYrLTkkp4NZ92ZFfjCCzPyQrAmp0jW-Zmjg7gpZBOPJMw7l-U91fqOW5SIGU4inXslNKeA7KVexOSokM-8zG0GI581wZuClSFRwk4Kj3s6WxcIbb0q97BcxerLoQrMyK9r6OoNRL8PINajiNcT_b47eoQoCstGeAZaT9kMZRAyGIpkYAUWQ549N1AFhb7wDDU5-ncSOoKlv1aOcFbDNoLwDqYAExPEEjVpwZjBKkZFvTn71AZ3QvjtwAZfigHqN3s66dOdHnFCKLtcgA&entry=mc&ved=1t:200715&ictx=111"
-              target="_blank" rel="noopener"
-              class="inline-flex items-center gap-2 rounded-lg px-3 py-2 bg-white text-[#0b2a6b] hover:bg-amber-400 hover:text-black transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-300"
-              aria-label="เปิดตำแหน่ง 3E Trading ใน Google Maps"
-            >
-              <i class="bi bi-geo-alt-fill"></i>
-              เปิดใน Google Maps
-            </a>
-          </div>
+<!-- Map & CTA -->
+<section class="md:col-span-5">
+  <div class="rounded-2xl overflow-hidden ring-1 ring-white/10 bg-white/5 backdrop-blur-sm">
+    <div class="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between gap-3">
+      <h3 class="font-semibold">บริษัท ฮิคาริ เดงกิ จำกัด</h3>
 
-          <!-- ฝังแผนที่ -->
-          <div class="aspect-[16/10] sm:aspect-[16/9] bg-black/20">
-            <iframe
-              src="https://www.google.com/maps?sca_esv=f442afecdae9aeb2&biw=2085&bih=793&output=embed&q=3e+trading&source=lnms&fbs=AIIjpHxqwKbi9fIHKmgqO5KM2QVegmDuQH3NmN1RYrLTkkp4NZ92ZFfjCCzPyQrAmp0jW-Zmjg7gpZBOPJMw7l-U91fqOW5SIGU4inXslNKeA7KVexOSokM-8zG0GI581wZuClSFRwk4Kj3s6WxcIbb0q97BcxerLoQrMyK9r6OoNRL8PINajiNcT_b47eoQoCstGeAZaT9kMZRAyGIpkYAUWQ549N1AFhb7wDDU5-ncSOoKlv1aOcFbDNoLwDqYAExPEEjVpwZjBKkZFvTn71AZ3QvjtwAZfigHqN3s66dOdHnFCKLtcgA&entry=mc&ved=1t:200715&ictx=111"
-              class="w-full h-full border-0"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              allowfullscreen
-            ></iframe>
-          </div>
+      <!-- ปุ่มเปิดใน Google Maps -->
+      <a
+        href="https://www.google.com/maps/place/%E0%B8%97%E0%B8%A3%E0%B8%B4%E0%B8%9B%E0%B9%80%E0%B8%9B%E0%B8%B4%E0%B9%89%E0%B8%A5+%E0%B8%AD%E0%B8%B5+%E0%B9%80%E0%B8%97%E0%B8%A3%E0%B8%94%E0%B8%94%E0%B8%B4%E0%B9%89%E0%B8%87/@13.717683,100.473264,1929m/data=!3m1!1e3!4m6!3m5!1s0x30e2991a367db98b:0x4c961d180eb9153f!8m2!3d13.717683!4d100.4732644!16s%2Fg%2F1xg5q33q?hl=th&entry=ttu"
+        target="_blank" rel="noopener"
+        class="inline-flex items-center gap-2 rounded-lg px-3 py-2 bg-white text-[#0b2a6b] hover:bg-amber-400 hover:text-black transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-300"
+        aria-label="เปิดตำแหน่งบน Google Maps">
+        <i class="bi bi-geo-alt-fill"></i>
+        เปิดใน Google Maps
+      </a>
+    </div>
 
-          <!-- ปุ่มล่าง (มือถือ) -->
-          <div class="p-4 sm:p-5 border-t border-white/10 sm:hidden">
-            <a
-              href="https://www.google.com/maps?sca_esv=f442afecdae9aeb2&biw=2085&bih=793&output=search&q=3e+trading&source=lnms&fbs=AIIjpHxqwKbi9fIHKmgqO5KM2QVegmDuQH3NmN1RYrLTkkp4NZ92ZFfjCCzPyQrAmp0jW-Zmjg7gpZBOPJMw7l-U91fqOW5SIGU4inXslNKeA7KVexOSokM-8zG0GI581wZuClSFRwk4Kj3s6WxcIbb0q97BcxerLoQrMyK9r6OoNRL8PINajiNcT_b47eoQoCstGeAZaT9kMZRAyGIpkYAUWQ549N1AFhb7wDDU5-ncSOoKlv1aOcFbDNoLwDqYAExPEEjVpwZjBKkZFvTn71AZ3QvjtwAZfigHqN3s66dOdHnFCKLtcgA&entry=mc&ved=1t:200715&ictx=111"
-              target="_blank" rel="noopener"
-              class="w-full inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 bg-white text-[#0b2a6b] hover:bg-amber-400 hover:text-black transition"
-            >
-              <i class="bi bi-map"></i>
-              เปิดใน Google Maps
-            </a>
+    <!-- กล่องแผนที่ + ป้ายชื่อซ้อนทับ -->
+    <div class="relative aspect-[16/10] sm:aspect-[16/9] bg-black/20">
+      <div class="pointer-events-none absolute top-3 left-3 z-10">
+        <div class="rounded-lg bg-white/95 backdrop-blur shadow-md ring-1 ring-black/5 px-3 py-2">
+          <div class="text-[15px] font-semibold leading-tight text-slate-900">
+            บริษัท ฮิคาริ เดงกิ จำกัด
           </div>
         </div>
-      </section>
+      </div>
+
+      <!-- กล่องแผนที่ (Leaflet) -->
+      <div
+        id="gmap"
+        class="absolute inset-0"
+        role="img"
+        aria-label="แผนที่บริษัท ฮิคาริ เดงกิ จำกัด"
+        data-lat="13.717683"
+        data-lng="100.473264"
+        data-zoom="17"></div>
+    </div>
+
+    <!-- ปุ่มล่าง (มือถือ) -->
+    <div class="p-4 sm:p-5 border-t border-white/10 sm:hidden">
+      <a
+        href="https://www.google.com/maps/place/%E0%B8%97%E0%B8%A3%E0%B8%B4%E0%B8%9B%E0%B9%80%E0%B8%9B%E0%B8%B4%E0%B9%89%E0%B8%A5+%E0%B8%AD%E0%B8%B5+%E0%B9%80%E0%B8%97%E0%B8%A3%E0%B8%94%E0%B8%94%E0%B8%B4%E0%B9%89%E0%B8%87/@13.717683,100.473264,1929m/data=!3m1!1e3!4m6!3m5!1s0x30e2991a367db98b:0x4c961d180eb9153f!8m2!3d13.717683!4d100.4732644!16s%2Fg%2F1xg5q33q?hl=th&entry=ttu"
+        target="_blank" rel="noopener"
+        class="w-full inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 bg-white text-[#0b2a6b] hover:bg-amber-400 hover:text-black transition">
+        <i class="bi bi-map"></i>
+        เปิดใน Google Maps
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Leaflet (ฟรี, ไม่ต้อง API Key) -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""
+/>
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin="">
+</script>
+
+<style>
+  /* ป้ายชื่อบนแผนที่ (อยู่เหนือหัวลูกศร) */
+  .leaflet-tooltip.company-label {
+    background: rgba(255,255,255,0.95);
+    color: #0f172a;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 12px;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.12);
+    white-space: nowrap;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const el = document.getElementById('gmap');
+    if (!el) return;
+
+    const lat = parseFloat(el.dataset.lat);
+    const lng = parseFloat(el.dataset.lng);
+    const zoom = parseInt(el.dataset.zoom || '17', 10);
+
+    // สร้างแผนที่ Leaflet + OSM
+    const map = L.map(el, {
+      zoomControl: true,
+      attributionControl: true,    // ยังเปิดอยู่ เพื่อแสดงเครดิต OSM
+      scrollWheelZoom: false
+    });
+
+    // เอาโลโก้/ลิงก์ "Leaflet" ออก (เหลือแค่ OSM)
+    map.attributionControl.setPrefix(false);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    map.setView([lat, lng], zoom);
+
+    // ไอคอนหมุด "สีแดง"
+    const redIcon = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+      iconSize:     [25, 41],
+      iconAnchor:   [12, 41],
+      popupAnchor:  [1, -34],
+      shadowUrl:    'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      shadowSize:   [41, 41],
+      shadowAnchor: [12, 41]
+    });
+
+    // หมุด + ป้ายชื่อถาวร (วางเหนือหัวลูกศร)
+    const marker = L.marker([lat, lng], {
+      title: 'บริษัท ฮิคาริ เดงกิ จำกัด',
+      icon: redIcon
+    }).addTo(map);
+
+    marker.bindTooltip('บริษัท ฮิคาริ เดงกิ จำกัด', {
+      permanent: true,
+      direction: 'top',
+      offset: [0, -35],   // สูงกว่าหัวลูกศร (ปรับได้ -10 ถึง -20)
+      className: 'company-label'
+    }).openTooltip();
+
+    setTimeout(() => map.invalidateSize(), 0);
+  });
+</script>
+
     </div>
 
     <!-- Bottom bar -->
