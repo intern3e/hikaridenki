@@ -287,7 +287,10 @@
             <img src="<?php echo e($imgSrc); ?>" alt="<?php echo e($titleLine ?: $nameTxt); ?>" class="product-img" loading="eager" decoding="async" />
           </figure>
           <?php if($sublineCore): ?>
-          <figcaption class="mt-3 text-sm md:text-base text-slate-500 text-center"><?php echo e($sublineCore); ?></figcaption>
+        <figcaption class="mt-3 text-xl text-slate-500 text-center leading-snug">
+        <?php echo e($sublineCore); ?>
+
+      </figcaption>
           <?php endif; ?>
         </div>
       </section>
@@ -368,9 +371,13 @@
               <i class="bi bi-line"></i> <span>คุยกับเรา (LINE)</span>
             </button>
 
-            <a href="tel:<?php echo e($tel); ?>" class="btn inline-flex items-center justify-center gap-2 px-4 h-[46px] font-semibold soft bg-slate-900 text-white hover:bg-slate-800" aria-label="โทรหาเรา">
-              <i class="bi bi-telephone-fill"></i> <span>โทร : 099-080-2197</span>
+            <a href="tel:+66660975697"
+              class="btn inline-flex items-center justify-center gap-2 px-4 h-[46px] font-semibold soft bg-slate-900 text-white hover:bg-slate-800"
+              aria-label="โทรหาเรา 066-097-5697">
+              <i class="bi bi-telephone-fill"></i>
+              <span>โทร : 066-097-5697</span>
             </a>
+
 
             <a href="<?php echo e($gmailUrl); ?>" target="_blank" rel="noopener"
                class="btn sm:col-span-2 inline-flex items-center justify-center gap-2 px-4 h-[46px] font-semibold soft bg-white text-slate-900 hover:bg-slate-50 border border-slate-200"

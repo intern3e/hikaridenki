@@ -50,6 +50,10 @@
             <i class="bi bi-telephone"></i>
             <span>099-080-2197</span>
           </a>
+          <a href="tel:+66660975697" class="group inline-flex items-center gap-2 rounded-lg px-3 py-2 bg-white/5 hover:bg-white/10 transition" aria-label="โทร 066-097-5697">
+            <i class="bi bi-telephone"></i>
+            <span>066-097-5697 <span class="text-white/75">(คุณ ผักบุ้ง)</span></span>
+          </a>
 
           <!-- Email: เปิดแท็บใหม่เสมอ -->
           <a href="mailto:Info@hikaridenki.co.th"

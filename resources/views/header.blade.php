@@ -302,7 +302,10 @@
 
       <!-- Desktop CTAs -->
       <div class="hidden md:flex items-center gap-5 ml-auto desk-cta">
-        <a href="tel:+66990802197" class="flex items-center gap-2 hover:text-blue-700" rel="nofollow noopener"><i class="bi bi-telephone" aria-hidden="true"></i> 099-080-2197</a>
+     <a href="tel:+66660975697" class="flex items-center gap-2 hover:text-blue-700" rel="nofollow noopener" aria-label="โทร 066-097-5697">
+  <i class="bi bi-telephone" aria-hidden="true"></i> 066-097-5697
+</a>
+
 
         <!-- อีเมล: เปิดแท็บใหม่เสมอ -->
         <a href="mailto:Info@hikaridenki.co.th"

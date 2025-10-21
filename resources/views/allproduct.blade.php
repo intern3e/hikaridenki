@@ -71,6 +71,7 @@
     .mcard-img{ width:96px; height:96px; border-radius:12px; background:#fff; border:1px solid #e5e7eb; display:grid; place-items:center; overflow:hidden }
     .pill{ display:inline-flex; gap:.4rem; align-items:center; padding:.25rem .55rem; border-radius:999px; font-size:12px; border:1px solid #e6edf5; background:#f1f5ff; color:#0b3d91 }
     .pill-lead{ background:#fff7ed; border-color:#fde68a; color:#b45309 }
+    .pill-stock{ background:#ecdf; } /* intentionally minimal change; actual colors overridden below */
     .pill-stock{ background:#ecfdf5; border-color:#a7f3d0; color:#047857 }
     .pill-stock.badge-muted{ background:#f1f5f9; border-color:#e2e8f0; color:#475569 }
     .m-title{ font-size:var(--fs-sm); font-weight:600; color:#0f172a; line-height:1.35 }
@@ -94,6 +95,10 @@
     // Helper: แนบ query ปัจจุบันแบบเลือกได้ว่าตัด key ไหนทิ้ง (กัน brand ซ้อน)
     $keepQS = function(string $url, array $extra = [], array $drop = []) {
       $q = request()->query();
+
+      // ป้องกันไม่ให้ page ติดไปกับลิงก์ใด ๆ
+      unset($q['page']);
+
       foreach ($drop as $rm) { unset($q[$rm]); }
       foreach ($extra as $k=>$v) { if ($v === null) unset($q[$k]); else $q[$k]=$v; }
       $qs = http_build_query($q);
@@ -529,14 +534,13 @@
                 <!-- เนื้อหา -->
                 <div class="p-3 sm:p-4 flex-1 flex flex-col">
                   <!-- แบรนด์ -->
-                <h3 class="inline-flex items-center justify-center
-                          h-6 sm:h-7 px-2
-                          font-extrabold text-black text-[13px] sm:text-[14px] leading-none
-                          rounded-full bg-amber-400 border border-amber-500 shadow-sm
-                          whitespace-nowrap w-fit">
-                  {{ $item->brand ?? '—' }}
-                </h3>
-
+                  <h3 class="inline-flex items-center justify-center
+                            h-6 sm:h-7 px-2
+                            font-extrabold text-black text-[13px] sm:text-[14px] leading-none
+                            rounded-full bg-amber-400 border border-amber-500 shadow-sm
+                            whitespace-nowrap w-fit">
+                    {{ $item->brand ?? '—' }}
+                  </h3>
 
                   <h4 class="mt-2 font-semibold text-slate-900 leading-snug text-[13px] sm:text-[14px]">
                     <span class="text-slate-500">รุ่น :</span>
@@ -627,6 +631,10 @@
   <script>
     function toggleQS(key, val){
       const url = new URL(window.location.href);
+
+      // ทุกครั้งที่เปลี่ยนตัวกรอง/สถานะ ให้รีเซ็ต page ออก
+      url.searchParams.delete('page');
+
       if(url.searchParams.get(key) === val){ url.searchParams.delete(key); }
       else{ url.searchParams.set(key, val); }
       return url.search;
@@ -637,7 +645,11 @@
       document.querySelectorAll('form[data-seg-sort]').forEach(form=>{
         form.addEventListener('change', (e)=>{
           if(e.target && e.target.name === 'segSort'){
+            // รีเซ็ต page เมื่อเปลี่ยน sort
+            const u = new URL(window.location.href);
+            u.searchParams.delete('page');
             form.querySelector('input[name="sort"]').value = e.target.value;
+            // ส่งฟอร์มปกติ
             form.submit();
           }
         });
@@ -673,13 +685,20 @@
       function closeDD(){ if(!root.classList.contains('open')) return; root.classList.remove('open'); panel.style.maxHeight='0px'; btn.setAttribute('aria-expanded','false'); setTimeout(()=>{ if(!root.classList.contains('open')) panel.hidden=true; },220); }
       function toggleDD(){ root.classList.contains('open') ? closeDD() : openDD(); }
       btn.addEventListener('click', toggleDD);
-      panel.querySelectorAll('[data-value]').forEach(el => el.addEventListener('click', () => { input.value = el.dataset.value; form.submit(); }));
+      panel.querySelectorAll('[data-value]').forEach(el => el.addEventListener('click', () => {
+        // รีเซ็ต page เมื่อเปลี่ยน sort
+        const u = new URL(window.location.href);
+        u.searchParams.delete('page');
+        history.replaceState(null, '', u.pathname + (u.search ? u.search : '') + (u.hash || ''));
+        input.value = el.dataset.value;
+        form.submit();
+      }));
       document.addEventListener('click', (e)=>{ if(!root.contains(e.target)) closeDD(); });
       document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDD(); });
       window.addEventListener('resize', ()=>{ if(root.classList.contains('open')) panel.style.maxHeight = panel.scrollHeight + 'px'; });
     })();
 
-    // Search dropdown (AJAX) — เคารพ in_stock + ไม่พก brand ใน query
+    // Search dropdown (AJAX) — เคารพ in_stock + ไม่พก brand/page ใน query
     document.addEventListener('DOMContentLoaded', function(){
       const SEARCH_URL = "{{ route('search.products') }}";
       const BRAND_THUMBS = {!! json_encode($brandThumbs ?? [], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE) !!};
@@ -694,11 +713,18 @@
       const FALLBACK_PIC = "{{ asset('storage/fallback/battery_sad_300.png') }}";
 
       const PERSIST_QS = new URLSearchParams(location.search);
+      // ตัด page ออกจากค่าที่จะพกต่อเสมอ
+      PERSIST_QS.delete('page');
+
       const IN_STOCK_ON = PERSIST_QS.get('in_stock') === '1';
       const KEEP_QS = (urlStr) => {
         const u = new URL(urlStr, location.origin);
+        // อย่าให้ page ติดไป
+        u.searchParams.delete('page');
+
         // ลบ brand ออกเสมอ เพื่อไม่ให้ซ้อนกับ route
         u.searchParams.delete('brand');
+
         if (IN_STOCK_ON) u.searchParams.set('in_stock','1');
         ['q','view','category','catagory'].forEach(k=>{
           if(PERSIST_QS.has(k) && !u.searchParams.has(k)) u.searchParams.set(k,PERSIST_QS.get(k));
@@ -785,21 +811,32 @@
       document.addEventListener('click', (e)=>{ const hit = e.target.closest('#'+dd.id+', #'+input.id); if(!hit) closeDD(); });
     });
 
-    // ล้าง brand ใน query หากอยู่บน route แบรนด์ (กันซ้อน /brand/{brand}?brand=XYZ)
+    // ล้าง brand (ถ้าซ้ำกับ route) และ page ออกจาก URL bar โดยไม่รีโหลด
     (function () {
+      var u = new URL(window.location.href);
+      var changed = false;
+
+      // ถ้าอยู่บน route /brand/{brand} แล้ว query ยังมี brand ให้ลบทิ้ง
       var routeBrand = @json($brandInRoute);
-      if (routeBrand) {
-        var u = new URL(window.location.href);
-        if (u.searchParams.has('brand')) {
-          u.searchParams.delete('brand');
-          history.replaceState(null, '', u.toString());
-        }
+      if (routeBrand && u.searchParams.has('brand')) {
+        u.searchParams.delete('brand');
+        changed = true;
+      }
+
+      // ล้าง page เสมอ (ให้แถบที่อยู่สะอาด)
+      if (u.searchParams.has('page')) {
+        u.searchParams.delete('page');
+        changed = true;
+      }
+
+      if (changed) {
+        var next = u.pathname + (u.search ? u.search : '') + (u.hash || '');
+        history.replaceState(null, '', next);
       }
     })();
   </script>
 
   @include('footer')
-
 
   <!-- NOTE: ตรวจสอบ routes/web.php ให้ใช้ path ที่ถูกต้อง -->
   <!-- ควรเป็น: Route::get('/showproduct/brand/{brand}', ...)->name('showproduct.bybrand'); -->
