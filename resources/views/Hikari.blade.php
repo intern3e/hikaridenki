@@ -9,6 +9,35 @@
   <meta name="theme-color" content="#0b2a6b">
   <link rel="icon" type="image/png" href="{{ asset('storage/logo/PNG.png') }}">
   <link rel="canonical" href="https://www.powercare.co.th/">
+<!-- 🔹 TITLE & DESCRIPTION -->
+<title>Hikari Power — โซลูชันระบบไฟสำรองสำหรับองค์กร | PowerCare</title>
+<meta name="description" content="Hikari Power ผู้นำด้านโซลูชันระบบไฟสำรองสำหรับองค์กร ครอบคลุม UPS, Battery, ไฟฉุกเฉิน และระบบแจ้งเหตุเพลิงไหม้ พร้อมทีมวิศวกรมืออาชีพ บริการติดตั้ง บำรุงรักษา และที่ปรึกษาครบวงจร">
+<meta name="keywords" content="UPS, แบตเตอรี่, ระบบไฟสำรอง, ไฟฉุกเฉิน, ระบบแจ้งเหตุเพลิงไหม้, PowerCare, Hikari, ฮิคาริ, ฮิคาริพาวเวอร์, ระบบไฟฟ้าอุตสาหกรรม, บำรุงรักษาระบบไฟ, hikaripower.com, hikaripower, Hikaripower.com, Hikaripower">
+
+<!-- 🔹 SEO SETTINGS -->
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://hikaripower.com/">
+
+<!-- 🔹 GOOGLE SITE VERIFICATION -->
+<meta name="google-site-verification" content="6quWeov1VXApQqIjpq-ZOprA3KBvFELc7z-2O04KLYE" />
+
+<!-- 🔹 OPEN GRAPH (Facebook / LINE / etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hikari Power — โซลูชันระบบไฟสำรองสำหรับองค์กร | PowerCare">
+<meta property="og:description" content="โซลูชันระบบไฟสำรองสำหรับองค์กร ครบวงจรทั้ง UPS, Battery, ไฟฉุกเฉิน พร้อมทีมวิศวกรให้คำปรึกษาและบริการหลังการขายทั่วประเทศ">
+<meta property="og:url" content="https://hikaripower.com/">
+<meta property="og:image" content="https://hikaripower.com/storage/logo/hikari-og.jpg">
+<meta property="og:locale" content="th_TH">
+
+<!-- 🔹 TWITTER CARD -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hikari Power — โซลูชันระบบไฟสำรองสำหรับองค์กร">
+<meta name="twitter:description" content="บริการระบบไฟสำรอง UPS, Battery, และไฟฉุกเฉิน พร้อมทีมวิศวกรผู้เชี่ยวชาญจาก Hikari Power">
+<meta name="twitter:image" content="https://hikaripower.com/storage/logo/hikari-og.jpg">
+
+<!-- 🔹 ICON -->
+<link rel="icon" type="image/png" href="https://hikaripower.com/storage/logo/favicon.png">
+
 
   @include('header')
   <script src="https://cdn.tailwindcss.com"></script>
