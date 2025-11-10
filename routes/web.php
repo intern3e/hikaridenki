@@ -59,18 +59,15 @@ Route::post('/admin/addbrochures', [AdminController::class, 'addbrochures'])->na
 Route::get('/test', function () {
     return view('new.test');   // เรียกไฟล์ test.blade.php
 });
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Log;
 
 Route::get('/sitemap.xml', function () {
     try {
+        // ✅ เอาเฉพาะหน้าแรก
         $urls = [
             url('/'),
-            url('/products'),
-            url('/showproduct'),
         ];
 
-        // ✅ สร้าง XML ด้วย SimpleXML
         $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><urlset/>');
         $xml->addAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
 
@@ -78,10 +75,9 @@ Route::get('/sitemap.xml', function () {
             $url = $xml->addChild('url');
             $url->addChild('loc', htmlspecialchars($u));
             $url->addChild('changefreq', 'weekly');
-            $url->addChild('priority', '0.8');
+            $url->addChild('priority', '1.0'); // หน้าแรกให้ 1.0 ไปเลย
         }
 
-        // ✅ ส่งกลับเป็น XML พร้อม header ที่ถูกต้อง
         return response($xml->asXML(), 200)
             ->header('Content-Type', 'application/xml');
 

@@ -3,16 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>hikaridenki by Hikari</title>
+  <title>hikaripower by Hikari</title>
 
-  <meta name="description" content="hikaridenki by Hikari — ผู้เชี่ยวชาญระบบไฟสำรอง แบตเตอรี่ และไฟฉุกเฉิน ครบวงจร ติดตั้ง บำรุงรักษา และที่ปรึกษา โดยทีมงานมืออาชีพมากกว่า 15 ปี">
+  <!-- 🔹 DESCRIPTION หลัก (ส่วนย่อที่อยากให้ขึ้นในผลค้นหา) -->
+  <meta name="description"
+        content="ผู้เชี่ยวชาญระบบไฟสำรอง แบตเตอรี่ และไฟฉุกเฉินครบวงจร ติดตั้ง บำรุงรักษา และที่ปรึกษา โดยทีมงานมืออาชีพมากกว่า 15 ปี ติดต่อ 066-097-5697 | Info@hikaridenki.co.th | LINE @hikaridenki">
+
   <meta name="theme-color" content="#0b2a6b">
-  <meta property="og:title" content="hikaridenki by Hikari">
-  <meta property="og:description" content="โซลูชันระบบไฟสำรองและไฟฉุกเฉินแบบครบวงจร โดยทีมงานมืออาชีพ">
+
+  <!-- 🔹 OPEN GRAPH (ใช้ตอนแชร์ใน LINE / Facebook ฯลฯ) -->
+  <meta property="og:title" content="hikaripower by Hikari">
+  <meta property="og:description"
+        content="ผู้เชี่ยวชาญระบบไฟสำรอง แบตเตอรี่ และไฟฉุกเฉินครบวงจร ติดตั้ง บำรุงรักษา และที่ปรึกษา โดยทีมงานมืออาชีพมากกว่า 15 ปี ติดต่อ 066-097-5697 | Info@hikaridenki.co.th | LINE @hikaridenki">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="th_TH">
+  <meta property="og:url" content="https://hikaripower.com/">
+  <meta property="og:image" content="https://hikaripower.com/storage/logo/hikari-og.jpg">
+
   <link rel="icon" type="image/png" href="{{ asset('storage/logo/PNG.png') }}">
-  <link rel="canonical" href="https://www.hikaridenki.co.th/">
+  <link rel="canonical" href="https://hikaripower.com/">
 
   <!-- Preload key image -->
   <link rel="preload" as="image" href="{{ asset('storage/logo/20.png') }}">
@@ -97,7 +106,6 @@
     .fb-line img{ width:40px; height:40px; object-fit:contain; display:block; }
     #toTop{ background:#0b2a6b; color:#fff; border:none; font-size:22px; }
 
-    /* ===== Slim scrollbar for desktop left pane ===== */
     @media (min-width:768px){
       .scroll-y::-webkit-scrollbar{ width:8px; }
       .scroll-y::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:8px; }
@@ -105,6 +113,7 @@
     }
   </style>
 </head>
+
 <body id="top">
 
   <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white text-blue-700 px-3 py-2 rounded-md shadow">ข้ามไปยังเนื้อหา</a>
@@ -155,11 +164,11 @@
       <a href="tel:+66990802197" class="flex items-center gap-1">
         <i class="bi bi-telephone-fill"></i> 099-080-2197
       </a>
-        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th" 
-          target="_blank" 
-          class="flex items-center gap-2 hover:text-blue-700">
-          <i class="bi bi-envelope"></i> Info@hikaridenki.co.th
-        </a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th" 
+         target="_blank" 
+         class="flex items-center gap-2 hover:text-blue-700">
+        <i class="bi bi-envelope"></i> Info@hikaridenki.co.th
+      </a>
     </div>
   </header>
 
@@ -189,8 +198,6 @@
                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300
                     active:translate-y-px';
       @endphp
-
-
 
       <!-- ===== UPS (chips 2 คอลัมน์) ===== -->
       <section class="rounded-2xl border border-slate-200 bg-white/80 backdrop-blur p-4">
@@ -226,15 +233,15 @@
             <i class="bi bi-chevron-down text-slate-500 transition-transform duration-200 group-open:rotate-180"></i>
           </summary>
 
-        <div class="grid grid-rows-[0fr] group-open:grid-rows-[1fr] transition-[grid-template-rows] duration-300">
-          <div class="overflow-hidden">
-            <ul class="mt-3 grid grid-cols-2 gap-3 text-sm">
-              <li class="min-w-0"><button class="{{ $chipBox }}" onclick="showPDF('{{ asset('storage/Emergency/Dyno/Dyno ไฟฉุกเฉิน Cover-front.pdf') }}')"><span class="truncate">Dyno</span></button></li>
-              <li class="min-w-0"><button class="{{ $chipBox }}" onclick="showPDF('{{ asset('storage/Emergency/Maxbright/MaxBright  ไฟฉุกเฉิน.pdf') }}')"><span class="truncate">Maxbright</span></button></li>
-              <li class="col-span-2 min-w-0"><button class="{{ $chipBox }}" onclick="showPDF('{{ asset('storage/Emergency/Sunny/Sunny-Catalog_2024.pdf') }}')"><span class="truncate">Sunny</span></button></li>
-            </ul>
+          <div class="grid grid-rows-[0fr] group-open:grid-rows-[1fr] transition-[grid-template-rows] duration-300">
+            <div class="overflow-hidden">
+              <ul class="mt-3 grid grid-cols-2 gap-3 text-sm">
+                <li class="min-w-0"><button class="{{ $chipBox }}" onclick="showPDF('{{ asset('storage/Emergency/Dyno/Dyno ไฟฉุกเฉิน Cover-front.pdf') }}')"><span class="truncate">Dyno</span></button></li>
+                <li class="min-w-0"><button class="{{ $chipBox }}" onclick="showPDF('{{ asset('storage/Emergency/Maxbright/MaxBright  ไฟฉุกเฉิน.pdf') }}')"><span class="truncate">Maxbright</span></button></li>
+                <li class="col-span-2 min-w-0"><button class="{{ $chipBox }}" onclick="showPDF('{{ asset('storage/Emergency/Sunny/Sunny-Catalog_2024.pdf') }}')"><span class="truncate">Sunny</span></button></li>
+              </ul>
+            </div>
           </div>
-        </div>
         </details>
       </section>
 
@@ -319,11 +326,11 @@
     <!-- ลิงก์ด่วน -->
     <div class="border-t px-4 py-3 text-sm">
       <a href="tel:+66990802197" class="flex items-center gap-2 py-2"><i class="bi bi-telephone"></i> 099-080-2197</a>
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th" 
-          target="_blank" 
-          class="flex items-center gap-2 hover:text-blue-700">
-          <i class="bi bi-envelope"></i> Info@hikaridenki.co.th
-        </a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th" 
+         target="_blank" 
+         class="flex items-center gap-2 hover:text-blue-700">
+        <i class="bi bi-envelope"></i> Info@hikaridenki.co.th
+      </a>
     </div>
   </aside>
 
@@ -344,7 +351,6 @@
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300
               active:translate-y-px';
 @endphp
-
 
 <div class="rounded-2xl border border-slate-200 bg-white/70 p-4 mt-4">
     @foreach($categories as $cat)
@@ -389,22 +395,22 @@
     </section>
 
   </main>
-  <!-- แสดงpdf -->
-<script>
-function showPDF(url) {
-    const container = document.getElementById('pdfContainer');
-    container.innerHTML = '';
-    const iframe = document.createElement('iframe');
-    iframe.src = url;
-    iframe.width = '100%';
-    iframe.height = '800px'; // ปรับสูงตามต้องการ
-    iframe.style.border = 'none';
 
-    container.appendChild(iframe);
-}
-</script>
+  <!-- แสดงpdf (เวอร์ชัน iframe เก่า – ถ้าไม่ใช้ลบทิ้งได้) -->
+  <script>
+  function showPDF(url) {
+      const container = document.getElementById('pdfContainer');
+      container.innerHTML = '';
+      const iframe = document.createElement('iframe');
+      iframe.src = url;
+      iframe.width = '100%';
+      iframe.height = '800px';
+      iframe.style.border = 'none';
+      container.appendChild(iframe);
+  }
+  </script>
 
- <!-- Footer -->
+  <!-- Footer -->
   <footer id="contact" class="mt-auto bg-gradient-to-r from-blue-800 via-blue-700 to-teal-600 text-white relative">
     <div class="relative max-w-6xl mx-auto px-6 lg:px-8 py-12">
 
@@ -423,8 +429,8 @@ function showPDF(url) {
                target="_blank" rel="noopener"
                class="hover:underline block">
               บริษัท ฮิคาริ เดงกิ จำกัด<br>
-                39/7, ชั้น 4, วุฒากาส, ตลาดพลู<br>
-                เขตธนบุรี , กรุงเทพมหานคร 10600
+              39/7, ชั้น 4, วุฒากาส, ตลาดพลู<br>
+              เขตธนบุรี , กรุงเทพมหานคร 10600
             </a>
           </div>
         </details>
@@ -437,9 +443,8 @@ function showPDF(url) {
             <i class="bi bi-chevron-down"></i>
           </summary>
           <div class="mt-2 text-sm pl-8">
-       <a href="tel:+6621172995" class="hover:underline block">02-117-2995 (คุณ อาร์ท)</a>
-        <a href="tel:+66990802197" class="hover:underline block">099-080-2197</a>
-
+            <a href="tel:+6621172995" class="hover:underline block">02-117-2995 (คุณ อาร์ท)</a>
+            <a href="tel:+66990802197" class="hover:underline block">099-080-2197</a>
             <span class="italic text-amber-200 block mt-2">บริการ 9.00-18.00</span>
           </div>
         </details>
@@ -451,15 +456,14 @@ function showPDF(url) {
             </span>
             <i class="bi bi-chevron-down"></i>
           </summary>
-        <div class="mt-2 text-sm pl-8">
-          <a href="https://www.hikaridenki.co.th" target="_blank" rel="noopener"
-            class="font-bold hover:underline block">www.hikaridenki.co.th</a>
+          <div class="mt-2 text-sm pl-8">
+            <a href="https://www.hikaridenki.co.th" target="_blank" rel="noopener"
+               class="font-bold hover:underline block">www.hikaridenki.co.th</a>
 
-          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th"
-            target="_blank" rel="noopener"
-            class="hover:underline block mt-2">Info@hikaridenki.co.th</a>
-        </div>
-
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th"
+               target="_blank" rel="noopener"
+               class="hover:underline block mt-2">Info@hikaridenki.co.th</a>
+          </div>
         </details>
 
       </div>
@@ -489,9 +493,8 @@ function showPDF(url) {
           </div>
           <h3 class="font-semibold text-lg mb-2">การติดต่อ</h3>
           <a href="tel:+6621172995" class="hover:underline block">02-117-2995 (คุณ อาร์ท)</a>
-        <a href="tel:+66990802197" class="hover:underline block">099-080-2197</a>
-
-            <span class="italic text-amber-200 block mt-2">บริการ 9.00-18.00</span>
+          <a href="tel:+66990802197" class="hover:underline block">099-080-2197</a>
+          <span class="italic text-amber-200 block mt-2">บริการ 9.00-18.00</span>
         </div>
 
         <!-- Website & Email -->
@@ -499,13 +502,12 @@ function showPDF(url) {
           <div class="flex justify-center mb-4 text-4xl text-white">
             <i class="bi bi-envelope-fill"></i>
           </div>
-        <h3 class="font-semibold text-lg mb-2">เว็บไซต์และอีเมล</h3>
-        <a href="https://www.hikaridenki.co.th" target="_blank" rel="noopener"
-          class="font-bold hover:underline block">www.hikaridenki.co.th</a>
-        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th"
-          target="_blank" rel="noopener"
-          class="hover:underline block mt-2">Info@hikaridenki.co.th</a>
-
+          <h3 class="font-semibold text-lg mb-2">เว็บไซต์และอีเมล</h3>
+          <a href="https://www.hikaridenki.co.th" target="_blank" rel="noopener"
+             class="font-bold hover:underline block">www.hikaridenki.co.th</a>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Info@hikaridenki.co.th"
+             target="_blank" rel="noopener"
+             class="hover:underline block mt-2">Info@hikaridenki.co.th</a>
         </div>
       </div>
 
@@ -519,6 +521,7 @@ function showPDF(url) {
       </div>
     </div>
   </footer>
+
   <!-- ========== Floating Buttons (LINE + Back to top) ========== -->
   <div id="floating-buttons" aria-label="Quick actions">
     <a class="fb-circle fb-line" aria-label="LINE" href="line://ti/p/@543ubjtx" title="Chat on LINE">
@@ -532,10 +535,10 @@ function showPDF(url) {
   <!-- ===== Scripts ===== -->
   <script>
     // Header shadow
-    const header = document.querySelector('header');
+    const headerEl = document.querySelector('header');
     window.addEventListener('scroll', ()=> {
       const y = window.scrollY || document.documentElement.scrollTop;
-      header.classList.toggle('header-scrolled', y>8);
+      headerEl.classList.toggle('header-scrolled', y>8);
     }, { passive:true });
   </script>
 
