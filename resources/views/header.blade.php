@@ -9,12 +9,6 @@
   <link rel="icon" type="image/png" href="{{ asset('storage/logo/PNG.png') }}">
   <link rel="canonical" href="https://www.powercare.co.th/">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="PowerCare by Hikari — B2B Power Solutions">
-  <meta property="og:description" content="โซลูชันระบบไฟสำรองและไฟฉุกเฉินแบบครบวงจรสำหรับองค์กร">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="th_TH">
-
   <!-- Tailwind & Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">

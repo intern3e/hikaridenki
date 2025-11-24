@@ -1,48 +1,16 @@
-<!DOCTYPE html>
+  
+  <!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- 🔹 TITLE & DESCRIPTION -->
-  <title>Hikari Power — โซลูชันระบบไฟสำรองสำหรับองค์กร | PowerCare</title>
-  <meta name="description"
-        content="Hikari Power ผู้นำด้านโซลูชันระบบไฟสำรองสำหรับองค์กร ครอบคลุม UPS, Battery, ไฟฉุกเฉิน และระบบแจ้งเหตุเพลิงไหม้ พร้อมทีมวิศวกรมืออาชีพ บริการติดตั้ง บำรุงรักษา และที่ปรึกษาครบวงจร">
-  <meta name="keywords"
-        content="UPS, แบตเตอรี่, ระบบไฟสำรอง, ไฟฉุกเฉิน, ระบบแจ้งเหตุเพลิงไหม้, PowerCare, Hikari, ฮิคาริ, ฮิคาริพาวเวอร์, ระบบไฟฟ้าอุตสาหกรรม, บำรุงรักษาระบบไฟ, hikaripower.com, hikaripower, Hikaripower.com, Hikaripower">
-
-  <!-- 🔹 BASIC META -->
+  <title>PowerCare by Hikari — โซลูชันระบบไฟสำรองสำหรับองค์กร</title>
+  <meta name="description" content="ผู้เชี่ยวชาญระบบไฟสำรอง แบตเตอรี่ และไฟฉุกเฉินสำหรับองค์กร ติดตั้ง บำรุงรักษา ตรวจรับรอง และให้คำปรึกษา โดยทีมวิศวกรมากประสบการณ์กว่า 15 ปี">
   <meta name="theme-color" content="#0b2a6b">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://hikaripower.com/">
-
-  <!-- 🔹 GOOGLE SITE VERIFICATION -->
-  <meta name="google-site-verification"
-        content="6quWeov1VXApQqIjpq-ZOprA3KBvFELc7z-2O04KLYE" />
-
-  <!-- 🔹 OPEN GRAPH (Facebook / LINE / etc.) -->
-  <meta property="og:type" content="website">
-  <meta property="og:title"
-        content="Hikari Power — โซลูชันระบบไฟสำรองสำหรับองค์กร | PowerCare">
-  <meta property="og:description"
-        content="โซลูชันระบบไฟสำรองสำหรับองค์กร ครบวงจรทั้ง UPS, Battery, ไฟฉุกเฉิน พร้อมทีมวิศวกรให้คำปรึกษาและบริการหลังการขายทั่วประเทศ">
-  <meta property="og:url" content="https://hikaripower.com/">
-  <meta property="og:image" content="https://hikaripower.com/storage/logo/hikari-og.jpg">
-  <meta property="og:locale" content="th_TH">
-
-  <!-- 🔹 TWITTER CARD -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title"
-        content="Hikari Power — โซลูชันระบบไฟสำรองสำหรับองค์กร">
-  <meta name="twitter:description"
-        content="บริการระบบไฟสำรอง UPS, Battery, และไฟฉุกเฉิน พร้อมทีมวิศวกรผู้เชี่ยวชาญจาก Hikari Power">
-  <meta name="twitter:image" content="https://hikaripower.com/storage/logo/hikari-og.jpg">
-
-  <!-- 🔹 ICON -->
   <link rel="icon" type="image/png" href="<?php echo e(asset('storage/logo/PNG.png')); ?>">
-</head>
-
-
+  <link rel="canonical" href="https://www.powercare.co.th/">
+  <!-- 🔹 GOOGLE SITE VERIFICATION -->
+  <meta name="google-site-verification" content="6quWeov1VXApQqIjpq-ZOprA3KBvFELc7z-2O04KLYE" />
   <?php echo $__env->make('header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
